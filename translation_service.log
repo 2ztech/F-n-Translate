@@ -1,0 +1,38 @@
+2025-07-29 21:56:32,305 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:56:38,789 | INFO     | DeepSeekTranslator | Translated 11 chars in 7.02s
+2025-07-29 21:56:38,923 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:56:48,932 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.399521 seconds
+2025-07-29 21:56:49,550 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:56:59,551 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.828066 seconds
+2025-07-29 21:57:00,587 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:57:10,599 | WARNING  | DeepSeekTranslator | Attempt 1 failed after 31.81s: Request timed out.
+2025-07-29 21:57:11,841 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:57:21,853 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.483589 seconds
+2025-07-29 21:57:22,560 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:57:32,566 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.972539 seconds
+2025-07-29 21:57:33,836 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:57:43,845 | WARNING  | DeepSeekTranslator | Attempt 2 failed after 65.06s: Request timed out.
+2025-07-29 21:57:46,038 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:57:56,040 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.468371 seconds
+2025-07-29 21:57:56,739 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:58:06,743 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.780499 seconds
+2025-07-29 21:58:07,725 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:58:17,729 | WARNING  | DeepSeekTranslator | Attempt 3 failed after 98.94s: Request timed out.
+2025-07-29 21:58:17,956 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:58:27,971 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.380090 seconds
+2025-07-29 21:58:28,566 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:58:38,580 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.939342 seconds
+2025-07-29 21:58:39,720 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:58:49,728 | WARNING  | DeepSeekTranslator | Attempt 1 failed after 32.00s: Request timed out.
+2025-07-29 21:58:51,014 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:59:01,024 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.457578 seconds
+2025-07-29 21:59:01,679 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:59:11,684 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.961792 seconds
+2025-07-29 21:59:12,907 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:59:22,912 | WARNING  | DeepSeekTranslator | Attempt 2 failed after 65.18s: Request timed out.
+2025-07-29 21:59:25,200 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:59:35,203 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.422985 seconds
+2025-07-29 21:59:35,811 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:59:45,812 | INFO     | openai._base_client | Retrying request to /chat/completions in 0.936398 seconds
+2025-07-29 21:59:46,950 | INFO     | httpx | HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-07-29 21:59:56,963 | WARNING  | DeepSeekTranslator | Attempt 3 failed after 99.23s: Request timed out.
