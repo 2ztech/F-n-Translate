@@ -1,11 +1,27 @@
 # ui.py
 import webview
+import logging
 from style import CSS
+from api import TranslationAPI
+
+# Configure logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    filename='app.log',
+    filemode='w'
+)
+logger = logging.getLogger("UI")
 
 class FnTranslateUI:
     def __init__(self):
         self.window = None
+        self.api = TranslationAPI()
         self.html = self._create_html()
+        logger.info("UI initialized")
+        
+        self.__name__ = 'FnTranslateUI'
+        self.__qualname__ = 'FnTranslateUI'
         
     def _create_html(self):
         return f"""
@@ -39,9 +55,6 @@ class FnTranslateUI:
                             <select>
                                 <option>English</option>
                                 <option>Malay</option>
-                                <option>Spanish</option>
-                                <option>French</option>
-                                <option>German</option>
                             </select>
                             <i class="fas fa-chevron-down"></i>
                         </div>
@@ -53,9 +66,6 @@ class FnTranslateUI:
                             <select>
                                 <option>Malay</option>
                                 <option>English</option>
-                                <option>Spanish</option>
-                                <option>French</option>
-                                <option>German</option>
                             </select>
                             <i class="fas fa-chevron-down"></i>
                         </div>
@@ -249,25 +259,90 @@ class FnTranslateUI:
                     }});
                 }}
                 
+                // Real-time translation functionality
+                function setupRealTimeTranslation() {{
+                    const sourceTextarea = document.querySelector('#text-module .translation-area');
+                    const translationOutput = document.querySelector('#text-module .translation-box:last-child .translation-area');
+                    const sourceLangSelect = document.querySelector('.language-selector:first-child select');
+                    const targetLangSelect = document.querySelector('.language-selector:last-child select');
+                    
+                    let typingTimer;
+                    const typingDelay = 3000; // 3 seconds
+                    let isTranslating = false;
+                    
+                    sourceTextarea.addEventListener('input', function() {{
+                        clearTimeout(typingTimer);
+                        
+                        if (isTranslating) {{
+                            return;
+                        }}
+                        
+                        if (this.value.trim()) {{
+                            // Show loading indicator
+                            translationOutput.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Translating...';
+                            
+                            typingTimer = setTimeout(() => {{
+                                isTranslating = true;
+                                const text = this.value;
+                                const sourceLang = sourceLangSelect.value;
+                                const targetLang = targetLangSelect.value;
+                                
+                                pywebview.api.translate_text(text, sourceLang, targetLang)
+                                    .then(translated => {{
+                                        translationOutput.textContent = translated;
+                                        isTranslating = false;
+                                    }})
+                                    .catch(error => {{
+                                        translationOutput.textContent = 'Error: ' + error;
+                                        isTranslating = false;
+                                    }});
+                            }}, typingDelay);
+                        }} else {{
+                            translationOutput.textContent = '';
+                        }}
+                    }});
+                }}
+                
                 // Initialize all functionality
                 document.addEventListener('DOMContentLoaded', function() {{
                     setupModuleSwitching();
                     setupFileUpload();
                     setupApiModal();
+                    setupRealTimeTranslation();
                 }});
             </script>
         </body>
         </html>
         """
+    
+    def translate_text(self, text: str, source_lang: str, target_lang: str):
+        """Called from JavaScript to perform translation"""
+        logger.info(f"Starting translation: {source_lang} -> {target_lang}")
+        try:
+            translated = self.translator.translation_service.translate(
+                text=text,
+                source_lang=source_lang,
+                target_lang=target_lang
+            )
+            logger.debug(f"Translation successful: {translated[:100]}...")
+            return translated
+        except Exception as e:
+            logger.error(f"Translation failed: {str(e)}")
+            return str(e)
         
     def show(self):
         """Create and show the webview window"""
-        self.window = webview.create_window(
-            'F(n)Translate',
-            html=self.html,
-            width=1000,
-            height=700,
-            min_size=(800, 600),
-            text_select=True
-        )
-        webview.start()
+        try:
+            self.window = webview.create_window(
+                'F(n)Translate',
+                html=self.html,
+                js_api=self.api,  # Pass the API instance instead of self
+                width=1000,
+                height=700,
+                min_size=(800, 600),
+                text_select=True
+            )
+            webview.start()
+        except Exception as e:
+            logger.error(f"Failed to start webview: {str(e)}")
+            raise
