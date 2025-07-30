@@ -1,7 +1,7 @@
 # ui.py
 import webview
 import logging
-from style import CSS
+from .style import CSS
 from api import TranslationAPI
 
 # Configure logging

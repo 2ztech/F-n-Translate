@@ -1,5 +1,5 @@
 # main.py
-from ui import FnTranslateUI
+from gui.ui import FnTranslateUI
 
 if __name__ == '__main__':
     app = FnTranslateUI()
