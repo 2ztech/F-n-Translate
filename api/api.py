@@ -4,7 +4,7 @@ import os
 import tempfile
 import base64
 from text_translator import TextTranslator
-from file_upload_module.file_handler import FileTranslationHandler
+from services.file_handler import FileTranslationHandler
 
 logger = logging.getLogger("API")
 
