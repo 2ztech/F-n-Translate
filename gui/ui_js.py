@@ -1,127 +1,89 @@
+# ui_js.py
+from gui.file_upload_module_js import file_upload_module_js
+from gui.screen_capture_module_js import screen_capture_module_js
+
 def get_file_translation_js():
-    return """
-    function setupFileUpload() {{
-        const uploadArea = document.getElementById('upload-area');
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.style.display = 'none';
-        document.body.appendChild(fileInput);
+    file_upload_js = file_upload_module_js()
+    screen_capture_js = screen_capture_module_js()
+    
+    return f"""
+    // Core UI JavaScript Functions
 
-        let currentFile = null;
-
-        // Enhanced drag-and-drop
-        uploadArea.addEventListener('dragover', (e) => {{
-            e.preventDefault();
-            uploadArea.style.borderColor = '#1ba1e2';
-            uploadArea.style.backgroundColor = '#f0f7ff';
-        }});
-
-        uploadArea.addEventListener('dragleave', () => {{
-            uploadArea.style.borderColor = '#b8d1f0';
-            uploadArea.style.backgroundColor = '#f9fbfd';
-        }});
-
-        uploadArea.addEventListener('drop', async (e) => {{
-            e.preventDefault();
-            uploadArea.style.borderColor = '#b8d1f0';
-            uploadArea.style.backgroundColor = '#f9fbfd';
-            
-            if (e.dataTransfer.files.length) {{
-                try {{
-                    const file = e.dataTransfer.files[0];
-                    uploadArea.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing file...';
-                    
-                    // Read file content
-                    const fileContent = await readFileAsBase64(file);
-                    
-                    // Send to Python backend
-                    const filePath = await pywebview.api.save_temp_file({{
-                        name: file.name,
-                        content: fileContent
-                    }});
-                    
-                    currentFile = {{
-                        name: file.name,
-                        path: filePath,
-                        size: file.size
-                    }};
-                    showFileInfo(currentFile);
-                }} catch (error) {{
-                    console.error('File upload failed:', error);
-                    uploadArea.innerHTML = `
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h3>Upload Failed</h3>
-                        <p>${{error.message || error}}</p>
-                        <p>Click to try again</p>
-                    `;
-                }}
-            }}
-        }});
-
-        // Click handler for manual selection
-        uploadArea.addEventListener('click', () => {{
-            fileInput.click();
-        }});
-
-        fileInput.addEventListener('change', async () => {{
-            if (fileInput.files.length) {{
-                try {{
-                    const file = fileInput.files[0];
-                    uploadArea.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing file...';
-                    
-                    // Read file content
-                    const fileContent = await readFileAsBase64(file);
-                    
-                    // Send to Python backend
-                    const filePath = await pywebview.api.save_temp_file({{
-                        name: file.name,
-                        content: fileContent
-                    }});
-                    
-                    currentFile = {{
-                        name: file.name,
-                        path: filePath,
-                        size: file.size
-                    }};
-                    showFileInfo(currentFile);
-                }} catch (error) {{
-                    console.error('File selection failed:', error);
-                    uploadArea.innerHTML = `
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h3>Upload Failed</h3>
-                        <p>${{error.message || error}}</p>
-                        <p>Click to try again</p>
-                    `;
-                }}
-            }}
-        }});
-
-        function readFileAsBase64(file) {{
-            return new Promise((resolve, reject) => {{
-                const reader = new FileReader();
-                reader.onload = (event) => {{
-                    // Remove the data:application/octet-stream;base64, prefix
-                    const base64String = event.target.result.split(',')[1];
-                    resolve(base64String);
-                }};
-                reader.onerror = (error) => reject(error);
-                reader.readAsDataURL(file);
-            }});
-        }}
-
-        function showFileInfo(file) {{
-            const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
-            uploadArea.innerHTML = `
-                <i class="fas fa-file-alt"></i>
-                <h3>${{file.name}}</h3>
-                <p>${{sizeInMB}} MB</p>
-            `;
+    // Add these helper functions at the beginning of the JavaScript
+    function updateStatus(message) {{
+        const statusArea = document.getElementById('capture-status');
+        if (statusArea) {{
+            statusArea.innerHTML = '<div class="status-info"><i class="fas fa-info-circle"></i> ' + message + '</div>';
         }}
     }}
 
+    function showError(error) {{
+        const statusArea = document.getElementById('capture-status');
+        if (statusArea) {{
+            statusArea.innerHTML = '<div class="status-error"><i class="fas fa-times-circle"></i> ' + error + '</div>';
+        }}
+        alert('Error: ' + error);
+    }}
+
+    // Module switching functionality
+    function setupModuleSwitching() {{
+        document.querySelectorAll('.nav-btn').forEach(button => {{
+            button.addEventListener('click', function() {{
+                // Remove active class from all buttons
+                document.querySelectorAll('.nav-btn').forEach(btn => {{
+                    btn.classList.remove('active');
+                }});
+                            
+                // Add active class to clicked button
+                this.classList.add('active');
+                            
+                // Hide all modules
+                document.querySelectorAll('.module').forEach(module => {{
+                    module.classList.remove('active');
+                }});
+                            
+                // Show target module
+                const targetModule = this.getAttribute('data-target');
+                document.getElementById(targetModule).classList.add('active');
+                
+                // Initialize the module when shown
+                initializeModule(targetModule);
+            }});
+        }});
+    }}
+
+    // Initialize specific modules when they become active
+    function initializeModule(moduleId) {{
+        console.log('Initializing module:', moduleId);
+        
+        switch(moduleId) {{
+            case 'capture-module':
+                initializeCaptureModule();
+                break;
+            case 'text-module':
+                initializeTextModule();
+                break;
+            case 'file-module':
+                initializeFileModule();
+                break;
+        }}
+    }}
+
+    function initializeTextModule() {{
+        console.log('Initializing text module...');
+        setupRealTimeTranslation();
+    }}
+
+    // Real-time Translation Module (Text Module)
     function setupRealTimeTranslation() {{
         const sourceTextarea = document.querySelector('#text-module .translation-area');
         const translationOutput = document.querySelector('#text-module .translation-box:last-child .translation-area');
+        
+        if (!sourceTextarea || !translationOutput) {{
+            console.error('Text translation elements not found');
+            return;
+        }}
+
         const sourceLangSelect = document.querySelector('.language-selector:first-child select');
         const targetLangSelect = document.querySelector('.language-selector:last-child select');
         
@@ -168,6 +130,11 @@ def get_file_translation_js():
         const closeBtn = document.querySelector('.close');
         const saveApiBtn = document.getElementById('save-api-btn');
 
+        if (!settingsBtn || !modal || !closeBtn || !saveApiBtn) {{
+            console.error('API modal elements not found');
+            return;
+        }}
+
         settingsBtn.addEventListener('click', () => {{
             modal.style.display = 'block';
         }});
@@ -188,11 +155,38 @@ def get_file_translation_js():
                 alert('Please enter an API key');
             }}
         }});
-
+        
         window.addEventListener('click', (e) => {{
             if(e.target === modal) {{
                 modal.style.display = 'none';
             }}
         }});
     }}
-    """
+    
+    function showTranslation(text) {{
+        // Create a notification or update a translation display area
+        const translationArea = document.getElementById('translation-result');
+        if (translationArea) {{
+            translationArea.innerHTML = `<div class="translation-notification">
+                <i class="fas fa-language"></i> 
+                <strong>Live Translation:</strong> ${{text}}
+            </div>`;
+            
+            // Auto-clear after 5 seconds
+            setTimeout(() => {{
+                translationArea.innerHTML = '';
+            }}, 5000);
+        }}
+        
+        console.log('Live translation received:', text);
+    }}
+    
+    // Expose functions to Python backend
+    window.showTranslation = showTranslation;
+    window.updateStatus = updateStatus;
+    window.showError = showError;
+
+    // Import module-specific JavaScript
+    {file_upload_js}
+    {screen_capture_js}
+"""

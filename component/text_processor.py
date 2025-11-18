@@ -1,14 +1,16 @@
-from googletrans import LANGUAGES
-from googletrans import Translator
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+# File: component/text_processor.py
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from core.translate_core import TranslationService
 
-nltk.download("stopwords", quiet=True)
-nltk.download("punkt", quiet=True)
+# Language mapping dictionary
+LANGUAGES = {
+    'en': 'english',
+    'my': 'malay'
+}
 
 
 class TextProcessor:
@@ -18,8 +20,8 @@ class TextProcessor:
     """
 
     def __init__(self):
-        """Init googletrans"""
-        self.translator = Translator()
+        """Init TranslationService"""
+        self.translator = TranslationService()
 
     def process_text(self, text):
         """uses regex to remove special chars and whitespace"""
@@ -28,12 +30,12 @@ class TextProcessor:
         return cleaned_text
 
     def translate_text(self, text, target_language):
-        """using googletrans api to translate giving text with language code"""
+        """using TranslationService to translate giving text with language code"""
         if not text.strip():
             return text
         try:
-            translation = self.translator.translate(text, dest=target_language)
-            return translation.text
+            translation = self.translator.translate(text, target_language)
+            return translation
         except Exception as e:
             print(f"Error while translating: {e}")
             return text
@@ -55,7 +57,6 @@ class TextProcessor:
         return " ".join(
             [word for word in word_tokens if word.lower() not in stop_words]
         )
-
 
     def calculate_similarity(self, text1, text2, language_code):
         """calculates the cosine similarity between the current and previous text sent"""

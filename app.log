@@ -1,0 +1,73 @@
+2025-11-18 23:44:02,996 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): packages.unstructured.io:443
+2025-11-18 23:44:04,187 - urllib3.connectionpool - DEBUG - https://packages.unstructured.io:443 "GET /python-telemetry?version=0.18.11&platform=Windows&python3.11&arch=AMD64&gpu=False&dev=false HTTP/1.1" 200 600
+2025-11-18 23:44:09,353 - matplotlib - DEBUG - matplotlib data path: C:\Users\Jazzry\Documents\ump\Project PSM\env\Lib\site-packages\matplotlib\mpl-data
+2025-11-18 23:44:09,361 - matplotlib - DEBUG - CONFIGDIR=C:\Users\Jazzry\.matplotlib
+2025-11-18 23:44:09,363 - matplotlib - DEBUG - interactive is False
+2025-11-18 23:44:09,363 - matplotlib - DEBUG - platform is win32
+2025-11-18 23:44:09,576 - matplotlib - DEBUG - CACHEDIR=C:\Users\Jazzry\.matplotlib
+2025-11-18 23:44:09,580 - matplotlib.font_manager - DEBUG - Using fontManager instance from C:\Users\Jazzry\.matplotlib\fontlist-v390.json
+2025-11-18 23:44:12,633 - TextTranslator - INFO - TextTranslator initialized
+2025-11-18 23:44:12,633 - services.file_handler - INFO - File translation handler initialized
+2025-11-18 23:44:12,633 - API - INFO - Translation API initialized
+2025-11-18 23:44:12,634 - UI - DEBUG - TranslationAPI initialized
+2025-11-18 23:44:12,634 - WebViewCaptureManager - INFO - WebView Capture Manager initialized on Windows
+2025-11-18 23:44:12,634 - UI - DEBUG - WebViewCaptureManager initialized
+2025-11-18 23:44:12,634 - UI - INFO - UI initialized
+2025-11-18 23:44:12,634 - UI - DEBUG - Creating webview window...
+2025-11-18 23:44:12,634 - UI - DEBUG - Starting webview...
+2025-11-18 23:44:17,116 - UI - DEBUG - get_available_monitors called
+2025-11-18 23:44:17,116 - WebViewCaptureManager - INFO - Attempting to detect monitors...
+2025-11-18 23:44:17,119 - WebViewCaptureManager - INFO - Total monitors detected by MSS: 2
+2025-11-18 23:44:17,119 - WebViewCaptureManager - INFO - Monitor 0: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2025-11-18 23:44:17,119 - WebViewCaptureManager - INFO - Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2025-11-18 23:44:17,119 - WebViewCaptureManager - INFO - Returning 1 physical monitors to UI
+2025-11-18 23:44:17,119 - UI - DEBUG - Returning 1 monitors
+2025-11-18 23:44:17,122 - UI - DEBUG - get_available_monitors called
+2025-11-18 23:44:17,122 - WebViewCaptureManager - INFO - Attempting to detect monitors...
+2025-11-18 23:44:17,123 - WebViewCaptureManager - INFO - Total monitors detected by MSS: 2
+2025-11-18 23:44:17,123 - WebViewCaptureManager - INFO - Monitor 0: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2025-11-18 23:44:17,123 - WebViewCaptureManager - INFO - Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2025-11-18 23:44:17,123 - WebViewCaptureManager - INFO - Returning 1 physical monitors to UI
+2025-11-18 23:44:17,123 - UI - DEBUG - Returning 1 monitors
+2025-11-18 23:44:17,642 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:17,811 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:17,814 - UI - DEBUG - Preview generated in 0.17s, size: 325512 bytes
+2025-11-18 23:44:17,932 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:18,101 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:18,105 - UI - DEBUG - Preview generated in 0.17s, size: 436360 bytes
+2025-11-18 23:44:18,226 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:18,401 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:18,405 - UI - DEBUG - Preview generated in 0.18s, size: 464120 bytes
+2025-11-18 23:44:18,541 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:18,722 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:18,726 - UI - DEBUG - Preview generated in 0.18s, size: 474340 bytes
+2025-11-18 23:44:18,848 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:19,019 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:19,023 - UI - DEBUG - Preview generated in 0.17s, size: 473580 bytes
+2025-11-18 23:44:19,160 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:19,335 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:19,339 - UI - DEBUG - Preview generated in 0.18s, size: 471840 bytes
+2025-11-18 23:44:19,466 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:19,639 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:19,642 - UI - DEBUG - Preview generated in 0.18s, size: 479900 bytes
+2025-11-18 23:44:19,765 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:19,927 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:19,930 - UI - DEBUG - Preview generated in 0.16s, size: 474748 bytes
+2025-11-18 23:44:20,049 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:20,220 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:20,224 - UI - DEBUG - Preview generated in 0.17s, size: 474340 bytes
+2025-11-18 23:44:20,347 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:20,520 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:20,524 - UI - DEBUG - Preview generated in 0.18s, size: 478852 bytes
+2025-11-18 23:44:20,657 - UI - DEBUG - get_monitor_preview called for monitor 0
+2025-11-18 23:44:20,818 - WebViewCaptureManager - INFO - Preview screenshot taken: Size(width=1920, height=1080)
+2025-11-18 23:44:20,822 - UI - DEBUG - Preview generated in 0.16s, size: 475900 bytes
+2025-11-18 23:44:20,953 - pywebview - ERROR - Error occurred in script
+Traceback (most recent call last):
+  File "C:\Users\Jazzry\Documents\ump\Project PSM\env\Lib\site-packages\webview\platforms\edgechromium.py", line 126, in evaluate_js
+    self.webview.Invoke(Func[Object](lambda: self.webview.ExecuteScriptAsync(script).ContinueWith(
+System.ObjectDisposedException: Cannot access a disposed object.
+Object name: 'WebView2'.
+   at System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean synchronous)
+   at System.Windows.Forms.Control.Invoke(Delegate method, Object[] args)
+2025-11-18 23:44:21,250 - UI - INFO - WebView started successfully
