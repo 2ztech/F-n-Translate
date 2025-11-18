@@ -262,48 +262,52 @@ class WebViewCaptureManager:
             logger.error(f"Screenshot failed: {str(e)}")
             return None
 
-    # Add this method to your WebViewCaptureManager class for optimized previews
+    # Add this method to your WebViewCaptureManager class for optimized previews 
     def get_monitor_preview_optimized(self, monitor_index):
-        """Take an optimized screenshot for preview (lower quality, faster)"""
+        """Get optimized preview for WebGL rendering (faster, smaller)"""
         try:
             with mss() as sct:
                 # Convert UI index (0-based) to MSS index (1-based for physical monitors)
                 mss_index = monitor_index + 1
                 
-                # Validate index
                 if mss_index >= len(sct.monitors):
-                    logger.error(f"Invalid monitor index for preview: {monitor_index}")
+                    logger.error(f"Invalid monitor index for optimized preview: {monitor_index}")
                     return None
                 
                 monitor = sct.monitors[mss_index]
-                screenshot = sct.grab(monitor)
+                
+                # OPTIMIZATION: Capture smaller region for preview performance
+                capture_width = min(1920, monitor['width'])
+                capture_height = min(1080, monitor['height'])
+                
+                # Center the capture region
+                left = monitor['left'] + (monitor['width'] - capture_width) // 2
+                top = monitor['top'] + (monitor['height'] - capture_height) // 2
+                
+                capture_region = {
+                    'left': left,
+                    'top': top,
+                    'width': capture_width,
+                    'height': capture_height
+                }
+                
+                screenshot = sct.grab(capture_region)
                 
                 # Convert to PIL Image
                 img = Image.frombytes("RGB", screenshot.size, screenshot.rgb)
                 
-                # OPTIMIZATION: Resize image for preview to reduce data transfer
-                # Calculate target size while maintaining aspect ratio
-                max_preview_size = 800  # Maximum dimension for preview
-                width, height = img.size
-                
-                if width > height:
-                    new_width = max_preview_size
-                    new_height = int((max_preview_size / width) * height)
-                else:
-                    new_height = max_preview_size
-                    new_width = int((max_preview_size / height) * width)
-                
-                # Resize image for faster transfer and rendering
-                img_resized = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
-                
-                # Convert to base64
+                # OPTIMIZATION: Use JPEG for smaller size and faster WebGL loading
                 buffered = io.BytesIO()
-                img_resized.save(buffered, format="JPEG", quality=85)  # Use JPEG for smaller size
+                img.save(buffered, format="JPEG", quality=85, optimize=True)
                 img_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
                 
-                logger.debug(f"Preview generated: {screenshot.size} -> {img_resized.size}")
-                return img_base64
+                logger.debug(f"GPU preview generated: {screenshot.size} -> JPEG {len(img_base64)} bytes")
+                return {
+                    'image': img_base64,
+                    'width': screenshot.width,
+                    'height': screenshot.height
+                }
                 
         except Exception as e:
-            logger.error(f"Screenshot failed: {str(e)}")
+            logger.error(f"GPU preview failed: {str(e)}")
             return None
