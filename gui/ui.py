@@ -1,9 +1,14 @@
 # ui.py
 import webview
 import logging
+import sys
+import os
 from .style import CSS
 from api import TranslationAPI
 from .ui_js import get_file_translation_js
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from component.screen_capture_manager import ScreenCaptureManager
+from component.transparent_window import TransparentWindow
 
 # Configure logging
 logging.basicConfig(
@@ -19,10 +24,28 @@ class FnTranslateUI:
         self.window = None
         self.api = TranslationAPI()
         self.html = self._create_html()
+        self.capture_manager = ScreenCaptureManager()
+        self.capture_manager.translation_ready.connect(self._on_translation_ready)
+        self.capture_manager.status_update.connect(self._on_status_update)
+        self.capture_manager.error_occurred.connect(self._on_error)
         logger.info("UI initialized")
         
         self.__name__ = 'FnTranslateUI'
         self.__qualname__ = 'FnTranslateUI'
+    
+    
+    def _on_translation_ready(self, translated_text):
+        """Handle new translation from screen capture"""
+        # You can update UI or log the translation
+        print(f"New translation: {translated_text}")
+        
+    def _on_status_update(self, message):
+        """Handle status updates"""
+        print(f"Status: {message}")
+        
+    def _on_error(self, error_message):
+        """Handle errors"""
+        print(f"Error: {error_message}")
         
     def _create_html(self):
         return f"""
