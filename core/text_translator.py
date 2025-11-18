@@ -3,7 +3,7 @@ import threading
 import time
 import logging
 from typing import Callable
-from translate_core import TranslationService
+from core.translate_core import TranslationService
 
 logger = logging.getLogger("TextTranslator")
 

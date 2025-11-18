@@ -3,7 +3,7 @@ import logging
 import os
 import tempfile
 import base64
-from text_translator import TextTranslator
+from core.text_translator import TextTranslator
 from services.file_handler import FileTranslationHandler
 
 logger = logging.getLogger("API")
@@ -11,7 +11,7 @@ logger = logging.getLogger("API")
 class TranslationAPI:
     def __init__(self):
         self.translator = TextTranslator()
-        self.file_handler = FileTranslationHandler()
+        self.file_handler = FileTranslationHandler(self.translate_text)
         self.temp_files = {}
         logger.info("Translation API initialized")
         

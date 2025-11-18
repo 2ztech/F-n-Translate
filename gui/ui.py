@@ -4,8 +4,8 @@ import logging
 import sys
 import os
 from .style import CSS
-from api import TranslationAPI
-from .ui_js import get_file_translation_js
+from api.api import TranslationAPI
+from gui.ui_js import get_file_translation_js
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from component.screen_capture_manager import ScreenCaptureManager
 from component.transparent_window import TransparentWindow
@@ -48,6 +48,7 @@ class FnTranslateUI:
         print(f"Error: {error_message}")
         
     def _create_html(self):
+        js_code = get_file_translation_js()
         return f"""
         <!DOCTYPE html>
         <html lang="en">
@@ -202,226 +203,14 @@ class FnTranslateUI:
                 </div>
             </div>
             <script>
-                // Module switching functionality
-                function setupModuleSwitching() {{
-                    document.querySelectorAll('.nav-btn').forEach(button => {{
-                        button.addEventListener('click', function() {{
-                            // Remove active class from all buttons
-                            document.querySelectorAll('.nav-btn').forEach(btn => {{
-                                btn.classList.remove('active');
-                            }});
-                            
-                            // Add active class to clicked button
-                            this.classList.add('active');
-                            
-                            // Hide all modules
-                            document.querySelectorAll('.module').forEach(module => {{
-                                module.classList.remove('active');
-                            }});
-                            
-                            // Show target module
-                            const targetModule = this.getAttribute('data-target');
-                            document.getElementById(targetModule).classList.add('active');
-                        }});
-                    }});
-                }}
-                
-                function setupFileUpload() {{
-                            const uploadArea = document.getElementById('upload-area');
-                            const fileInput = document.createElement('input');
-                            fileInput.type = 'file';
-                            fileInput.style.display = 'none';
-                            document.body.appendChild(fileInput);
-
-                            const translateBtn = document.querySelector('#file-module .action-btn');
-                            const saveBtn = document.querySelector('#file-module .action-btn.save');
-                            const outputArea = document.querySelector('#file-module .translation-area');
-                            let currentFile = null;
-                            let translatedFilePath = null;
-
-                            // Enhanced drag-and-drop
-                            uploadArea.addEventListener('dragover', (e) => {{
-                                e.preventDefault();
-                                uploadArea.style.borderColor = '#1ba1e2';
-                                uploadArea.style.backgroundColor = '#f0f7ff';
-                            }});
-
-                            uploadArea.addEventListener('dragleave', () => {{
-                                uploadArea.style.borderColor = '#b8d1f0';
-                                uploadArea.style.backgroundColor = '#f9fbfd';
-                            }});
-
-                            uploadArea.addEventListener('drop', async (e) => {{
-                                e.preventDefault();
-                                uploadArea.style.borderColor = '#b8d1f0';
-                                uploadArea.style.backgroundColor = '#f9fbfd';
-                                
-                                if (e.dataTransfer.files.length) {{
-                                    try {{
-                                        const file = e.dataTransfer.files[0];
-                                        uploadArea.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing file...';
-                                        
-                                        // Read file as base64
-                                        const fileContent = await readFileAsBase64(file);
-                                        
-                                        // Save file to temp location
-                                        const filePath = await pywebview.api.save_temp_file({{
-                                            name: file.name,
-                                            size: file.size,
-                                            type: file.type,
-                                            content: fileContent
-                                            }});
-                                        
-                                        currentFile = {{
-                                            name: file.name,
-                                            path: filePath,
-                                            size: file.size
-                                        }};
-                                        showFileInfo(currentFile);
-                                    }} catch (error) {{
-                                        console.error('File upload failed:', error);
-                                        uploadArea.innerHTML = `
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                            <h3>Upload Failed</h3>
-                                            <p>${{error.message || error}}</p>
-                                            <p>Click to try again</p>
-                                        `;
-                                    }}
-                                }}
-                            }});
-
-                            // Click handler for manual selection
-                            uploadArea.addEventListener('click', () => {{
-                                fileInput.click();
-                            }});
-
-                            fileInput.addEventListener('change', async () => {{
-                                if (fileInput.files.length) {{
-                                    try {{
-                                        const file = fileInput.files[0];
-                                        uploadArea.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing file...';
-                                        
-                                        // Read file as base64
-                                        const fileContent = await readFileAsBase64(file);
-                                        
-                                        // Save file to temp location
-                                        const filePath = await pywebview.api.save_temp_file({{
-                                            name: file.name,
-                                            size: file.size,
-                                            type: file.type,
-                                            content: fileContent
-                                        }});
-                                        
-                                        currentFile = {{
-                                            name: file.name,
-                                            path: filePath,
-                                            size: file.size
-                                        }};
-                                        showFileInfo(currentFile);
-                                    }} catch (error) {{
-                                        console.error('File selection failed:', error);
-                                        uploadArea.innerHTML = `
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                            <h3>Upload Failed</h3>
-                                            <p>${{error.message || error}}</p>
-                                            <p>Click to try again</p>
-                                        `;
-                                    }}
-                                }}
-                            }});
-
-                            // Translate button handler
-                            translateBtn.addEventListener('click', async () => {{
-                                if (!currentFile) {{
-                                    alert('Please select a file first');
-                                    return;
-                                }}
-
-                                const sourceLang = document.querySelector('.language-selector:first-child select').value;
-                                const targetLang = document.querySelector('.language-selector:last-child select').value;
-                                
-                                outputArea.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Translating...';
-                                
-                                try {{
-                                    const result = await pywebview.api.translate_file(
-                                        currentFile.path, 
-                                        sourceLang, 
-                                        targetLang
-                                    );
-                                    
-                                    if (result.status === 'success') {{
-                                        translatedFilePath = result.translated_file;
-                                        outputArea.innerHTML = `
-                                            <div class="translation-success">
-                                                <i class="fas fa-check-circle"></i>
-                                                <h3>Translation Complete!</h3>
-                                                <p>Click "Save Text" to download the translated file.</p>
-                                            </div>
-                                        `;
-                                    }} else {{
-                                        outputArea.innerHTML = `
-                                            <div class="translation-error">
-                                                <i class="fas fa-exclamation-triangle"></i>
-                                                <h3>Translation Failed</h3>
-                                                <p>${{result.message}}</p>
-                                            </div>
-                                        `;
-                                    }}
-                                }} catch (error) {{
-                                    outputArea.innerHTML = `
-                                        <div class="translation-error">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                            <h3>Translation Error</h3>
-                                            <p>${{error.message || error}}</p>
-                                        </div>
-                                    `;
-                                }}
-                            }});
-
-                            // Save button handler
-                            saveBtn.addEventListener('click', async () => {{
-                                if (!translatedFilePath) {{
-                                    alert('Please translate a file first');
-                                    return;
-                                }}
-
-                                try {{
-                                    const result = await pywebview.api.save_translated_file(translatedFilePath);
-                                    if (result.status === 'success') {{
-                                        alert('File saved successfully!');
-                                    }} else if (result.status === 'cancelled') {{
-                                        // User cancelled the save dialog
-                                    }} else {{
-                                        alert('Save failed: ' + result.message);
-                                    }}
-                                }} catch (error) {{
-                                    alert('Save failed: ' + error.message);
-                                }}
-                            }});
-
-                            function showFileInfo(file) {{
-                                const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
-                                uploadArea.innerHTML = `
-                                    <i class="fas fa-file-alt"></i>
-                                    <h3>${{file.name}}</h3>
-                                    <p>${{sizeInMB}} MB</p>
-                                `;
-                            }}
-                            
-                            function readFileAsBase64(file) {{
-                                return new Promise((resolve, reject) => {{
-                                    const reader = new FileReader();
-                                    reader.onload = (event) => resolve(event.target.result);
-                                    reader.onerror = (error) => reject(error);
-                                    reader.readAsDataURL(file);
-                                }});
-                            }}
-                        }}
+                {js_code}
                 
                 // Initialize all functionality
                 document.addEventListener('DOMContentLoaded', function() {{
                     setupModuleSwitching();
                     setupFileUpload();
+                    setupRealTimeTranslation();
+                    setupApiModal();
                 }});
             </script>
         </body>

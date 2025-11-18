@@ -51,31 +51,50 @@ class ScreenCaptureManager(QObject):
         
         logger.info("Screen Capture Manager initialized")
 
-    def start_capture(self, monitor_index: int, capture_area: Optional[Tuple[int, int, int, int]] = None):
+    def get_available_monitors(self):
+        """Retrieve a list of available monitors."""
+        try:
+            with mss() as sct:
+                monitors = sct.monitors  # List of monitors
+                return monitors
+        except Exception as e:
+            logger.error(f"Failed to retrieve monitors: {str(e)}")
+            return []
+
+    def start_capture(self, monitor_index: int = 0, capture_area: Optional[Tuple[int, int, int, int]] = None):
         """Start the screen capture and translation pipeline."""
         if self.is_capturing:
             self.status_update.emit("Capture already running")
             return False
-            
+
         try:
+            monitors = self.get_available_monitors()
+            if not monitors:
+                self.error_occurred.emit("No monitors detected")
+                return False
+
+            if monitor_index >= len(monitors):
+                self.error_occurred.emit("Invalid monitor index")
+                return False
+
             self.current_monitor = monitor_index
             self.capture_area = capture_area
             self.is_capturing = True
             self.stop_event.clear()
-            
+
             # Initialize OCR worker
             self.ocr_worker = OCRWorker(self.screenshot_queue, "eng")  # Default to English
             self.ocr_worker.ocr_result.connect(self._handle_ocr_result)
             self.ocr_worker.start()
-            
+
             # Start capture thread
             self.capture_thread = Thread(target=self._capture_loop, daemon=True)
             self.capture_thread.start()
-            
+
             self.status_update.emit("Screen capture started")
             logger.info(f"Capture started on monitor {monitor_index}, area: {capture_area}")
             return True
-            
+
         except Exception as e:
             self.error_occurred.emit(f"Failed to start capture: {str(e)}")
             logger.error(f"Failed to start capture: {str(e)}")

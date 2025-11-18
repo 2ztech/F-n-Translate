@@ -5,7 +5,7 @@ from typing import Dict, Optional
 from pathlib import Path
 
 # Import our own modules cleanly
-from .parser import FileParser
+from services.parser import FileParser
 
 logger = logging.getLogger(__name__)
 
