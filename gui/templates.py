@@ -121,11 +121,12 @@ def get_html_template():
                         </div>
                     </div>
                     
-                    <div class="capture-preview">
+                    <div class="capture-preview" id="preview-container">
                         <div class="preview-placeholder" id="preview-placeholder" style="display: none;">
                             <i class="fas fa-desktop"></i>
                             <p>Select a monitor to see preview</p>
                         </div>
+                        <canvas id="webgl-preview" style="display: none;"></canvas>
                         <canvas id="preview-canvas" style="display: none;"></canvas>
                     </div>
                     

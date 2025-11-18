@@ -71,6 +71,12 @@ def get_monitor_preview(monitor_index):
         logger.error(f"Failed to get monitor preview: {str(e)}")
         return None
 
+def get_monitor_preview_optimized(monitor_index):
+    """Get optimized preview for GPU rendering"""
+    logger.debug(f"get_monitor_preview_optimized called for monitor {monitor_index}")
+    _, capture_manager = initialize_components()
+    return capture_manager.get_monitor_preview_optimized(monitor_index)
+
 def translate_text(text: str, source_lang: str, target_lang: str):
     """Called from JavaScript to perform translation"""
     logger.debug(f"translate_text called: '{text[:50]}...' ({source_lang}->{target_lang})")
@@ -181,7 +187,8 @@ class FnTranslateUI:
                 start_screen_capture,
                 stop_screen_capture,
                 set_capture_languages,
-                get_monitor_preview
+                get_monitor_preview,
+                get_monitor_preview_optimized
             )
             
             logger.debug("Starting webview...")
