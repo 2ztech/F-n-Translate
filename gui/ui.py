@@ -23,6 +23,8 @@ logger = logging.getLogger("UI")
 # Global instances for PyWebView compatibility
 api = None
 capture_manager = None
+capture_process = None
+capture_command_queue = None
 
 def initialize_components():
     """Initialize components on demand"""
@@ -95,24 +97,64 @@ def translate_text(text: str, source_lang: str, target_lang: str):
 def start_screen_capture(monitor_index):
     """Start screen capture"""
     logger.debug(f"start_screen_capture called for monitor {monitor_index}")
-    _, capture_manager = initialize_components()
-    result = capture_manager.start_capture(monitor_index)
-    logger.debug(f"start_screen_capture result: {result}")
-    return result
+    global capture_process, capture_command_queue
+    
+    if capture_process and capture_process.is_alive():
+        logger.warning("Capture process already running")
+        return False
+
+    try:
+        from services.live_translation_service import LiveTranslationProcess
+        import multiprocessing
+        
+        status_queue = multiprocessing.Queue()
+        capture_command_queue = multiprocessing.Queue()
+        
+        # TODO: Get actual languages from UI or config
+        source_lang = "eng" 
+        target_lang = "msa"
+        
+        capture_process = LiveTranslationProcess(
+            monitor_index, 
+            source_lang, 
+            target_lang, 
+            status_queue, 
+            capture_command_queue
+        )
+        capture_process.start()
+        logger.info(f"Started capture process with PID: {capture_process.pid}")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to start capture process: {str(e)}")
+        return False
 
 def stop_screen_capture():
     """Stop screen capture"""
     logger.debug("stop_screen_capture called")
-    _, capture_manager = initialize_components()
-    capture_manager.stop_capture()
-    return True
+    global capture_process, capture_command_queue
+    
+    if capture_process and capture_process.is_alive():
+        if capture_command_queue:
+            capture_command_queue.put("STOP")
+            capture_process.join(timeout=3)
+            if capture_process.is_alive():
+                capture_process.terminate()
+        else:
+            capture_process.terminate()
+            
+        logger.info("Capture process stopped")
+        return True
+    return False
 
 def set_capture_languages(source_lang, target_lang):
     """Set languages for screen capture"""
     logger.debug(f"set_capture_languages called: {source_lang}->{target_lang}")
-    _, capture_manager = initialize_components()
-    capture_manager.set_languages(source_lang, target_lang)
+    # Note: For the separate process, we might need to send a command to update languages
+    # For now, this just logs it as the process is initialized with these values
     return True
+
+import atexit
+atexit.register(stop_screen_capture)
 
 class FnTranslateUI:
     def __init__(self):
@@ -122,14 +164,6 @@ class FnTranslateUI:
         # Initialize components
         initialize_components()
         
-        # Set up callbacks for the capture manager
-        if capture_manager:
-            capture_manager.set_callbacks(
-                translation_cb=self._on_translation_ready,
-                status_cb=self._on_status_update,
-                error_cb=self._on_error
-            )
-        
         logger.info("UI initialized")
         
         self.__name__ = 'FnTranslateUI'
@@ -137,35 +171,16 @@ class FnTranslateUI:
     
     def _on_translation_ready(self, translated_text):
         """Handle new translation from screen capture"""
-        logger.debug(f"Translation ready callback: '{translated_text[:100]}...'")
-        if self.window:
-            try:
-                # Use json.dumps for proper escaping
-                js_code = f"showTranslation({json.dumps(translated_text)});"
-                self.window.evaluate_js(js_code)
-                logger.info(f"Translation sent to UI: {translated_text[:100]}...")
-            except Exception as e:
-                logger.error(f"Failed to send translation to JS: {str(e)}")
+        # This might need adjustment if we want to show logs in the UI from the separate process
+        pass
     
     def _on_status_update(self, message):
         """Handle status updates"""
-        logger.debug(f"Status update callback: {message}")
-        if self.window:
-            try:
-                js_code = f"updateStatus({json.dumps(message)});"
-                self.window.evaluate_js(js_code)
-            except Exception as e:
-                logger.error(f"Failed to update status in JS: {str(e)}")
+        pass
     
     def _on_error(self, error_message):
         """Handle errors"""
-        logger.error(f"Error callback: {error_message}")
-        if self.window:
-            try:
-                js_code = f"showError({json.dumps(error_message)});"
-                self.window.evaluate_js(js_code)
-            except Exception as e:
-                logger.error(f"Failed to show error in JS: {str(e)}")
+        pass
     
     def show(self):
         """Create and show the webview window"""

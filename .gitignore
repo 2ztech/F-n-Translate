@@ -2,4 +2,15 @@
 /venv/
 **/__pycache__/
 .env
+/translation_service.log
+/app.log
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Log files
+*.log
 translation_service.log
+app.log
+logs/
