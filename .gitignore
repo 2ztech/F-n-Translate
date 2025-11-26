@@ -14,3 +14,4 @@
 translation_service.log
 app.log
 logs/
+app_database.db

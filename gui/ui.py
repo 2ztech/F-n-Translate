@@ -25,6 +25,7 @@ api = None
 capture_manager = None
 capture_process = None
 capture_command_queue = None
+capture_stop_event = None
 
 def initialize_components():
     """Initialize components on demand"""
@@ -97,7 +98,7 @@ def translate_text(text: str, source_lang: str, target_lang: str):
 def start_screen_capture(monitor_index):
     """Start screen capture"""
     logger.debug(f"start_screen_capture called for monitor {monitor_index}")
-    global capture_process, capture_command_queue
+    global capture_process, capture_command_queue, capture_stop_event
     
     if capture_process and capture_process.is_alive():
         logger.warning("Capture process already running")
@@ -109,6 +110,7 @@ def start_screen_capture(monitor_index):
         
         status_queue = multiprocessing.Queue()
         capture_command_queue = multiprocessing.Queue()
+        capture_stop_event = multiprocessing.Event()
         
         # TODO: Get actual languages from UI or config
         source_lang = "eng" 
@@ -119,7 +121,8 @@ def start_screen_capture(monitor_index):
             source_lang, 
             target_lang, 
             status_queue, 
-            capture_command_queue
+            capture_command_queue,
+            capture_stop_event
         )
         capture_process.start()
         logger.info(f"Started capture process with PID: {capture_process.pid}")
@@ -131,15 +134,19 @@ def start_screen_capture(monitor_index):
 def stop_screen_capture():
     """Stop screen capture"""
     logger.debug("stop_screen_capture called")
-    global capture_process, capture_command_queue
+    global capture_process, capture_command_queue, capture_stop_event
     
     if capture_process and capture_process.is_alive():
+        if capture_stop_event:
+            capture_stop_event.set()
+            
         if capture_command_queue:
             capture_command_queue.put("STOP")
-            capture_process.join(timeout=3)
-            if capture_process.is_alive():
-                capture_process.terminate()
-        else:
+            
+        capture_process.join(timeout=2)
+        
+        if capture_process.is_alive():
+            logger.warning("Process did not stop gracefully, terminating...")
             capture_process.terminate()
             
         logger.info("Capture process stopped")
@@ -155,6 +162,18 @@ def set_capture_languages(source_lang, target_lang):
 
 import atexit
 atexit.register(stop_screen_capture)
+
+def check_api_key(api_key):
+    """Check if API key is valid"""
+    logger.debug("check_api_key called")
+    api, _ = initialize_components()
+    return api.check_api_key(api_key)
+
+def save_api_key(api_key):
+    """Save API key"""
+    logger.debug("save_api_key called")
+    api, _ = initialize_components()
+    return api.save_api_key(api_key)
 
 class FnTranslateUI:
     def __init__(self):
@@ -203,7 +222,9 @@ class FnTranslateUI:
                 stop_screen_capture,
                 set_capture_languages,
                 get_monitor_preview,
-                get_monitor_preview_optimized
+                get_monitor_preview_optimized,
+                check_api_key,
+                save_api_key
             )
             
             logger.debug("Starting webview...")

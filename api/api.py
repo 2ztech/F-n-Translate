@@ -166,3 +166,51 @@ class TranslationAPI:
         except Exception as e:
             logger.error(f"File save failed: {str(e)}")
             return {'status': 'error', 'message': str(e)}
+
+    def check_api_key(self, api_key: str) -> bool:
+        """Check if the provided API key is valid"""
+        try:
+            # We can't easily check validity without making a request.
+            # So we'll try a very cheap/simple request.
+            # Assuming we can re-instantiate the service with this key temporarily
+            from core.translate_core import TranslationService
+            
+            # Temporarily set env var for the test
+            old_key = os.environ.get("DEEPSEEK_API_KEY")
+            os.environ["DEEPSEEK_API_KEY"] = api_key
+            
+            service = TranslationService()
+            # Try translating a simple word
+            result = service.translate("test", "eng", "msa")
+            
+            # Restore old key if it existed
+            if old_key:
+                os.environ["DEEPSEEK_API_KEY"] = old_key
+            else:
+                del os.environ["DEEPSEEK_API_KEY"]
+                
+            return True if result else False
+        except Exception as e:
+            logger.error(f"API Key check failed: {e}")
+            return False
+
+    def save_api_key(self, api_key: str) -> bool:
+        """Save the API key to persistent storage (DB)"""
+        try:
+            from core.dbmanager import get_db_manager
+            db = get_db_manager()
+            # Save to DB
+            db.set_setting("DEEPSEEK_API_KEY", api_key, "DeepSeek API Key")
+            
+            # Also update current env var so it works immediately
+            os.environ["DEEPSEEK_API_KEY"] = api_key
+            
+            # And update .env file for backup/legacy support
+            from dotenv import set_key
+            env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+            set_key(env_path, "DEEPSEEK_API_KEY", api_key)
+            
+            return True
+        except Exception as e:
+            logger.error(f"Failed to save API key: {e}")
+            return False

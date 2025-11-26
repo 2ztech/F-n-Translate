@@ -159,9 +159,15 @@ def get_html_template():
                 <label>DeepSeek API Key:</label>
                 <input type="password" id="api-key-input" placeholder="Enter your API key">
             </div>
-            <button id="save-api-btn" class="action-btn">
-                <i class="fas fa-save"></i> Save Key
-            </button>
+            <div class="modal-actions">
+                <button id="check-api-btn" class="action-btn secondary">
+                    <i class="fas fa-check-circle"></i> Check API
+                </button>
+                <button id="save-api-btn" class="action-btn">
+                    <i class="fas fa-save"></i> Save Key
+                </button>
+            </div>
+            <div id="api-check-result" class="status-message"></div>
         </div>
     </div>
     <script>

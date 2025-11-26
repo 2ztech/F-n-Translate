@@ -129,6 +129,8 @@ def get_file_translation_js():
         const modal = document.getElementById('api-modal');
         const closeBtn = document.querySelector('.close');
         const saveApiBtn = document.getElementById('save-api-btn');
+        const checkApiBtn = document.getElementById('check-api-btn');
+        const resultDiv = document.getElementById('api-check-result');
 
         if (!settingsBtn || !modal || !closeBtn || !saveApiBtn) {{
             console.error('API modal elements not found');
@@ -141,16 +143,46 @@ def get_file_translation_js():
 
         closeBtn.addEventListener('click', () => {{
             modal.style.display = 'none';
+            if(resultDiv) resultDiv.innerHTML = '';
         }});
+
+        if (checkApiBtn) {{
+            checkApiBtn.addEventListener('click', () => {{
+                const apiKey = document.getElementById('api-key-input').value;
+                if (!apiKey) {{
+                    if(resultDiv) resultDiv.innerHTML = '<span style="color: red;">Please enter an API key first</span>';
+                    return;
+                }}
+                
+                if(resultDiv) resultDiv.innerHTML = '<span style="color: blue;"><i class="fas fa-spinner fa-spin"></i> Checking...</span>';
+                
+                pywebview.api.check_api_key(apiKey)
+                    .then(isValid => {{
+                        if (isValid) {{
+                            if(resultDiv) resultDiv.innerHTML = '<span style="color: green;"><i class="fas fa-check"></i> API Key is valid!</span>';
+                        }} else {{
+                            if(resultDiv) resultDiv.innerHTML = '<span style="color: red;"><i class="fas fa-times"></i> Invalid API Key</span>';
+                        }}
+                    }})
+                    .catch(err => {{
+                        if(resultDiv) resultDiv.innerHTML = '<span style="color: red;">Error: ' + err + '</span>';
+                    }});
+            }});
+        }}
 
         saveApiBtn.addEventListener('click', () => {{
             const apiKey = document.getElementById('api-key-input').value;
             if(apiKey) {{
                 // Update API info in footer
-                const maskedKey = 'ds-' + '*'.repeat(apiKey.length - 3) + apiKey.slice(-3);
+                const maskedKey = 'ds-' + '*'.repeat(Math.max(0, apiKey.length - 3)) + apiKey.slice(-3);
                 document.querySelector('.api-key-info span:last-child').textContent = maskedKey;
-                modal.style.display = 'none';
-                alert('API key saved successfully!');
+                
+                // Save via backend
+                pywebview.api.save_api_key(apiKey)
+                    .then(() => {{
+                        modal.style.display = 'none';
+                        alert('API key saved successfully!');
+                    }});
             }} else {{
                 alert('Please enter an API key');
             }}
@@ -159,6 +191,7 @@ def get_file_translation_js():
         window.addEventListener('click', (e) => {{
             if(e.target === modal) {{
                 modal.style.display = 'none';
+                if(resultDiv) resultDiv.innerHTML = '';
             }}
         }});
     }}
