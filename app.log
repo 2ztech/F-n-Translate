@@ -1,644 +1,281 @@
-2025-11-19 00:49:39,975 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): packages.unstructured.io:443
-2025-11-19 00:49:41,066 - urllib3.connectionpool - DEBUG - https://packages.unstructured.io:443 "GET /python-telemetry?version=0.18.11&platform=Windows&python3.11&arch=AMD64&gpu=False&dev=false HTTP/1.1" 200 600
-2025-11-19 00:49:44,349 - matplotlib - DEBUG - matplotlib data path: C:\Users\Jazzry\Documents\ump\Project PSM\env\Lib\site-packages\matplotlib\mpl-data
-2025-11-19 00:49:44,354 - matplotlib - DEBUG - CONFIGDIR=C:\Users\Jazzry\.matplotlib
-2025-11-19 00:49:44,355 - matplotlib - DEBUG - interactive is False
-2025-11-19 00:49:44,355 - matplotlib - DEBUG - platform is win32
-2025-11-19 00:49:44,493 - matplotlib - DEBUG - CACHEDIR=C:\Users\Jazzry\.matplotlib
-2025-11-19 00:49:44,496 - matplotlib.font_manager - DEBUG - Using fontManager instance from C:\Users\Jazzry\.matplotlib\fontlist-v390.json
-2025-11-19 00:49:46,388 - TextTranslator - INFO - TextTranslator initialized
-2025-11-19 00:49:46,388 - services.file_handler - INFO - File translation handler initialized
-2025-11-19 00:49:46,388 - API - INFO - Translation API initialized
-2025-11-19 00:49:46,388 - UI - DEBUG - TranslationAPI initialized
-2025-11-19 00:49:46,389 - WebViewCaptureManager - INFO - WebView Capture Manager initialized on Windows
-2025-11-19 00:49:46,389 - UI - DEBUG - WebViewCaptureManager initialized
-2025-11-19 00:49:46,389 - UI - INFO - UI initialized
-2025-11-19 00:49:46,389 - UI - DEBUG - Creating webview window...
-2025-11-19 00:49:46,389 - UI - DEBUG - Starting webview...
-2025-11-19 00:49:48,811 - UI - DEBUG - get_available_monitors called
-2025-11-19 00:49:48,811 - WebViewCaptureManager - INFO - Attempting to detect monitors...
-2025-11-19 00:49:48,813 - WebViewCaptureManager - INFO - Total monitors detected by MSS: 2
-2025-11-19 00:49:48,813 - WebViewCaptureManager - INFO - Monitor 0: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
-2025-11-19 00:49:48,813 - WebViewCaptureManager - INFO - Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
-2025-11-19 00:49:48,813 - WebViewCaptureManager - INFO - Returning 1 physical monitors to UI
-2025-11-19 00:49:48,813 - UI - DEBUG - Returning 1 monitors
-2025-11-19 00:49:48,821 - UI - DEBUG - get_available_monitors called
-2025-11-19 00:49:48,821 - WebViewCaptureManager - INFO - Attempting to detect monitors...
-2025-11-19 00:49:48,822 - WebViewCaptureManager - INFO - Total monitors detected by MSS: 2
-2025-11-19 00:49:48,822 - WebViewCaptureManager - INFO - Monitor 0: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
-2025-11-19 00:49:48,822 - WebViewCaptureManager - INFO - Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
-2025-11-19 00:49:48,822 - WebViewCaptureManager - INFO - Returning 1 physical monitors to UI
-2025-11-19 00:49:48,822 - UI - DEBUG - Returning 1 monitors
-2025-11-19 00:49:49,338 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:49,405 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 350652 bytes
-2025-11-19 00:49:49,467 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:49,530 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 429116 bytes
-2025-11-19 00:49:49,596 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:49,646 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445684 bytes
-2025-11-19 00:49:49,716 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:49,780 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 449140 bytes
-2025-11-19 00:49:49,841 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:49,895 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 449916 bytes
-2025-11-19 00:49:49,956 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:50,012 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 449948 bytes
-2025-11-19 00:49:50,079 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:50,130 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 450192 bytes
-2025-11-19 00:49:50,192 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:50,246 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 450544 bytes
-2025-11-19 00:49:50,310 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:50,363 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 450568 bytes
-2025-11-19 00:49:50,425 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:50,480 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 450560 bytes
-2025-11-19 00:49:50,544 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:50,595 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459528 bytes
-2025-11-19 00:49:50,660 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:50,713 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461280 bytes
-2025-11-19 00:49:50,776 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:50,830 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461300 bytes
-2025-11-19 00:49:50,894 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:50,947 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461300 bytes
-2025-11-19 00:49:51,010 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:51,064 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461400 bytes
-2025-11-19 00:49:51,127 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:51,181 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460580 bytes
-2025-11-19 00:49:51,244 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:51,295 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460724 bytes
-2025-11-19 00:49:51,360 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:51,414 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460628 bytes
-2025-11-19 00:49:51,475 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:51,532 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460624 bytes
-2025-11-19 00:49:51,595 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:51,648 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460664 bytes
-2025-11-19 00:49:51,712 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:51,763 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460652 bytes
-2025-11-19 00:49:51,825 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:51,879 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460788 bytes
-2025-11-19 00:49:51,942 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:51,995 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460696 bytes
-2025-11-19 00:49:52,059 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:52,114 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 462536 bytes
-2025-11-19 00:49:52,182 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:52,247 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 464828 bytes
-2025-11-19 00:49:52,311 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:52,363 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 465020 bytes
-2025-11-19 00:49:52,425 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:52,479 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 465084 bytes
-2025-11-19 00:49:52,543 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:52,596 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 465040 bytes
-2025-11-19 00:49:52,658 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:52,712 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 465064 bytes
-2025-11-19 00:49:52,775 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:52,828 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 465148 bytes
-2025-11-19 00:49:52,892 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:52,945 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 465028 bytes
-2025-11-19 00:49:53,009 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:53,064 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 464984 bytes
-2025-11-19 00:49:53,129 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:53,181 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461628 bytes
-2025-11-19 00:49:53,243 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:53,297 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461612 bytes
-2025-11-19 00:49:53,358 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:53,413 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461612 bytes
-2025-11-19 00:49:53,476 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:53,532 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461556 bytes
-2025-11-19 00:49:53,598 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:53,663 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 462664 bytes
-2025-11-19 00:49:53,727 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:53,781 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461636 bytes
-2025-11-19 00:49:53,843 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:53,895 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461596 bytes
-2025-11-19 00:49:53,959 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:54,013 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 389296 bytes
-2025-11-19 00:49:54,074 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:54,130 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 385956 bytes
-2025-11-19 00:49:54,189 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:54,246 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 385240 bytes
-2025-11-19 00:49:54,306 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:54,363 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 385224 bytes
-2025-11-19 00:49:54,420 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:54,479 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 385148 bytes
-2025-11-19 00:49:54,542 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:54,596 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 385092 bytes
-2025-11-19 00:49:54,653 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:54,716 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 385176 bytes
-2025-11-19 00:49:54,773 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:54,831 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 385096 bytes
-2025-11-19 00:49:54,890 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:54,950 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 439612 bytes
-2025-11-19 00:49:55,013 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:55,063 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 443588 bytes
-2025-11-19 00:49:55,126 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:55,180 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445280 bytes
-2025-11-19 00:49:55,241 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:55,296 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445308 bytes
-2025-11-19 00:49:55,356 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:55,411 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445392 bytes
-2025-11-19 00:49:55,473 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:55,529 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445432 bytes
-2025-11-19 00:49:55,591 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:55,645 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445528 bytes
-2025-11-19 00:49:55,706 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:55,762 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445376 bytes
-2025-11-19 00:49:55,822 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:55,879 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445320 bytes
-2025-11-19 00:49:55,940 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:55,995 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445392 bytes
-2025-11-19 00:49:56,056 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:56,113 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445212 bytes
-2025-11-19 00:49:56,174 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:56,232 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 444888 bytes
-2025-11-19 00:49:56,295 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:56,349 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445116 bytes
-2025-11-19 00:49:56,410 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:56,466 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 444984 bytes
-2025-11-19 00:49:56,529 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:56,580 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445176 bytes
-2025-11-19 00:49:56,643 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:56,696 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445104 bytes
-2025-11-19 00:49:56,759 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:56,813 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 444824 bytes
-2025-11-19 00:49:56,873 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:56,929 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 444836 bytes
-2025-11-19 00:49:56,989 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:57,046 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 444728 bytes
-2025-11-19 00:49:57,107 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:57,165 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445628 bytes
-2025-11-19 00:49:57,227 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:57,279 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445440 bytes
-2025-11-19 00:49:57,340 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:57,396 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445296 bytes
-2025-11-19 00:49:57,457 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:57,512 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445332 bytes
-2025-11-19 00:49:57,573 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:57,629 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 445376 bytes
-2025-11-19 00:49:57,690 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:57,745 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456756 bytes
-2025-11-19 00:49:57,808 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:57,862 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457088 bytes
-2025-11-19 00:49:57,925 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:57,980 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457084 bytes
-2025-11-19 00:49:58,042 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:58,098 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456944 bytes
-2025-11-19 00:49:58,163 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:58,216 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456960 bytes
-2025-11-19 00:49:58,279 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:58,330 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456928 bytes
-2025-11-19 00:49:58,392 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:58,445 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456928 bytes
-2025-11-19 00:49:58,506 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:58,563 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457060 bytes
-2025-11-19 00:49:58,625 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:58,679 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457012 bytes
-2025-11-19 00:49:58,740 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:58,795 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457008 bytes
-2025-11-19 00:49:58,857 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:58,912 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456892 bytes
-2025-11-19 00:49:58,974 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:59,029 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456968 bytes
-2025-11-19 00:49:59,092 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:59,149 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456936 bytes
-2025-11-19 00:49:59,211 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:59,264 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457388 bytes
-2025-11-19 00:49:59,327 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:59,378 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457324 bytes
-2025-11-19 00:49:59,440 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:59,495 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457380 bytes
-2025-11-19 00:49:59,556 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:59,612 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457276 bytes
-2025-11-19 00:49:59,674 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:59,729 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457424 bytes
-2025-11-19 00:49:59,790 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:59,846 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457400 bytes
-2025-11-19 00:49:59,907 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:49:59,961 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457376 bytes
-2025-11-19 00:50:00,024 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:00,079 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457424 bytes
-2025-11-19 00:50:00,141 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:00,198 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458692 bytes
-2025-11-19 00:50:00,261 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:00,313 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458496 bytes
-2025-11-19 00:50:00,375 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:00,428 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458448 bytes
-2025-11-19 00:50:00,491 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:00,547 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458484 bytes
-2025-11-19 00:50:00,611 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:00,662 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458596 bytes
-2025-11-19 00:50:00,724 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:00,779 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458608 bytes
-2025-11-19 00:50:00,843 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:00,896 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458560 bytes
-2025-11-19 00:50:00,960 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:01,014 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458728 bytes
-2025-11-19 00:50:01,078 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:01,132 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458516 bytes
-2025-11-19 00:50:01,194 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:01,247 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458596 bytes
-2025-11-19 00:50:01,310 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:01,380 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458432 bytes
-2025-11-19 00:50:01,456 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:01,520 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458656 bytes
-2025-11-19 00:50:01,594 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:01,648 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458652 bytes
-2025-11-19 00:50:01,713 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:01,763 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458240 bytes
-2025-11-19 00:50:01,824 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:01,890 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458208 bytes
-2025-11-19 00:50:01,960 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:02,015 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458192 bytes
-2025-11-19 00:50:02,078 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:02,129 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458288 bytes
-2025-11-19 00:50:02,195 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:02,248 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458336 bytes
-2025-11-19 00:50:02,311 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:02,362 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458280 bytes
-2025-11-19 00:50:02,431 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:02,480 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458288 bytes
-2025-11-19 00:50:02,546 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:02,596 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458316 bytes
-2025-11-19 00:50:02,660 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:02,713 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458328 bytes
-2025-11-19 00:50:02,775 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:02,829 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458236 bytes
-2025-11-19 00:50:02,891 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:02,946 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458276 bytes
-2025-11-19 00:50:03,008 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:03,064 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458728 bytes
-2025-11-19 00:50:03,127 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:03,181 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458532 bytes
-2025-11-19 00:50:03,244 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:03,299 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458860 bytes
-2025-11-19 00:50:03,360 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:03,413 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458836 bytes
-2025-11-19 00:50:03,476 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:03,530 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459540 bytes
-2025-11-19 00:50:03,593 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:03,646 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459640 bytes
-2025-11-19 00:50:03,711 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:03,763 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459576 bytes
-2025-11-19 00:50:03,824 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:03,886 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459620 bytes
-2025-11-19 00:50:03,952 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:04,014 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459656 bytes
-2025-11-19 00:50:04,078 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:04,130 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459628 bytes
-2025-11-19 00:50:04,192 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:04,248 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459304 bytes
-2025-11-19 00:50:04,311 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:04,362 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459156 bytes
-2025-11-19 00:50:04,425 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:04,480 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460160 bytes
-2025-11-19 00:50:04,542 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:04,597 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459376 bytes
-2025-11-19 00:50:04,658 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:04,713 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459348 bytes
-2025-11-19 00:50:04,776 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:04,830 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459300 bytes
-2025-11-19 00:50:04,892 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:04,947 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459268 bytes
-2025-11-19 00:50:05,008 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:05,063 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459100 bytes
-2025-11-19 00:50:05,127 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:05,183 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459304 bytes
-2025-11-19 00:50:05,246 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:05,297 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459176 bytes
-2025-11-19 00:50:05,359 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:05,413 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458964 bytes
-2025-11-19 00:50:05,474 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:05,531 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459252 bytes
-2025-11-19 00:50:05,593 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:05,647 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459120 bytes
-2025-11-19 00:50:05,709 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:05,763 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460076 bytes
-2025-11-19 00:50:05,825 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:05,879 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460260 bytes
-2025-11-19 00:50:05,940 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:05,996 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459064 bytes
-2025-11-19 00:50:06,057 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:06,112 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458880 bytes
-2025-11-19 00:50:06,175 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:06,232 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459000 bytes
-2025-11-19 00:50:06,293 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:06,346 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459544 bytes
-2025-11-19 00:50:06,406 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:06,461 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459532 bytes
-2025-11-19 00:50:06,524 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:06,579 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459584 bytes
-2025-11-19 00:50:06,641 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:06,695 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459564 bytes
-2025-11-19 00:50:06,758 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:06,813 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459480 bytes
-2025-11-19 00:50:06,875 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:06,929 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459304 bytes
-2025-11-19 00:50:06,991 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:07,052 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459232 bytes
-2025-11-19 00:50:07,115 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:07,181 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459284 bytes
-2025-11-19 00:50:07,242 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:07,298 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459364 bytes
-2025-11-19 00:50:07,360 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:07,413 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459380 bytes
-2025-11-19 00:50:07,474 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:07,529 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459420 bytes
-2025-11-19 00:50:07,590 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:07,646 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459360 bytes
-2025-11-19 00:50:07,706 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:07,762 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459368 bytes
-2025-11-19 00:50:07,822 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:07,879 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459328 bytes
-2025-11-19 00:50:07,940 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:07,996 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459180 bytes
-2025-11-19 00:50:08,055 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:08,113 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459332 bytes
-2025-11-19 00:50:08,176 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:08,231 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459324 bytes
-2025-11-19 00:50:08,292 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:08,352 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459928 bytes
-2025-11-19 00:50:08,413 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:08,465 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460588 bytes
-2025-11-19 00:50:08,527 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:08,582 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459908 bytes
-2025-11-19 00:50:08,643 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:08,695 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460004 bytes
-2025-11-19 00:50:08,759 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:08,816 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460364 bytes
-2025-11-19 00:50:08,878 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:08,928 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459720 bytes
-2025-11-19 00:50:08,991 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:09,051 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459496 bytes
-2025-11-19 00:50:09,113 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:09,165 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 455748 bytes
-2025-11-19 00:50:09,233 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:09,299 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 454908 bytes
-2025-11-19 00:50:09,361 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:09,417 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 454992 bytes
-2025-11-19 00:50:09,479 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:09,535 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 454928 bytes
-2025-11-19 00:50:09,596 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:09,649 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456060 bytes
-2025-11-19 00:50:09,712 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:09,764 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456480 bytes
-2025-11-19 00:50:09,826 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:09,879 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456428 bytes
-2025-11-19 00:50:09,940 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:09,995 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456500 bytes
-2025-11-19 00:50:10,055 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:10,113 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456480 bytes
-2025-11-19 00:50:10,172 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:10,230 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456456 bytes
-2025-11-19 00:50:10,291 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:10,346 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456544 bytes
-2025-11-19 00:50:10,409 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:10,464 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456616 bytes
-2025-11-19 00:50:10,524 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:10,579 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458132 bytes
-2025-11-19 00:50:10,643 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:10,696 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458152 bytes
-2025-11-19 00:50:10,758 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:10,813 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458168 bytes
-2025-11-19 00:50:10,877 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:10,929 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458140 bytes
-2025-11-19 00:50:10,991 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:11,046 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458168 bytes
-2025-11-19 00:50:11,110 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:11,164 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457236 bytes
-2025-11-19 00:50:11,227 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:11,281 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457332 bytes
-2025-11-19 00:50:11,343 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:11,395 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457264 bytes
-2025-11-19 00:50:11,457 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:11,512 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457272 bytes
-2025-11-19 00:50:11,573 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:11,629 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457236 bytes
-2025-11-19 00:50:11,691 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:11,745 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457220 bytes
-2025-11-19 00:50:11,806 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:11,862 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457156 bytes
-2025-11-19 00:50:11,923 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:11,978 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457260 bytes
-2025-11-19 00:50:12,039 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:12,096 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457276 bytes
-2025-11-19 00:50:12,158 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:12,216 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458624 bytes
-2025-11-19 00:50:12,280 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:12,332 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456796 bytes
-2025-11-19 00:50:12,394 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:12,447 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456732 bytes
-2025-11-19 00:50:12,510 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:12,563 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456812 bytes
-2025-11-19 00:50:12,623 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:12,679 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456600 bytes
-2025-11-19 00:50:12,740 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:12,795 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456648 bytes
-2025-11-19 00:50:12,856 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:12,913 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456704 bytes
-2025-11-19 00:50:12,974 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:13,029 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456620 bytes
-2025-11-19 00:50:13,091 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:13,150 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456652 bytes
-2025-11-19 00:50:13,210 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:13,265 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459380 bytes
-2025-11-19 00:50:13,328 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:13,391 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459740 bytes
-2025-11-19 00:50:13,468 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:13,540 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459892 bytes
-2025-11-19 00:50:13,609 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:13,665 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459652 bytes
-2025-11-19 00:50:13,729 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:13,783 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459828 bytes
-2025-11-19 00:50:13,847 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:13,900 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460000 bytes
-2025-11-19 00:50:13,962 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:14,014 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459996 bytes
-2025-11-19 00:50:14,078 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:14,130 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460012 bytes
-2025-11-19 00:50:14,194 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:14,251 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458348 bytes
-2025-11-19 00:50:14,313 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:14,364 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458396 bytes
-2025-11-19 00:50:14,430 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:14,482 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460128 bytes
-2025-11-19 00:50:14,549 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:14,618 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461440 bytes
-2025-11-19 00:50:14,680 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:14,730 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461812 bytes
-2025-11-19 00:50:14,793 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:14,850 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461812 bytes
-2025-11-19 00:50:14,911 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:14,964 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 462532 bytes
-2025-11-19 00:50:15,026 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:15,080 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 462244 bytes
-2025-11-19 00:50:15,144 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:15,199 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 462092 bytes
-2025-11-19 00:50:15,271 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:15,340 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 461580 bytes
-2025-11-19 00:50:15,412 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:15,468 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 460724 bytes
-2025-11-19 00:50:15,529 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:15,580 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458440 bytes
-2025-11-19 00:50:15,642 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:15,697 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 459464 bytes
-2025-11-19 00:50:15,759 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:15,813 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458256 bytes
-2025-11-19 00:50:15,877 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:15,929 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 458260 bytes
-2025-11-19 00:50:15,992 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:16,049 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457808 bytes
-2025-11-19 00:50:16,115 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:16,181 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 381124 bytes
-2025-11-19 00:50:16,241 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:16,296 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 377544 bytes
-2025-11-19 00:50:16,357 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:16,412 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 376940 bytes
-2025-11-19 00:50:16,471 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:16,531 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 376812 bytes
-2025-11-19 00:50:16,590 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:16,646 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 376832 bytes
-2025-11-19 00:50:16,706 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:16,762 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 376792 bytes
-2025-11-19 00:50:16,817 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:16,882 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 376864 bytes
-2025-11-19 00:50:16,938 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:16,999 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 376824 bytes
-2025-11-19 00:50:17,057 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:17,116 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 435932 bytes
-2025-11-19 00:50:17,177 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:17,229 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 441508 bytes
-2025-11-19 00:50:17,292 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:17,349 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 441700 bytes
-2025-11-19 00:50:17,411 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:17,463 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 442112 bytes
-2025-11-19 00:50:17,525 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:17,580 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 441948 bytes
-2025-11-19 00:50:17,641 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:17,696 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 442524 bytes
-2025-11-19 00:50:17,756 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:17,811 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 442128 bytes
-2025-11-19 00:50:17,872 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:17,928 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 442396 bytes
-2025-11-19 00:50:17,991 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:18,045 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 442112 bytes
-2025-11-19 00:50:18,106 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:18,162 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 442204 bytes
-2025-11-19 00:50:18,223 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:18,280 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 441948 bytes
-2025-11-19 00:50:18,340 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:18,397 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 441944 bytes
-2025-11-19 00:50:18,457 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:18,512 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 441968 bytes
-2025-11-19 00:50:18,572 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:18,629 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 454696 bytes
-2025-11-19 00:50:18,688 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:18,747 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 454912 bytes
-2025-11-19 00:50:18,808 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:18,863 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456160 bytes
-2025-11-19 00:50:18,927 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:18,979 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456408 bytes
-2025-11-19 00:50:19,039 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:19,095 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456404 bytes
-2025-11-19 00:50:19,156 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:19,213 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456332 bytes
-2025-11-19 00:50:19,277 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:19,332 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456272 bytes
-2025-11-19 00:50:19,394 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:19,446 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 455872 bytes
-2025-11-19 00:50:19,507 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:19,562 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456032 bytes
-2025-11-19 00:50:19,623 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:19,680 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456040 bytes
-2025-11-19 00:50:19,741 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:19,796 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 455992 bytes
-2025-11-19 00:50:19,856 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:19,912 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456052 bytes
-2025-11-19 00:50:19,974 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:20,030 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 455940 bytes
-2025-11-19 00:50:20,091 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:20,146 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456888 bytes
-2025-11-19 00:50:20,206 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:20,264 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456752 bytes
-2025-11-19 00:50:20,325 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:20,380 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456892 bytes
-2025-11-19 00:50:20,441 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:20,495 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456864 bytes
-2025-11-19 00:50:20,557 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:20,613 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456836 bytes
-2025-11-19 00:50:20,673 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:20,729 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456796 bytes
-2025-11-19 00:50:20,790 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:20,846 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456824 bytes
-2025-11-19 00:50:20,906 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:20,962 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456908 bytes
-2025-11-19 00:50:21,024 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:21,079 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456956 bytes
-2025-11-19 00:50:21,140 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:21,196 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456932 bytes
-2025-11-19 00:50:21,257 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:21,315 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457000 bytes
-2025-11-19 00:50:21,376 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:21,429 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456956 bytes
-2025-11-19 00:50:21,490 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:21,546 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456880 bytes
-2025-11-19 00:50:21,607 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:21,662 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456844 bytes
-2025-11-19 00:50:21,724 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:21,781 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 463456 bytes
-2025-11-19 00:50:21,844 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:21,897 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 463636 bytes
-2025-11-19 00:50:21,957 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:22,012 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 463544 bytes
-2025-11-19 00:50:22,074 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:22,130 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 463600 bytes
-2025-11-19 00:50:22,190 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:22,247 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 463524 bytes
-2025-11-19 00:50:22,311 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:22,367 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 463636 bytes
-2025-11-19 00:50:22,429 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:22,481 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 463544 bytes
-2025-11-19 00:50:22,548 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:22,602 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457032 bytes
-2025-11-19 00:50:22,668 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:22,731 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456948 bytes
-2025-11-19 00:50:22,793 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:22,848 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456844 bytes
-2025-11-19 00:50:22,911 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:22,962 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456744 bytes
-2025-11-19 00:50:23,023 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:23,079 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456920 bytes
-2025-11-19 00:50:23,141 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:23,196 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456692 bytes
-2025-11-19 00:50:23,258 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:23,314 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 456800 bytes
-2025-11-19 00:50:23,377 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:23,433 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457160 bytes
-2025-11-19 00:50:23,493 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:23,546 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457116 bytes
-2025-11-19 00:50:23,608 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:23,664 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457172 bytes
-2025-11-19 00:50:23,724 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:23,781 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457392 bytes
-2025-11-19 00:50:23,842 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:23,896 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457176 bytes
-2025-11-19 00:50:23,957 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:24,013 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 457116 bytes
-2025-11-19 00:50:24,074 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:24,133 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 354984 bytes
-2025-11-19 00:50:24,191 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:24,246 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 411012 bytes
-2025-11-19 00:50:24,305 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:24,362 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 429988 bytes
-2025-11-19 00:50:24,426 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:24,480 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 432540 bytes
-2025-11-19 00:50:24,544 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:24,607 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 433284 bytes
-2025-11-19 00:50:24,670 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:24,730 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 434168 bytes
-2025-11-19 00:50:24,791 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:24,847 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 433168 bytes
-2025-11-19 00:50:24,910 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:24,963 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 432920 bytes
-2025-11-19 00:50:25,025 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:25,079 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 432796 bytes
-2025-11-19 00:50:25,140 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:25,197 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 432828 bytes
-2025-11-19 00:50:25,257 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
-2025-11-19 00:50:25,312 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 433008 bytes
-2025-11-19 00:50:25,823 - UI - INFO - WebView started successfully
+2025-11-26 22:44:21,369 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): packages.unstructured.io:443
+2025-11-26 22:44:22,702 - urllib3.connectionpool - DEBUG - https://packages.unstructured.io:443 "GET /python-telemetry?version=0.18.3&platform=Windows&python3.9&arch=AMD64&gpu=False&dev=false HTTP/1.1" 200 596
+2025-11-26 22:44:33,194 - matplotlib - DEBUG - matplotlib data path: C:\Users\jazz\Documents\UMP\F-n-Translate\venv\lib\site-packages\matplotlib\mpl-data
+2025-11-26 22:44:33,221 - matplotlib - DEBUG - CONFIGDIR=C:\Users\jazz\.matplotlib
+2025-11-26 22:44:33,223 - matplotlib - DEBUG - interactive is False
+2025-11-26 22:44:33,223 - matplotlib - DEBUG - platform is win32
+2025-11-26 22:44:33,321 - matplotlib - DEBUG - CACHEDIR=C:\Users\jazz\.matplotlib
+2025-11-26 22:44:33,339 - matplotlib.font_manager - DEBUG - Using fontManager instance from C:\Users\jazz\.matplotlib\fontlist-v390.json
+2025-11-26 22:44:42,785 - TextTranslator - INFO - TextTranslator initialized
+2025-11-26 22:44:42,785 - services.file_handler - INFO - File translation handler initialized
+2025-11-26 22:44:42,785 - API - INFO - Translation API initialized
+2025-11-26 22:44:42,785 - UI - DEBUG - TranslationAPI initialized
+2025-11-26 22:44:42,785 - WebViewCaptureManager - INFO - WebView Capture Manager initialized on Windows
+2025-11-26 22:44:42,785 - UI - DEBUG - WebViewCaptureManager initialized
+2025-11-26 22:44:42,785 - UI - INFO - UI initialized
+2025-11-26 22:44:42,785 - UI - DEBUG - Creating webview window...
+2025-11-26 22:44:42,786 - UI - DEBUG - Starting webview...
+2025-11-26 22:45:03,089 - UI - DEBUG - translate_text called: 'how are you...' (eng->msa)
+2025-11-26 22:45:03,090 - API - INFO - Starting translation: eng -> msa
+2025-11-26 22:45:03,090 - TranslationService - DEBUG - Initiating translation request
+2025-11-26 22:45:03,090 - TranslationService - DEBUG - Source: eng, Target: msa
+2025-11-26 22:45:03,090 - TranslationService - DEBUG - Text length: 11 characters
+2025-11-26 22:45:03,815 - openai._base_client - DEBUG - Request options: {'method': 'post', 'url': '/chat/completions', 'files': None, 'idempotency_key': 'stainless-python-retry-ad192860-ba3c-4468-81a2-7fca57b05b7f', 'json_data': {'messages': [{'role': 'user', 'content': 'Translate the following text from eng to msa in a formal tone. Maintain the original meaning and context. Only return the translated text without additional commentary:\n\nhow are you'}], 'model': 'deepseek-chat', 'temperature': 1.3}}
+2025-11-26 22:45:03,854 - openai._base_client - DEBUG - Sending HTTP Request: POST https://api.deepseek.com/chat/completions
+2025-11-26 22:45:03,854 - httpcore.connection - DEBUG - connect_tcp.started host='api.deepseek.com' port=443 local_address=None timeout=5.0 socket_options=None
+2025-11-26 22:45:03,884 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000022BC051EAC0>
+2025-11-26 22:45:03,884 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x0000022BA566BB40> server_hostname='api.deepseek.com' timeout=5.0
+2025-11-26 22:45:03,904 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000022BC051EB80>
+2025-11-26 22:45:03,904 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2025-11-26 22:45:03,904 - httpcore.http11 - DEBUG - send_request_headers.complete
+2025-11-26 22:45:03,904 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2025-11-26 22:45:03,905 - httpcore.http11 - DEBUG - send_request_body.complete
+2025-11-26 22:45:03,905 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2025-11-26 22:45:04,034 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Wed, 26 Nov 2025 14:45:03 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Content-Encoding', b'gzip'), (b'vary', b'origin, access-control-request-method, access-control-request-headers'), (b'access-control-allow-credentials', b'true'), (b'x-ds-trace-id', b'5db12768227fe9e3a0ec326cfa09de66'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'X-Content-Type-Options', b'nosniff'), (b'cf-cache-status', b'DYNAMIC'), (b'Set-Cookie', b'__cf_bm=AxCBrE2PatAZydsX3iY1YMKwninJpnsT9rdFU_cxKQQ-1764168303-1.0.1.1-NAsn4WKBnRQMTIkH6y2783z5NySy2BXeKHG91xWgo7RxSigDaRqAYSmvrmWnFvBbPUbRoElbFgWwFkcRrXX6432tScjy3ynE06qOuGg.ZKk; path=/; expires=Wed, 26-Nov-25 15:15:03 GMT; domain=.deepseek.com; HttpOnly; Secure; SameSite=None'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9a4a2ad95a4af882-SIN')])
+2025-11-26 22:45:04,036 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2025-11-26 22:45:04,038 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2025-11-26 22:45:05,007 - httpcore.http11 - DEBUG - receive_response_body.complete
+2025-11-26 22:45:05,007 - httpcore.http11 - DEBUG - response_closed.started
+2025-11-26 22:45:05,008 - httpcore.http11 - DEBUG - response_closed.complete
+2025-11-26 22:45:05,009 - openai._base_client - DEBUG - HTTP Response: POST https://api.deepseek.com/chat/completions "200 OK" Headers({'date': 'Wed, 26 Nov 2025 14:45:03 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'content-encoding': 'gzip', 'vary': 'origin, access-control-request-method, access-control-request-headers', 'access-control-allow-credentials': 'true', 'x-ds-trace-id': '5db12768227fe9e3a0ec326cfa09de66', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'x-content-type-options': 'nosniff', 'cf-cache-status': 'DYNAMIC', 'set-cookie': '__cf_bm=AxCBrE2PatAZydsX3iY1YMKwninJpnsT9rdFU_cxKQQ-1764168303-1.0.1.1-NAsn4WKBnRQMTIkH6y2783z5NySy2BXeKHG91xWgo7RxSigDaRqAYSmvrmWnFvBbPUbRoElbFgWwFkcRrXX6432tScjy3ynE06qOuGg.ZKk; path=/; expires=Wed, 26-Nov-25 15:15:03 GMT; domain=.deepseek.com; HttpOnly; Secure; SameSite=None', 'server': 'cloudflare', 'cf-ray': '9a4a2ad95a4af882-SIN'})
+2025-11-26 22:45:05,009 - openai._base_client - DEBUG - request_id: None
+2025-11-26 22:45:05,033 - TranslationService - INFO - Translation completed in 1.942 seconds
+2025-11-26 22:45:05,033 - API - DEBUG - Translation successful: Apa khabar?...
+2025-11-26 22:45:05,033 - UI - DEBUG - Translation completed in 1.94s: 'Apa khabar?...'
+2025-11-26 22:45:16,732 - UI - DEBUG - get_available_monitors called
+2025-11-26 22:45:16,732 - WebViewCaptureManager - INFO - Attempting to detect monitors...
+2025-11-26 22:45:16,745 - WebViewCaptureManager - INFO - Total monitors detected by MSS: 2
+2025-11-26 22:45:16,745 - WebViewCaptureManager - INFO - Monitor 0: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2025-11-26 22:45:16,745 - WebViewCaptureManager - INFO - Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2025-11-26 22:45:16,745 - WebViewCaptureManager - INFO - Returning 1 physical monitors to UI
+2025-11-26 22:45:16,745 - UI - DEBUG - Returning 1 monitors
+2025-11-26 22:45:16,754 - UI - DEBUG - get_available_monitors called
+2025-11-26 22:45:16,754 - WebViewCaptureManager - INFO - Attempting to detect monitors...
+2025-11-26 22:45:16,755 - WebViewCaptureManager - INFO - Total monitors detected by MSS: 2
+2025-11-26 22:45:16,755 - WebViewCaptureManager - INFO - Monitor 0: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2025-11-26 22:45:16,755 - WebViewCaptureManager - INFO - Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2025-11-26 22:45:16,755 - WebViewCaptureManager - INFO - Returning 1 physical monitors to UI
+2025-11-26 22:45:16,755 - UI - DEBUG - Returning 1 monitors
+2025-11-26 22:45:17,357 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:17,590 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 306556 bytes
+2025-11-26 22:45:17,683 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:17,807 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 365716 bytes
+2025-11-26 22:45:17,909 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:18,032 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 377644 bytes
+2025-11-26 22:45:18,119 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:18,234 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 379720 bytes
+2025-11-26 22:45:18,320 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:18,438 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 380244 bytes
+2025-11-26 22:45:18,528 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:18,641 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 380304 bytes
+2025-11-26 22:45:18,729 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:18,841 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 380300 bytes
+2025-11-26 22:45:18,941 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:19,067 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 380272 bytes
+2025-11-26 22:45:19,164 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:19,287 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 380292 bytes
+2025-11-26 22:45:19,377 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:19,491 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 380268 bytes
+2025-11-26 22:45:19,579 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:19,683 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 380292 bytes
+2025-11-26 22:45:19,769 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:19,895 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 378572 bytes
+2025-11-26 22:45:19,985 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:20,105 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 371640 bytes
+2025-11-26 22:45:20,187 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:20,306 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370628 bytes
+2025-11-26 22:45:20,395 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:20,506 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370376 bytes
+2025-11-26 22:45:20,596 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:20,696 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370304 bytes
+2025-11-26 22:45:20,783 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:20,899 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370332 bytes
+2025-11-26 22:45:20,986 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:21,103 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370292 bytes
+2025-11-26 22:45:21,216 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:21,354 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370316 bytes
+2025-11-26 22:45:21,441 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:21,549 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370360 bytes
+2025-11-26 22:45:21,632 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:21,729 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370368 bytes
+2025-11-26 22:45:21,817 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:21,918 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370332 bytes
+2025-11-26 22:45:22,007 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:22,117 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370368 bytes
+2025-11-26 22:45:22,205 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:22,322 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370368 bytes
+2025-11-26 22:45:22,412 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:22,526 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370344 bytes
+2025-11-26 22:45:22,615 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:22,726 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370324 bytes
+2025-11-26 22:45:22,817 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:22,920 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370464 bytes
+2025-11-26 22:45:23,005 - UI - DEBUG - set_capture_languages called: eng->msa
+2025-11-26 22:45:23,006 - WebViewCaptureManager - INFO - Languages set: eng->eng, msa->msa
+2025-11-26 22:45:23,007 - UI - DEBUG - set_capture_languages called: eng->msa
+2025-11-26 22:45:23,007 - WebViewCaptureManager - INFO - Languages set: eng->eng, msa->msa
+2025-11-26 22:45:23,013 - UI - DEBUG - start_screen_capture called for monitor 0
+2025-11-26 22:45:23,013 - UI - DEBUG - Status update callback: Starting screen capture on monitor 0...
+2025-11-26 22:45:23,015 - UI - DEBUG - start_screen_capture called for monitor 0
+2025-11-26 22:45:23,016 - UI - DEBUG - Status update callback: Capture already running
+2025-11-26 22:45:23,021 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:23,022 - UI - DEBUG - start_screen_capture result: False
+2025-11-26 22:45:23,023 - WebViewCaptureManager - INFO - Capture started on monitor 0 (MSS index: 1)
+2025-11-26 22:45:23,034 - UI - DEBUG - start_screen_capture result: True
+2025-11-26 22:45:23,116 - WebViewCaptureManager - INFO - Capturing from monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2025-11-26 22:45:23,116 - UI - DEBUG - Status update callback: Capturing from 1920x1080 display
+2025-11-26 22:45:23,154 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 370648 bytes
+2025-11-26 22:45:25,058 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:25,215 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 371224 bytes
+2025-11-26 22:45:25,339 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:25,362 - pytesseract - DEBUG - ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\jazz\\AppData\\Local\\Temp\\tess_ex6589kt_input.PNG', 'C:\\Users\\jazz\\AppData\\Local\\Temp\\tess_ex6589kt', '-l', 'eng', '--psm', '6', '--oem', '1', 'txt']
+2025-11-26 22:45:25,477 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 372856 bytes
+2025-11-26 22:45:25,572 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:25,741 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373264 bytes
+2025-11-26 22:45:25,854 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:26,127 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373116 bytes
+2025-11-26 22:45:26,240 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:26,413 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373056 bytes
+2025-11-26 22:45:26,535 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:26,722 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373004 bytes
+2025-11-26 22:45:26,833 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:27,040 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373020 bytes
+2025-11-26 22:45:27,139 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:27,261 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373056 bytes
+2025-11-26 22:45:27,351 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:27,488 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373016 bytes
+2025-11-26 22:45:27,691 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:27,827 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373000 bytes
+2025-11-26 22:45:27,919 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:28,063 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373048 bytes
+2025-11-26 22:45:28,151 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:28,274 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373012 bytes
+2025-11-26 22:45:28,368 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:28,511 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373072 bytes
+2025-11-26 22:45:28,533 - WebViewCaptureManager - INFO - OCR detected text: 6
+mainpy xX ©
+nt
+G FinyTranslate - a x
+Translation & API
+Source: English Vv Target: Malay v
+2
+Text P...
+2025-11-26 22:45:28,533 - UI - DEBUG - Translation ready callback: '[Translated] 6
+mainpy xX ©
+nt
+G FinyTranslate - a x
+Translation & API
+Source: English Vv Target: Mal...'
+2025-11-26 22:45:28,570 - UI - INFO - Translation sent to UI: [Translated] 6
+mainpy xX ©
+nt
+G FinyTranslate - a x
+Translation & API
+Source: English Vv Target: Mal...
+2025-11-26 22:45:28,620 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:28,736 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373012 bytes
+2025-11-26 22:45:28,831 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:28,961 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373036 bytes
+2025-11-26 22:45:29,071 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:29,208 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373040 bytes
+2025-11-26 22:45:29,320 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:29,453 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 376064 bytes
+2025-11-26 22:45:29,551 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:29,678 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 377020 bytes
+2025-11-26 22:45:29,768 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:29,911 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 377144 bytes
+2025-11-26 22:45:30,021 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:30,153 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 374760 bytes
+2025-11-26 22:45:30,245 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:30,364 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 374344 bytes
+2025-11-26 22:45:30,452 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:30,607 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 374284 bytes
+2025-11-26 22:45:30,723 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:30,778 - pytesseract - DEBUG - ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\jazz\\AppData\\Local\\Temp\\tess_xan5xb1d_input.PNG', 'C:\\Users\\jazz\\AppData\\Local\\Temp\\tess_xan5xb1d', '-l', 'eng', '--psm', '6', '--oem', '1', 'txt']
+2025-11-26 22:45:30,869 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 374184 bytes
+2025-11-26 22:45:30,964 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:31,126 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373628 bytes
+2025-11-26 22:45:31,295 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:31,431 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373164 bytes
+2025-11-26 22:45:31,517 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:31,641 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373092 bytes
+2025-11-26 22:45:31,733 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:31,843 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373020 bytes
+2025-11-26 22:45:31,935 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:32,082 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373056 bytes
+2025-11-26 22:45:32,095 - WebViewCaptureManager - INFO - OCR detected text: 6
+mainpy xX ©
+Ent
+@ FiovTransate - o x
+Translation & API
+Source: — English VY Target: | Malay v
+2
+Te...
+2025-11-26 22:45:32,095 - UI - DEBUG - Translation ready callback: '[Translated] 6
+mainpy xX ©
+Ent
+@ FiovTransate - o x
+Translation & API
+Source: — English VY Target: |...'
+2025-11-26 22:45:32,128 - UI - INFO - Translation sent to UI: [Translated] 6
+mainpy xX ©
+Ent
+@ FiovTransate - o x
+Translation & API
+Source: — English VY Target: |...
+2025-11-26 22:45:32,171 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:32,291 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373056 bytes
+2025-11-26 22:45:32,380 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:32,508 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373048 bytes
+2025-11-26 22:45:32,600 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:32,696 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373028 bytes
+2025-11-26 22:45:32,785 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:32,914 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373020 bytes
+2025-11-26 22:45:33,004 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:33,143 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373036 bytes
+2025-11-26 22:45:33,235 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:33,366 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373036 bytes
+2025-11-26 22:45:33,455 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:33,579 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373012 bytes
+2025-11-26 22:45:33,668 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:33,766 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373164 bytes
+2025-11-26 22:45:33,870 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:33,989 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373428 bytes
+2025-11-26 22:45:34,098 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:34,235 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373400 bytes
+2025-11-26 22:45:34,338 - pytesseract - DEBUG - ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\jazz\\AppData\\Local\\Temp\\tess__rgq8wrl_input.PNG', 'C:\\Users\\jazz\\AppData\\Local\\Temp\\tess__rgq8wrl', '-l', 'eng', '--psm', '6', '--oem', '1', 'txt']
+2025-11-26 22:45:34,354 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:34,484 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373452 bytes
+2025-11-26 22:45:34,575 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:34,711 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373412 bytes
+2025-11-26 22:45:34,802 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2025-11-26 22:45:34,934 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 373444 bytes
+2025-11-26 22:45:35,217 - pywebview - ERROR - Error occurred in script
+Traceback (most recent call last):
+  File "C:\Users\jazz\Documents\UMP\F-n-Translate\venv\lib\site-packages\webview\platforms\edgechromium.py", line 146, in evaluate_js
+    self.webview.Invoke(
+System.ObjectDisposedException: Cannot access a disposed object.
+Object name: 'WebView2'.
+   at System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean synchronous)
+   at System.Windows.Forms.Control.Invoke(Delegate method, Object[] args)
+2025-11-26 22:45:35,531 - WebViewCaptureManager - INFO - OCR detected text: 6
+mainpy xX ©
+Ent
+@ FiovTransate - o f&
+Translation & API
+Source: — English VY Target: | Malay v
+2
+T...
+2025-11-26 22:45:35,531 - UI - DEBUG - Translation ready callback: '[Translated] 6
+mainpy xX ©
+Ent
+@ FiovTransate - o f&
+Translation & API
+Source: — English VY Target: ...'
+2025-11-26 22:45:35,531 - UI - INFO - Translation sent to UI: [Translated] 6
+mainpy xX ©
+Ent
+@ FiovTransate - o f&
+Translation & API
+Source: — English VY Target: ...
+2025-11-26 22:45:35,736 - UI - INFO - WebView started successfully
