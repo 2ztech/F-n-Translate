@@ -5,6 +5,7 @@ import multiprocessing
 import queue
 import os
 import hashlib
+import numpy as np
 from collections import Counter
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal, QRect
@@ -53,10 +54,16 @@ class OverlayWindow(QWidget):
         self.setGeometry(x, y, w, h)
         
         self.translations = []
+        self.last_update_time = 0
         self.show()
 
     def update_translations(self, translations):
+        # Optimization: Don't repaint if translations haven't changed
+        if self.translations == translations:
+            return
+
         self.translations = translations
+        self.last_update_time = time.time()
         self.update()
 
     def paintEvent(self, event):
@@ -97,29 +104,19 @@ class TextStabilizer:
         self.stability_threshold = stability_threshold
 
     def add_frame(self, text_blocks):
-        """
-        Add a frame of detected text blocks.
-        text_blocks: list of dicts {'text': str, 'x': int, 'y': int, 'w': int, 'h': int}
-        """
         self.history.append(text_blocks)
         if len(self.history) > self.history_size:
             self.history.pop(0)
 
     def get_stable_blocks(self):
-        """
-        Returns a list of text blocks that are considered stable.
-        Stable means similar text appears in similar location in at least 'stability_threshold' frames.
-        """
         if not self.history:
             return []
 
-        # We'll use the latest frame as the candidate set
         candidates = self.history[-1]
         stable_blocks = []
 
         for candidate in candidates:
             matches = 0
-            # Check against previous frames
             for frame in self.history[:-1]:
                 for block in frame:
                     if self.is_similar(candidate, block):
@@ -132,19 +129,14 @@ class TextStabilizer:
         return stable_blocks
 
     def is_similar(self, block1, block2):
-        """Check if two blocks are spatially and textually similar"""
-        # Spatial overlap
         x_overlap = max(0, min(block1['x'] + block1['w'], block2['x'] + block2['w']) - max(block1['x'], block2['x']))
         y_overlap = max(0, min(block1['y'] + block1['h'], block2['y'] + block2['h']) - max(block1['y'], block2['y']))
         area1 = block1['w'] * block1['h']
         area2 = block2['w'] * block2['h']
         
         overlap_area = x_overlap * y_overlap
-        if overlap_area < 0.5 * min(area1, area2): # At least 50% overlap
+        if overlap_area < 0.5 * min(area1, area2): 
             return False
-            
-        # Text similarity (simple containment or equality)
-        # We can be loose here because OCR flickers
         return True 
 
 class TranslationWorker(QThread):
@@ -160,13 +152,28 @@ class TranslationWorker(QThread):
         self.translator = None
         self.db_manager = None
         self.stabilizer = TextStabilizer(history_size=5, stability_threshold=3)
+        self.last_image_hash = None
+        self.last_translations = []
+
+    def get_image_diff(self, img1, img2):
+        """Calculate difference between two images using simple MSE on thumbnails"""
+        if img1 is None or img2 is None: return 1.0
+        
+        # Resize to small thumbnail for fast comparison
+        thumb1 = img1.resize((64, 64), Image.Resampling.NEAREST).convert('L')
+        thumb2 = img2.resize((64, 64), Image.Resampling.NEAREST).convert('L')
+        
+        arr1 = np.array(thumb1)
+        arr2 = np.array(thumb2)
+        
+        mse = np.mean((arr1 - arr2) ** 2)
+        return mse
 
     def group_lines(self, data):
         """Group words into lines based on Y-coordinate proximity"""
         lines = []
         n_boxes = len(data['text'])
         
-        # Filter out low confidence and empty text first
         valid_boxes = []
         for i in range(n_boxes):
             if int(data['conf'][i]) > 60 and data['text'][i].strip():
@@ -178,7 +185,6 @@ class TranslationWorker(QThread):
                     'h': data['height'][i]
                 })
         
-        # Sort by Y then X to process in reading order
         valid_boxes.sort(key=lambda b: (b['y'], b['x']))
         
         current_line = []
@@ -190,28 +196,21 @@ class TranslationWorker(QThread):
                 
             last_box = current_line[-1]
             
-            # Vertical proximity check (same line)
-            # If y difference is small (less than half height of last box)
             y_diff = abs(box['y'] - last_box['y'])
             height_avg = (box['h'] + last_box['h']) / 2
             
-            # Horizontal proximity check (same sentence)
-            # If x distance is reasonable (less than 2x height, assuming space)
+            # Relaxed horizontal proximity to merge words with larger gaps
             x_dist = box['x'] - (last_box['x'] + last_box['w'])
             
-            if y_diff < height_avg * 0.5 and x_dist < height_avg * 3:
+            if y_diff < height_avg * 0.6 and x_dist < height_avg * 5: # Increased from 3 to 5
                 current_line.append(box)
             else:
-                # Check if we should merge with previous line (multi-line sentence)
-                # This is harder, for now let's just stick to line grouping
                 lines.append(self.merge_line(current_line))
                 current_line = [box]
         
         if current_line:
             lines.append(self.merge_line(current_line))
             
-        # Second pass: Merge lines that are close vertically and likely part of same sentence
-        # (e.g. wrapped text)
         merged_lines = []
         if not lines:
             return []
@@ -220,12 +219,11 @@ class TranslationWorker(QThread):
         for i in range(1, len(lines)):
             next_line = lines[i]
             
-            # If next line is directly below current block and aligned left-ish
             y_dist = next_line['y'] - (current_block['y'] + current_block['h'])
             x_diff = abs(next_line['x'] - current_block['x'])
             
-            if y_dist < current_block['h'] * 1.5 and x_diff < current_block['w'] * 0.5:
-                # Merge
+            # Relaxed vertical merging for paragraphs
+            if y_dist < current_block['h'] * 2.0 and x_diff < current_block['w'] * 0.8:
                 current_block = self.merge_blocks(current_block, next_line)
             else:
                 merged_lines.append(current_block)
@@ -236,18 +234,14 @@ class TranslationWorker(QThread):
         return merged_lines
 
     def merge_line(self, words):
-        """Merge a list of word dicts into a single line dict"""
         full_text = " ".join([w['text'] for w in words])
         x = words[0]['x']
         y = words[0]['y']
-        # Width is from start of first word to end of last word
         w = (words[-1]['x'] + words[-1]['w']) - x
-        # Height is max height of words
         h = max([w['h'] for w in words])
         return {'text': full_text, 'x': x, 'y': y, 'w': w, 'h': h}
 
     def merge_blocks(self, block1, block2):
-        """Merge two line blocks into one paragraph block"""
         full_text = block1['text'] + " " + block2['text']
         x = min(block1['x'], block2['x'])
         y = min(block1['y'], block2['y'])
@@ -264,24 +258,26 @@ class TranslationWorker(QThread):
             self.logger.error(f"Failed to init services: {e}")
             return
 
-        with mss() as sct:
-            # Debug Capture
-            try:
-                debug_shot = sct.grab(self.monitor)
-                mss.tools.to_png(debug_shot.rgb, debug_shot.size, output="debug_capture.png")
-                self.logger.info(f"Debug capture saved to debug_capture.png. Monitor: {self.monitor}")
-            except Exception as e:
-                self.logger.error(f"Failed to save debug capture: {e}")
+        last_img = None
 
+        with mss() as sct:
             while not self.stop_event.is_set():
                 try:
-                    start_time = time.time()
-                    
                     # Capture
                     sct_img = sct.grab(self.monitor)
                     img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
                     
                     if self.stop_event.is_set(): break
+
+                    # Check for screen changes
+                    if last_img:
+                        diff = self.get_image_diff(last_img, img)
+                        if diff < 5.0: # Threshold for "no significant change"
+                            # Screen is static, sleep and skip OCR
+                            time.sleep(0.2)
+                            continue
+                    
+                    last_img = img.copy()
 
                     # OCR
                     pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -301,7 +297,9 @@ class TranslationWorker(QThread):
                     for line in stable_lines:
                         if self.stop_event.is_set(): break
                         
-                        text = line['text']
+                        text = line['text'].strip()
+                        if not text: continue
+
                         x, y, w, h = line['x'], line['y'], line['w'], line['h']
                         
                         # Check DB Cache
@@ -310,7 +308,7 @@ class TranslationWorker(QThread):
                             translations.append((cached, (x, y, w, h)))
                             continue
 
-                        # Translate
+                        # Translate via API
                         try:
                             translated = self.translator.translate(
                                 text, 
@@ -319,23 +317,22 @@ class TranslationWorker(QThread):
                             )
                             translations.append((translated, (x, y, w, h)))
                             
-                            # Save to DB
                             self.db_manager.cache_translation(text, self.source_lang, self.target_lang, translated)
-                            self.logger.info(f"Translated: {text[:20]}... -> {translated[:20]}...")
+                            self.logger.info(f"Translated & Cached: {text[:20]}... -> {translated[:20]}...")
                             
                         except Exception as e:
                             self.logger.error(f"Translation error for '{text}': {e}")
-                            translations.append((text, (x, y, w, h))) # Fallback
+                            translations.append((text, (x, y, w, h)))
                     
                     if not self.stop_event.is_set():
                         self.result_ready.emit(translations)
                     
                     # Cleanup
-                    del img
                     del sct_img
+                    # img is kept as last_img, will be collected next loop
                     
-                    # Small sleep to prevent CPU hogging
-                    time.sleep(0.1)
+                    # Adaptive sleep: 0.2s is 5 FPS, good for reading
+                    time.sleep(0.2)
                         
                 except Exception as e:
                     self.logger.error(f"Worker loop error: {e}")
@@ -381,11 +378,11 @@ class LiveTranslationProcess(multiprocessing.Process):
         def check_stop():
             if self.stop_event.is_set():
                 logger.info("Stop event detected. Shutting down...")
-                worker.wait() # Wait for worker to finish current loop (it checks stop_event too)
+                worker.wait() 
                 overlay.close()
                 app.quit()
         
         timer.timeout.connect(check_stop)
-        timer.start(50) # Check frequently
+        timer.start(50) 
 
         sys.exit(app.exec_())
