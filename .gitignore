@@ -2,3 +2,5 @@
 **/__pycache__/
 .env
 translation_service.log
+/venv/
+app_database.db
