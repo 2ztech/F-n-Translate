@@ -4,3 +4,4 @@
 translation_service.log
 /venv/
 app_database.db
+app.log
