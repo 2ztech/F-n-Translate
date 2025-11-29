@@ -10,6 +10,9 @@ from .templates import get_html_template
 # Add parent directory to path to import webview_capture_manager
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from component.webview_capture_manager import WebViewCaptureManager
+import subprocess
+import threading
+
 
 # Configure logging
 logging.basicConfig(
@@ -23,6 +26,9 @@ logger = logging.getLogger("UI")
 # Global instances for PyWebView compatibility
 api = None
 capture_manager = None
+pipeline_process = None
+pipeline_thread = None
+ui_instance = None
 
 def initialize_components():
     """Initialize components on demand"""
@@ -93,18 +99,74 @@ def translate_text(text: str, source_lang: str, target_lang: str):
         return f"Translation error: {str(e)}"
 
 def start_screen_capture(monitor_index):
-    """Start screen capture"""
+    """Start screen capture using the new pipeline subprocess"""
+    global pipeline_process, pipeline_thread
     logger.debug(f"start_screen_capture called for monitor {monitor_index}")
-    _, capture_manager = initialize_components()
-    result = capture_manager.start_capture(monitor_index)
-    logger.debug(f"start_screen_capture result: {result}")
-    return result
+    
+    if pipeline_process and pipeline_process.poll() is None:
+        logger.warning("Pipeline already running")
+        return False
+
+    try:
+        # Path to the pipeline runner script
+        script_path = os.path.join(os.path.dirname(__file__), '..', 'core', 'pipeline_runner.py')
+        
+        # Start the subprocess
+        pipeline_process = subprocess.Popen(
+            [sys.executable, script_path, '--monitor', str(monitor_index)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            bufsize=1,
+            creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
+        )
+        
+        # Start a thread to monitor stdout
+        def monitor_output():
+            global pipeline_process, ui_instance
+            while pipeline_process and pipeline_process.poll() is None:
+                line = pipeline_process.stdout.readline()
+                if line:
+                    line = line.strip()
+                    if line.startswith("STATUS:"):
+                        msg = line[7:]
+                        logger.info(f"Pipeline Status: {msg}")
+                        if ui_instance:
+                            ui_instance._on_status_update(msg)
+                    elif line.startswith("ERROR:"):
+                        err = line[6:]
+                        logger.error(f"Pipeline Error: {err}")
+                        if ui_instance:
+                            ui_instance._on_error(err)
+                else:
+                    break
+        
+        pipeline_thread = threading.Thread(target=monitor_output, daemon=True)
+        pipeline_thread.start()
+        
+        logger.info(f"Pipeline subprocess started with PID {pipeline_process.pid}")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to start pipeline subprocess: {str(e)}")
+        return False
 
 def stop_screen_capture():
     """Stop screen capture"""
+    global pipeline_process
     logger.debug("stop_screen_capture called")
-    _, capture_manager = initialize_components()
-    capture_manager.stop_capture()
+    
+    if pipeline_process:
+        try:
+            pipeline_process.terminate()
+            pipeline_process.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            pipeline_process.kill()
+        except Exception as e:
+            logger.error(f"Error stopping pipeline: {str(e)}")
+        finally:
+            pipeline_process = None
+            logger.info("Pipeline subprocess stopped")
+            
     return True
 
 def set_capture_languages(source_lang, target_lang):
@@ -116,8 +178,10 @@ def set_capture_languages(source_lang, target_lang):
 
 class FnTranslateUI:
     def __init__(self):
+        global ui_instance
         self.window = None
         self.html = get_html_template()
+        ui_instance = self
         
         # Initialize components
         initialize_components()

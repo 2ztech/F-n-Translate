@@ -1,5 +1,7 @@
 # component/pipeline_manager.py
 import time
+import threading
+
 from queue import Queue
 from component.ocr_worker_v2 import OCRWorkerV2
 from component.translate_queue import TranslateQueue
@@ -17,8 +19,20 @@ class PipelineManager(QObject):
     def __init__(self, parent=None, capture_area=None, monitor_index=1):
         super().__init__(parent)
         self.parent = parent
-        self.capture_area = capture_area  # (x,y,w,h) absolute screen coords
         self.monitor_index = monitor_index
+        
+        # Initialize capture_area if not provided
+        if capture_area is None:
+            with mss() as sct:
+                if monitor_index < len(sct.monitors):
+                    monitor = sct.monitors[monitor_index]
+                    self.capture_area = (monitor['left'], monitor['top'], monitor['width'], monitor['height'])
+                else:
+                    # Fallback or error
+                    self.capture_area = (0, 0, 1920, 1080)
+        else:
+            self.capture_area = capture_area  # (x,y,w,h) absolute screen coords
+
         self.screenshot_queue = Queue(maxsize=4)
 
         # OCR worker
@@ -41,6 +55,11 @@ class PipelineManager(QObject):
         self.capture_interval = 1.5  # seconds
         self._stop_flag = False
 
+    def _call_translate(self, text, source_lang, target_lang):
+        # Wrapper to match TranslateQueue expectation
+        # TranslationService.translate(text, target_lang=..., source_lang=...)
+        return self.translation_service.translate(text, target_lang=target_lang, source_lang=source_lang)
+
     def start(self):
         self._stop_flag = False
         self._capture_loop_thread = threading.Thread(target=self._capture_loop, daemon=True)
@@ -55,10 +74,7 @@ class PipelineManager(QObject):
 
     def _capture_loop(self):
         with mss() as sct:
-            # calculate monitor capture rect if capture_area None (you may adapt)
-            if not self.capture_area:
-                monitor = sct.monitors[self.monitor_index]
-                self.capture_area = (monitor['left'], monitor['top'], monitor['width'], monitor['height'])
+            # capture_area is guaranteed to be set in __init__
             x, y, w, h = self.capture_area
             while not self._stop_flag:
                 try:
