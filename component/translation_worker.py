@@ -1,101 +1,19 @@
 import sys
 import time
 import logging
-import multiprocessing
-import queue
-import os
-import hashlib
 import numpy as np
-from collections import Counter
-from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal, QRect
-from PyQt5.QtGui import QPainter, QColor, QFont
+from PyQt5.QtCore import QThread, pyqtSignal
 from mss import mss
 from PIL import Image
 import pytesseract
 
-# Add parent directory to path to allow imports from core
+# Adjust imports based on project structure
+# Assuming this file is in component/ and needs to import from core/
+import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 from core.translate_core import TranslationService
 from core.dbmanager import get_db_manager
-
-# Configure logging
-def setup_logging():
-    logger = logging.getLogger("LiveService")
-    logger.setLevel(logging.DEBUG)
-    
-    # File handler - Keep detailed logs
-    fh = logging.FileHandler('translation_service.log', mode='w')
-    fh.setLevel(logging.DEBUG)
-    fh.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-    
-    # Console handler - Reduce spam, only show INFO/WARNING
-    ch = logging.StreamHandler(sys.stdout)
-    ch.setLevel(logging.INFO)
-    ch.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
-    
-    logger.addHandler(fh)
-    logger.addHandler(ch)
-    return logger
-
-class OverlayWindow(QWidget):
-    def __init__(self, rect):
-        super().__init__()
-        self.setWindowFlags(
-            Qt.FramelessWindowHint | 
-            Qt.WindowStaysOnTopHint | 
-            Qt.Tool | 
-            Qt.WindowTransparentForInput
-        )
-        self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setAttribute(Qt.WA_NoSystemBackground)
-        
-        x, y, w, h = rect
-        self.setGeometry(x, y, w, h)
-        
-        self.translations = []
-        self.last_update_time = 0
-        self.show()
-
-    def update_translations(self, translations):
-        # Optimization: Don't repaint if translations haven't changed
-        if self.translations == translations:
-            return
-
-        self.translations = translations
-        self.last_update_time = time.time()
-        self.update()
-
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        
-        for text, (x, y, w, h) in self.translations:
-            # Draw background
-            bg_rect = QRect(x, y, w, h)
-            painter.fillRect(bg_rect, QColor(0, 0, 0, 180))
-            
-            # Dynamic Font Sizing
-            font_size = 12
-            font = QFont("Arial", font_size)
-            font.setBold(True)
-            painter.setFont(font)
-            
-            # Calculate text rect
-            metrics = painter.fontMetrics()
-            text_rect = metrics.boundingRect(bg_rect, Qt.AlignCenter | Qt.TextWordWrap, text)
-            
-            # Shrink font if text doesn't fit
-            while (text_rect.height() > h or text_rect.width() > w) and font_size > 8:
-                font_size -= 1
-                font.setPointSize(font_size)
-                painter.setFont(font)
-                metrics = painter.fontMetrics()
-                text_rect = metrics.boundingRect(bg_rect, Qt.AlignCenter | Qt.TextWordWrap, text)
-            
-            # Draw text
-            painter.setPen(QColor(255, 255, 255))
-            painter.drawText(bg_rect, Qt.AlignCenter | Qt.TextWordWrap, text)
 
 class TextStabilizer:
     def __init__(self, history_size=5, stability_threshold=3):
@@ -331,58 +249,12 @@ class TranslationWorker(QThread):
                     del sct_img
                     # img is kept as last_img, will be collected next loop
                     
-                    # Adaptive sleep: 0.2s is 5 FPS, good for reading
-                    time.sleep(0.2)
+                    # Adaptive sleep: 0.5s (2 FPS) to reduce load
+                    # Check stop event during sleep
+                    for _ in range(5):
+                        if self.stop_event.is_set(): break
+                        time.sleep(0.1)
                         
                 except Exception as e:
                     self.logger.error(f"Worker loop error: {e}")
                     time.sleep(1)
-
-class LiveTranslationProcess(multiprocessing.Process):
-    def __init__(self, monitor_index, source_lang, target_lang, status_queue, command_queue, stop_event):
-        super().__init__()
-        self.monitor_index = monitor_index
-        self.source_lang = source_lang
-        self.target_lang = target_lang
-        self.status_queue = status_queue
-        self.command_queue = command_queue
-        self.stop_event = stop_event
-        self.daemon = True 
-
-    def run(self):
-        logger = setup_logging()
-        logger.info(f"Process started for monitor {self.monitor_index}")
-
-        app = QApplication(sys.argv)
-        
-        with mss() as sct:
-            monitors = sct.monitors
-            mss_index = self.monitor_index + 1
-            
-            if mss_index >= len(monitors):
-                logger.error(f"Invalid monitor index: {mss_index}. Available: {len(monitors)}")
-                return
-            
-            monitor = monitors[mss_index]
-            logger.info(f"Capturing Monitor {mss_index}: {monitor}")
-            monitor_rect = (monitor["left"], monitor["top"], monitor["width"], monitor["height"])
-
-        overlay = OverlayWindow(monitor_rect)
-        
-        worker = TranslationWorker(monitor, self.source_lang, self.target_lang, logger, self.stop_event)
-        worker.result_ready.connect(overlay.update_translations)
-        worker.start()
-        
-        # Check for stop event
-        timer = QTimer()
-        def check_stop():
-            if self.stop_event.is_set():
-                logger.info("Stop event detected. Shutting down...")
-                worker.wait() 
-                overlay.close()
-                app.quit()
-        
-        timer.timeout.connect(check_stop)
-        timer.start(50) 
-
-        sys.exit(app.exec_())

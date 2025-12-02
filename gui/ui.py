@@ -105,7 +105,7 @@ def start_screen_capture(monitor_index):
         return False
 
     try:
-        from services.live_translation_service import LiveTranslationProcess
+        from services.live_translation_orchestrator import LiveTranslationProcess
         import multiprocessing
         
         status_queue = multiprocessing.Queue()
@@ -143,7 +143,7 @@ def stop_screen_capture():
         if capture_command_queue:
             capture_command_queue.put("STOP")
             
-        capture_process.join(timeout=2)
+        capture_process.join(timeout=3)
         
         if capture_process.is_alive():
             logger.warning("Process did not stop gracefully, terminating...")
