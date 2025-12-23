@@ -3,6 +3,7 @@ import logging
 import os
 import tempfile
 import base64
+import shutil  # Added missing import
 from core.text_translator import TextTranslator
 from services.file_handler import FileTranslationHandler
 
@@ -11,7 +12,9 @@ logger = logging.getLogger("API")
 class TranslationAPI:
     def __init__(self):
         self.translator = TextTranslator()
-        self.file_handler = FileTranslationHandler(self.translate_text)
+        # FIX 1: Pass the actual service object, not the wrapper method
+        # self.translator.translation_service has the .translate() method needed
+        self.file_handler = FileTranslationHandler(self.translator.translation_service)
         self.temp_files = {}
         logger.info("Translation API initialized")
         
@@ -40,6 +43,7 @@ class TranslationAPI:
             if not os.path.exists(file_path):
                 raise FileNotFoundError("File not found")
             
+            # Using the improved handler with chunking
             result = self.file_handler.process_uploaded_file(
                 file_path=file_path,
                 source_lang=source_lang,
@@ -73,14 +77,21 @@ class TranslationAPI:
             return {'status': 'error', 'message': str(e)}
 
     def cleanup_temp_files(self):
-        """Clean up temporary files"""
+        """Clean up temporary files and their parent directories if they are empty"""
+        temp_root = tempfile.gettempdir().lower()
         for file_path in self.temp_files.values():
             try:
                 if os.path.exists(file_path):
                     os.remove(file_path)
-                    dir_path = os.path.dirname(file_path)
-                    if os.path.exists(dir_path):
-                        os.rmdir(dir_path)
+                    dir_path = os.path.normpath(os.path.dirname(file_path))
+                    # Only try to remove if it's a subdirectory of temp_root, not the temp_root itself
+                    if os.path.exists(dir_path) and dir_path.lower() != temp_root:
+                        try:
+                            # Use listdir to check if empty just to be safe before trying to rmdir
+                            if not os.listdir(dir_path):
+                                os.rmdir(dir_path)
+                        except (OSError, PermissionError):
+                            pass # Skip if not empty or no permission
             except Exception as e:
                 logger.warning(f"Could not delete temp file {file_path}: {str(e)}")
         self.temp_files.clear()
@@ -115,8 +126,6 @@ class TranslationAPI:
             logger.error(f"Failed to save temp file: {str(e)}")
             raise
 
-
-
     def open_file_dialog(self):
         """Open file dialog and return selected file path"""
         try:
@@ -131,7 +140,6 @@ class TranslationAPI:
             logger.error(f"File dialog failed: {str(e)}")
             return None
 
-    # Add these methods to the TranslationAPI class
     def get_file_size(self, file_path: str) -> int:
         """Get file size in bytes"""
         try:
@@ -148,20 +156,23 @@ class TranslationAPI:
             
             # Get the original file name to suggest a save name
             original_name = os.path.basename(file_path)
-            save_name = f"translated_{original_name}"
             
             # Create save dialog
             import webview
             save_path = webview.windows[0].create_file_dialog(
                 webview.SAVE_DIALOG,
                 directory=os.path.expanduser("~"),
-                save_filename=save_name
+                save_filename=original_name
             )
             
+            # FIX 2: Handle tuple return type from create_file_dialog
             if save_path:
-                import shutil
+                if isinstance(save_path, (tuple, list)):
+                    save_path = save_path[0]
+                
                 shutil.copy2(file_path, save_path)
                 return {'status': 'success', 'path': save_path}
+            
             return {'status': 'cancelled'}
         except Exception as e:
             logger.error(f"File save failed: {str(e)}")
@@ -170,20 +181,13 @@ class TranslationAPI:
     def check_api_key(self, api_key: str) -> bool:
         """Check if the provided API key is valid"""
         try:
-            # We can't easily check validity without making a request.
-            # So we'll try a very cheap/simple request.
-            # Assuming we can re-instantiate the service with this key temporarily
             from core.translate_core import TranslationService
-            
-            # Temporarily set env var for the test
             old_key = os.environ.get("DEEPSEEK_API_KEY")
             os.environ["DEEPSEEK_API_KEY"] = api_key
             
             service = TranslationService()
-            # Try translating a simple word
             result = service.translate("test", "eng", "msa")
             
-            # Restore old key if it existed
             if old_key:
                 os.environ["DEEPSEEK_API_KEY"] = old_key
             else:
@@ -199,13 +203,9 @@ class TranslationAPI:
         try:
             from core.dbmanager import get_db_manager
             db = get_db_manager()
-            # Save to DB
             db.set_setting("DEEPSEEK_API_KEY", api_key, "DeepSeek API Key")
-            
-            # Also update current env var so it works immediately
             os.environ["DEEPSEEK_API_KEY"] = api_key
             
-            # And update .env file for backup/legacy support
             from dotenv import set_key
             env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
             set_key(env_path, "DEEPSEEK_API_KEY", api_key)

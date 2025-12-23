@@ -183,29 +183,56 @@ body {
         }
         
         /* File Module */
-        .file-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 20px;
+        .file-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            width: 100%;
         }
-
-        .file-input, .translation-output {
+    
+        .file-input {
+            width: 100%;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
             gap: 20px;
-        }
-
-        .translation-output h3 {
-            color: #2a5298;
-            font-weight: 600;
-            font-size: 18px;
-            margin-bottom: 5px;
         }
         
         .file-module {
             display: flex;
             flex-direction: column;
+        }
+
+        .processing-card, .success-card, .error-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1ba1e2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 14px;
         }
         
         .upload-area {
@@ -213,7 +240,7 @@ body {
             border-radius: 12px;
             width: 100%;
             min-height: 250px;
-            padding: 40px 20px;
+            padding: 30px;
             text-align: center;
             background: #f9fbfd;
             cursor: pointer;

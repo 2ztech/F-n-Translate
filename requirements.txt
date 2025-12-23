@@ -21,6 +21,7 @@ nltk>=3.8.0
 unstructured>=0.10.0
 unstructured[pdf]
 PyMuPDF>=1.23.0
+python-docx>=0.8.11
 
 # Configuration & Environment
 python-dotenv>=1.0.0

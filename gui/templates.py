@@ -71,27 +71,21 @@ def get_html_template():
             
             <!-- File Module -->
             <div id="file-module" class="module">
-                <div class="file-grid">
+                <div class="file-container">
                     <div class="file-input">
                         <div class="upload-area" id="upload-area">
-                            <i class="fas fa-cloud-upload-alt"></i>
+                            <i class="fas fa-file-word"></i>
                             <h3>Upload File to Translate</h3>
-                            <p>Supported formats: PDF, DOCX, TXT (Max file size: 10MB)</p>
-                        </div>
-                    </div>
-                    
-                    <div class="translation-output">
-                        <div class="translation-area">
-                            Translated content will appear here...
+                            <p>Supported formats: DOCX, TXT (Max file size: 10MB)</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="file-actions">
-                    <button class="action-btn">
+                <div class="file-actions" id="file-module-actions">
+                    <button class="action-btn" id="main-translate-btn">
                         <i class="fas fa-language"></i> Translate
                     </button>
-                    <button class="action-btn save">
+                    <button class="action-btn save" id="main-save-btn" disabled>
                         <i class="fas fa-save"></i> Save Text
                     </button>
                 </div>
@@ -176,10 +170,14 @@ def get_html_template():
         // Initialize all functionality
         document.addEventListener('DOMContentLoaded', function() {{
             setupModuleSwitching();
-            setupFileUpload();
-            setupRealTimeTranslation();
-            setupScreenCapture();
             setupApiModal();
+            
+            // Initialize the module that is active by default
+            const activeBtn = document.querySelector('.nav-btn.active');
+            if (activeBtn) {{
+                const targetModule = activeBtn.getAttribute('data-target');
+                initializeModule(targetModule);
+            }}
         }});
     </script>
 </body>

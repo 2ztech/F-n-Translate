@@ -160,8 +160,6 @@ def set_capture_languages(source_lang, target_lang):
     # For now, this just logs it as the process is initialized with these values
     return True
 
-import atexit
-atexit.register(stop_screen_capture)
 
 def check_api_key(api_key):
     """Check if API key is valid"""
@@ -174,6 +172,34 @@ def save_api_key(api_key):
     logger.debug("save_api_key called")
     api, _ = initialize_components()
     return api.save_api_key(api_key)
+
+def save_temp_file(file_data):
+    """Wrapper for saving uploaded file"""
+    logger.debug("save_temp_file called")
+    api, _ = initialize_components()
+    return api.save_temp_file(file_data)
+
+def translate_file(file_path, source_lang, target_lang):
+    """Wrapper for file translation"""
+    logger.debug(f"translate_file called for {file_path}")
+    api, _ = initialize_components()
+    # Force output to PDF as requested by user workflow
+    return api.translate_file(file_path, source_lang, target_lang)
+
+def download_file(file_id):
+    """Wrapper for file download info"""
+    logger.debug(f"download_file called for id {file_id}")
+    api, _ = initialize_components()
+    return api.download_file(file_id)
+
+def save_translated_file(file_path):
+    """Wrapper to trigger save dialog"""
+    logger.debug(f"save_translated_file called for {file_path}")
+    api, _ = initialize_components()
+    return api.save_translated_file(file_path)
+
+import atexit
+atexit.register(stop_screen_capture)
 
 class FnTranslateUI:
     def __init__(self):
@@ -224,7 +250,11 @@ class FnTranslateUI:
                 get_monitor_preview,
                 get_monitor_preview_optimized,
                 check_api_key,
-                save_api_key
+                save_api_key,
+                save_temp_file,
+                translate_file,
+                download_file,
+                save_translated_file
             )
             
             logger.debug("Starting webview...")
