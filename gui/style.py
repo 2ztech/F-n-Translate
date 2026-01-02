@@ -409,6 +409,14 @@ body {
         .capture-btn.stop {
             background: #e51400;
         }
+
+        .capture-btn.secondary {
+            background: #6a89cc;
+        }
+        
+        .capture-btn.secondary:hover {
+            background: #4a69bd;
+        }
         
         .app-footer {
             display: flex;

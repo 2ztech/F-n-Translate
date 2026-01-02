@@ -26,6 +26,7 @@ capture_manager = None
 capture_process = None
 capture_command_queue = None
 capture_stop_event = None
+current_roi = None
 
 def initialize_components():
     """Initialize components on demand"""
@@ -95,6 +96,46 @@ def translate_text(text: str, source_lang: str, target_lang: str):
         logger.error(f"Translation failed: {str(e)}")
         return f"Translation error: {str(e)}"
 
+def select_capture_area(monitor_index):
+    """Launch ROI selector for the specified monitor"""
+    logger.debug(f"select_capture_area called for monitor {monitor_index}")
+    global current_roi
+    
+    from PyQt5.QtWidgets import QApplication
+    from services.live_translation_orchestrator import ROISelector
+    from mss import mss
+    
+    # We need a temporary app to run the selector if one doesn't exist
+    app = QApplication.instance()
+    if not app:
+        app = QApplication([])
+        
+    with mss() as sct:
+        mss_index = monitor_index + 1
+        if mss_index >= len(sct.monitors):
+            logger.error(f"Invalid monitor index for ROI: {monitor_index}")
+            return None
+        monitor = sct.monitors[mss_index]
+        
+    selector = ROISelector(monitor)
+    selector.show()
+    
+    # Block until finished or closed
+    while selector.isVisible():
+        app.processEvents()
+        time.sleep(0.01)
+        
+    if selector.is_finished:
+        current_roi = selector.selected_roi
+        logger.info(f"ROI selected: {current_roi}")
+        return {
+            'x': current_roi[0],
+            'y': current_roi[1],
+            'w': current_roi[2],
+            'h': current_roi[3]
+        }
+    return None
+
 def start_screen_capture(monitor_index):
     """Start screen capture"""
     logger.debug(f"start_screen_capture called for monitor {monitor_index}")
@@ -116,13 +157,16 @@ def start_screen_capture(monitor_index):
         source_lang = "eng" 
         target_lang = "msa"
         
+        global current_roi
+        
         capture_process = LiveTranslationProcess(
             monitor_index, 
             source_lang, 
             target_lang, 
             status_queue, 
             capture_command_queue,
-            capture_stop_event
+            capture_stop_event,
+            roi=current_roi
         )
         capture_process.start()
         logger.info(f"Started capture process with PID: {capture_process.pid}")
@@ -249,6 +293,7 @@ class FnTranslateUI:
                 set_capture_languages,
                 get_monitor_preview,
                 get_monitor_preview_optimized,
+                select_capture_area,
                 check_api_key,
                 save_api_key,
                 save_temp_file,

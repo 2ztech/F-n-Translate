@@ -18,10 +18,11 @@ def screen_capture_module_js():
         
         const startButton = document.getElementById('start-capture');
         const stopButton = document.getElementById('stop-capture');
+        const selectAreaButton = document.getElementById('select-area');
         const monitorDropdown = document.getElementById('monitor-select');
         const statusArea = document.getElementById('capture-status');
 
-        if (!startButton || !stopButton || !monitorDropdown || !statusArea) {{
+        if (!startButton || !stopButton || !selectAreaButton || !monitorDropdown || !statusArea) {{
             console.error('Screen capture elements not found');
             return;
         }}
@@ -50,12 +51,6 @@ def screen_capture_module_js():
                         monitorDropdown.appendChild(option);
                     }});
                     
-                    // Add custom region option
-                    const customOption = document.createElement('option');
-                    customOption.value = 'custom';
-                    customOption.textContent = 'Custom Region';
-                    monitorDropdown.appendChild(customOption);
-                    
                     statusArea.innerHTML = '<div class="status-success"><i class="fas fa-check-circle"></i> ' + monitors.length + ' monitor(s) detected</div>';
                     
                     // Auto-select first monitor and show preview
@@ -76,10 +71,32 @@ def screen_capture_module_js():
         monitorDropdown.addEventListener('change', function() {{
             const selectedValue = this.value;
             console.log('Monitor selected:', selectedValue);
-            if (selectedValue !== 'custom' && selectedValue !== 'loading' && selectedValue !== 'error' && selectedValue !== 'none') {{
+            if (selectedValue !== 'loading' && selectedValue !== 'error' && selectedValue !== 'none') {{
                 updateMonitorPreview(parseInt(selectedValue));
             }} else {{
                 showPreviewPlaceholder();
+            }}
+        }});
+
+        // ROI selection
+        selectAreaButton.addEventListener('click', async () => {{
+            const monitorIndex = parseInt(monitorDropdown.value);
+            if (isNaN(monitorIndex)) {{
+                alert('Please select a monitor first');
+                return;
+            }}
+            
+            try {{
+                statusArea.innerHTML = '<div class="status-info"><i class="fas fa-mouse-pointer"></i> Select a region on the screen...</div>';
+                const roi = await pywebview.api.select_capture_area(monitorIndex);
+                if (roi) {{
+                    statusArea.innerHTML = `<div class="status-success"><i class="fas fa-crop-alt"></i> Area selected: ${{roi.w}}x${{roi.h}} at (${{roi.x}}, ${{roi.y}})</div>`;
+                }} else {{
+                    statusArea.innerHTML = '<div class="status-info"><i class="fas fa-info-circle"></i> Selection cancelled</div>';
+                }}
+            }} catch (error) {{
+                console.error('ROI Selection failed:', error);
+                statusArea.innerHTML = '<div class="status-error"><i class="fas fa-times-circle"></i> Selection error: ' + error + '</div>';
             }}
         }});
 
@@ -91,16 +108,11 @@ def screen_capture_module_js():
             }}
 
             const selectedValue = monitorDropdown.value;
-            let monitorIndex = 0;
+            const monitorIndex = parseInt(selectedValue);
 
-            if (selectedValue === 'custom') {{
-                alert('Custom region selection will be implemented in the next version');
-                return;
-            }} else if (selectedValue === 'loading' || selectedValue === 'error' || selectedValue === 'none') {{
+            if (isNaN(monitorIndex)) {{
                 alert('Please select a valid monitor first');
                 return;
-            }} else {{
-                monitorIndex = parseInt(selectedValue);
             }}
 
             try {{

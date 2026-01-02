@@ -106,6 +106,9 @@ def get_html_template():
                         </div>
                         
                         <div class="capture-controls">
+                            <button class="capture-btn secondary" id="select-area">
+                                <i class="fas fa-expand"></i> Select Area
+                            </button>
                             <button class="capture-btn" id="start-capture">
                                 <i class="fas fa-play-circle"></i> Start
                             </button>

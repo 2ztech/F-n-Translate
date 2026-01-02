@@ -4,8 +4,10 @@ import logging
 import multiprocessing
 import os
 from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtCore import Qt, QTimer, QRect
-from PyQt5.QtGui import QPainter, QColor, QFont
+from PyQt5.QtCore import Qt, QTimer, QRect, QRectF
+from PyQt5.QtGui import QPainter, QColor, QFont, QPainterPath
+import ctypes
+from ctypes import wintypes
 from mss import mss
 
 # Add parent directory to path to allow imports from core and component
@@ -32,6 +34,75 @@ def setup_logging():
     logger.addHandler(ch)
     return logger
 
+class ROISelector(QWidget):
+    def __init__(self, monitor):
+        super().__init__()
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setCursor(Qt.CrossCursor)
+        
+        self.monitor = monitor
+        self.setGeometry(monitor['left'], monitor['top'], monitor['width'], monitor['height'])
+        
+        self.begin = None
+        self.end = None
+        self.selected_roi = None
+        self.is_finished = False
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        
+        # Draw dim background
+        painter.fillRect(self.rect(), QColor(0, 0, 0, 100))
+        
+        if self.begin and self.end:
+            # Clear the selected area
+            painter.setCompositionMode(QPainter.CompositionMode_Clear)
+            painter.fillRect(QRect(self.begin, self.end), Qt.transparent)
+            painter.setCompositionMode(QPainter.CompositionMode_SourceOver)
+            
+            # Draw border
+            painter.setPen(QColor(0, 174, 255))
+            painter.drawRect(QRect(self.begin, self.end))
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.begin = event.pos()
+            self.end = self.begin
+            self.update()
+
+    def mouseMoveEvent(self, event):
+        if self.begin:
+            self.end = event.pos()
+            self.update()
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton and self.begin:
+            self.end = event.pos()
+            # Normalize ROI
+            x1, y1 = self.begin.x(), self.begin.y()
+            x2, y2 = self.end.x(), self.end.y()
+            
+            # Convert to absolute screen coordinates
+            abs_x = self.monitor['left'] + min(x1, x2)
+            abs_y = self.monitor['top'] + min(y1, y2)
+            w = abs(x2 - x1)
+            h = abs(y2 - y1)
+            
+            if w > 10 and h > 10:
+                self.selected_roi = (abs_x, abs_y, w, h)
+                self.is_finished = True
+                self.close()
+            else:
+                self.begin = None
+                self.end = None
+                self.update()
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Escape:
+            self.close()
+
 class OverlayWindow(QWidget):
     def __init__(self, rect):
         super().__init__()
@@ -47,16 +118,47 @@ class OverlayWindow(QWidget):
         x, y, w, h = rect
         self.setGeometry(x, y, w, h)
         
+        self.affinity_active = False
+        self.show()
+        
+        # Delay the affinity call to ensure window is ready
+        QTimer.singleShot(500, self._apply_affinity)
+            
+        self.translations = []
+        self.last_update_time = 0
+
+    def _apply_affinity(self):
+        # Optional: Attempt to hide from capture, but don't rely on it
+        try:
+            hwnd = int(self.winId())
+            ctypes.windll.user32.SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
+            ctypes.windll.user32.SetWindowDisplayAffinity.restype = wintypes.BOOL
+            
+            result = ctypes.windll.user32.SetWindowDisplayAffinity(hwnd, 0x11)
+            if result:
+                self.affinity_active = True
+                print(f"Overlay affinity activated successfully for HWND {hwnd}")
+            else:
+                print(f"SetWindowDisplayAffinity returned 0 (Expected on some systems). Using Digital Masking as primary protection.")
+        except Exception as e:
+            print(f"Optional affinity skip: {e}")
+            
         self.translations = []
         self.last_update_time = 0
         self.show()
 
     def update_translations(self, translations):
-        # Optimization: Don't repaint if translations haven't changed
-        if self.translations == translations:
+        # Filter out "noise" (tiny blocks)
+        filtered = []
+        for text, rect in translations:
+            if rect[2] < 15 or rect[3] < 15: # Discard blocks smaller than 15x15
+                continue
+            filtered.append((text, rect))
+            
+        if self.translations == filtered:
             return
 
-        self.translations = translations
+        self.translations = filtered
         self.last_update_time = time.time()
         self.update()
 
@@ -65,42 +167,72 @@ class OverlayWindow(QWidget):
         painter.setRenderHint(QPainter.Antialiasing)
         
         for text, (x, y, w, h) in self.translations:
-            # Calculate optimal font size based on box height (approx 70%)
-            # Clamp between 10 and 24 to avoid tiny or huge text
-            target_height = h * 0.7
-            font_size = max(10, min(24, int(target_height)))
+            if not text.strip():
+                continue
+                
+            # Font auto-sizing loop
+            font_size = 22 # Slightly smaller max size for better fit
+            min_font_size = 7 # Allow slightly smaller text if needed
             
+            while font_size >= min_font_size:
+                font = QFont("Arial", font_size)
+                font.setBold(True)
+                painter.setFont(font)
+                
+                # Check if text fits in the box with some padding
+                metrics = painter.fontMetrics()
+                # Use a target rect with padding
+                padding = 12 # Increased padding
+                target_rect = QRect(x + padding, y + padding, w - 2*padding, h - 2*padding)
+                
+                flags = Qt.TextWordWrap | Qt.AlignCenter
+                calc_rect = metrics.boundingRect(target_rect, flags, text)
+                
+                if calc_rect.height() <= (h - 2*padding) and calc_rect.width() <= (w - 2*padding):
+                    break
+                font_size -= 1
+            
+            # Final font setup
             font = QFont("Arial", font_size)
             font.setBold(True)
             painter.setFont(font)
             
-            # Calculate text dimensions
+            # Refine the background rect: find the actual text bounding rect and add padding
+            padding_x = 10
+            padding_y = 6
             metrics = painter.fontMetrics()
-            # Allow width to expand if needed, but keep height constrained to original line + padding
-            # We want the text to be readable, so we prioritize font size over fitting in original width
-            text_rect = metrics.boundingRect(QRect(0, 0, 0, 0), Qt.AlignCenter, text)
             
-            # Calculate new background rect centered on the original box
-            new_w = max(w, text_rect.width() + 10) # Add padding
-            new_h = max(h, text_rect.height() + 4)
+            # Use original width constraint for bounding calculation
+            temp_rect = QRect(x, y, w, h)
+            text_rect = metrics.boundingRect(temp_rect, Qt.TextWordWrap | Qt.AlignCenter, text)
             
-            # Center the new rect on the original rect
-            center_x = x + w // 2
-            center_y = y + h // 2
-            new_x = center_x - new_w // 2
-            new_y = center_y - new_h // 2
+            # Calculate tight background rect
+            bg_w = min(w, text_rect.width() + padding_x * 2)
+            bg_h = min(h, text_rect.height() + padding_y * 2)
+            bg_x = x + (w - bg_w) // 2
+            bg_y = y + (h - bg_h) // 2
             
-            bg_rect = QRect(new_x, new_y, new_w, new_h)
+            bg_rect = QRect(bg_x, bg_y, bg_w, bg_h)
             
-            # Draw background (semi-transparent black)
-            painter.fillRect(bg_rect, QColor(0, 0, 0, 200))
+            # Draw rounded background (semi-transparent black)
+            path = QPainterPath()
+            path.addRoundedRect(QRectF(bg_rect), 4, 4) # Even sleeker radius
+            
+            # Draw subtle shadow/border effect
+            painter.fillPath(path, QColor(0, 0, 0, 230)) # Slightly darker for better contrast
+            
+            # Add thin light border for premium feel
+            painter.setPen(QColor(255, 255, 255, 60)) # Slightly more visible border
+            painter.drawPath(path)
             
             # Draw text
             painter.setPen(QColor(255, 255, 255))
-            painter.drawText(bg_rect, Qt.AlignCenter, text)
+            # Use small internal padding for the text area
+            text_inner_rect = bg_rect.adjusted(2, 2, -2, -2)
+            painter.drawText(text_inner_rect, Qt.TextWordWrap | Qt.AlignCenter, text)
 
 class LiveTranslationProcess(multiprocessing.Process):
-    def __init__(self, monitor_index, source_lang, target_lang, status_queue, command_queue, stop_event):
+    def __init__(self, monitor_index, source_lang, target_lang, status_queue, command_queue, stop_event, roi=None):
         super().__init__()
         self.monitor_index = monitor_index
         self.source_lang = source_lang
@@ -108,6 +240,7 @@ class LiveTranslationProcess(multiprocessing.Process):
         self.status_queue = status_queue
         self.command_queue = command_queue
         self.stop_event = stop_event
+        self.roi = roi
         self.daemon = True 
 
     def run(self):
@@ -126,12 +259,28 @@ class LiveTranslationProcess(multiprocessing.Process):
             
             monitor = monitors[mss_index]
             logger.info(f"Capturing Monitor {mss_index}: {monitor}")
-            monitor_rect = (monitor["left"], monitor["top"], monitor["width"], monitor["height"])
+            
+            if self.roi:
+                monitor_rect = self.roi
+                # Update monitor dict for MSS to capture specific region
+                monitor = {
+                    "left": self.roi[0],
+                    "top": self.roi[1],
+                    "width": self.roi[2],
+                    "height": self.roi[3]
+                }
+            else:
+                monitor_rect = (monitor["left"], monitor["top"], monitor["width"], monitor["height"])
 
         overlay = OverlayWindow(monitor_rect)
         
         worker = TranslationWorker(monitor, self.source_lang, self.target_lang, logger, self.stop_event)
         worker.result_ready.connect(overlay.update_translations)
+        
+        # We no longer connect request_hide to overlay visibility.
+        # The overlay stays visible for a smooth experience.
+        # Protection is handled via Digital Masking in TranslationWorker.
+        
         worker.start()
         
         # Check for stop event

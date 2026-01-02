@@ -5,7 +5,7 @@ import os
 # Add parent directory to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from services.live_translation_service import TranslationWorker
+from component.translation_worker import TranslationWorker
 
 class MockLogger:
     def info(self, msg): print(f"INFO: {msg}")
@@ -45,9 +45,9 @@ class TestOCRGrouping(unittest.TestCase):
         }
         
         lines = self.worker.group_lines(data)
-        # Should be merged into one block
+        # Should be merged into one block with a newline
         self.assertEqual(len(lines), 1)
-        self.assertEqual(lines[0]['text'], "This is a long sentence.")
+        self.assertEqual(lines[0]['text'], "This is a\nlong sentence.")
 
     def test_group_lines_separate_paragraphs(self):
         # Mock pytesseract data for two separate paragraphs
