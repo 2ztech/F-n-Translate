@@ -91,84 +91,98 @@ class TranslationWorker(QThread):
         return mse
 
     def group_lines(self, data):
-        """Group words into paragraphs based on proximity"""
+        """
+        Phase 1: Merge Words -> Lines using Tesseract's internal 'line_num'.
+        Phase 2: Merge Lines -> Paragraphs using dynamic spacing.
+        """
         n_boxes = len(data['text'])
         
-        valid_boxes = []
+        # --- PHASE 1: WORDS TO LINES (Using Tesseract IDs) ---
+        # We group by (block_num, line_num) to guarantee perfect line assembly
+        lines_map = {}
+        
         for i in range(n_boxes):
-            if int(data['conf'][i]) > 40 and data['text'][i].strip(): # Slightly lower confidence for paragraph parts
-                valid_boxes.append({
+            # Check confidence and empty text
+            if int(data['conf'][i]) > 40 and data['text'][i].strip():
+                # Key = Unique Line ID
+                key = (data['block_num'][i], data['line_num'][i])
+                
+                if key not in lines_map:
+                    lines_map[key] = []
+                
+                lines_map[key].append({
                     'text': data['text'][i].strip(),
                     'x': data['left'][i],
                     'y': data['top'][i],
                     'w': data['width'][i],
                     'h': data['height'][i]
                 })
-        
-        if not valid_boxes:
-            return []
-            
-        valid_boxes.sort(key=lambda b: (b['y'], b['x']))
-        
-        # Step 1: Merge into lines
+
+        # Consolidate Words into Line Blocks
         lines = []
-        current_line = []
-        
-        for box in valid_boxes:
-            if not current_line:
-                current_line.append(box)
-                continue
-                
-            last_box = current_line[-1]
-            y_diff = abs(box['y'] - last_box['y'])
-            height_avg = (box['h'] + last_box['h']) / 2
-            x_dist = box['x'] - (last_box['x'] + last_box['w'])
+        for key, words in lines_map.items():
+            # Sort words by X to ensure correct reading order
+            words.sort(key=lambda w: w['x'])
             
-            # Use a slightly more relaxed horizontal threshold for lines
-            if y_diff < height_avg * 0.7 and x_dist < height_avg * 3:
-                current_line.append(box)
-            else:
-                lines.append(self.merge_line(current_line))
-                current_line = [box]
-        
-        if current_line:
-            lines.append(self.merge_line(current_line))
+            full_text = " ".join([w['text'] for w in words])
+            x = min(w['x'] for w in words)
+            y = min(w['y'] for w in words)
+            # Calculate union rectangle
+            right = max(w['x'] + w['w'] for w in words)
+            bottom = max(w['y'] + w['h'] for w in words)
             
-        # Step 2: Merge lines into paragraphs (User-provided logic)
-        y_threshold = 25 
+            lines.append({
+                'text': full_text,
+                'x': x,
+                'y': y,
+                'w': right - x,
+                'h': bottom - y
+            })
+
         if not lines:
             return []
 
-        # Sort by Vertical Position (already mostly sorted, but ensuring)
-        sorted_boxes = sorted(lines, key=lambda b: b['y'])
+        # --- PHASE 2: LINES TO PARAGRAPHS (Dynamic Logic) ---
+        # Sort by Y top-down
+        lines.sort(key=lambda b: b['y'])
         
         paragraphs = []
-        current_block = sorted_boxes[0].copy()
+        current_block = lines[0].copy()
 
-        for i in range(1, len(sorted_boxes)):
-            next_box = sorted_boxes[i]
+        for i in range(1, len(lines)):
+            next_line = lines[i]
             
-            # Distance check
+            # Dynamic Threshold: 1.5x the height of the current line
+            # This adapts to both small footnotes and huge headers automatically
+            dynamic_threshold = current_block['h'] * 1.5
+            
             current_bottom = current_block['y'] + current_block['h']
-            gap = next_box['y'] - current_bottom
+            gap = next_line['y'] - current_bottom
             
-            # Logical check for merging
-            # We add a horizontal check to prevent merging different columns
-            x_dist = max(0, max(current_block['x'], next_box['x']) - min(current_block['x'] + current_block['w'], next_box['x'] + next_box['w']))
+            # Check Horizontal Alignment (Are they in the same column?)
+            # We calculate the horizontal overlap
+            x1 = max(current_block['x'], next_line['x'])
+            x2 = min(current_block['x'] + current_block['w'], next_line['x'] + next_line['w'])
+            overlap = max(0, x2 - x1)
             
-            if gap < y_threshold and x_dist < 50:
-                # Merge them
-                new_bottom = max(current_bottom, next_box['y'] + next_box['h'])
-                current_block['text'] += "\n" + next_box['text']
+            # Logic: 
+            # 1. Gap is small (same paragraph)
+            # 2. Significant horizontal overlap (same column) OR almost aligned left edges
+            is_same_col = (overlap > 0) or (abs(current_block['x'] - next_line['x']) < 50)
+            
+            if gap < dynamic_threshold and is_same_col:
+                # MERGE
+                new_bottom = max(current_bottom, next_line['y'] + next_line['h'])
+                current_block['text'] += "\n" + next_line['text'] # Use newline to preserve structure
                 current_block['h'] = new_bottom - current_block['y']
                 
-                # Expand width
-                max_right = max(current_block['x'] + current_block['w'], next_box['x'] + next_box['w'])
-                current_block['x'] = min(current_block['x'], next_box['x'])
+                # Expand width to cover the widest line
+                max_right = max(current_block['x'] + current_block['w'], next_line['x'] + next_line['w'])
+                current_block['x'] = min(current_block['x'], next_line['x'])
                 current_block['w'] = max_right - current_block['x']
             else:
                 paragraphs.append(current_block)
-                current_block = next_box.copy()
+                current_block = next_line.copy()
 
         paragraphs.append(current_block)
         return self.lock_blocks(paragraphs)
@@ -316,6 +330,8 @@ class TranslationWorker(QThread):
             return
 
         last_img = None
+        frame_count = 0
+        pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
         with mss() as sct:
             while not self.stop_event.is_set():
@@ -327,41 +343,64 @@ class TranslationWorker(QThread):
                     # DIGITAL MASKING: Erase the overlay's vision from the capture
                     draw = ImageDraw.Draw(img)
                     img_w, img_h = img.size
+                    
+                    # Mask Padding (Inflate the black box)
+                    pad = 15  # Pixels to expand the mask
+                    
                     for block in self.active_blocks:
                         r = block['rect']
-                        # Calculate coordinates carefully and ensure x1 >= x0, y1 >= y0
-                        # r is [x, y, w, h]
-                        x0 = max(0, r[0] - 8)
-                        y0 = max(0, r[1] - 8)
-                        x1 = min(img_w, r[0] + r[2] + 8)
-                        y1 = min(img_h, r[1] + r[3] + 8)
+                        # Inflate the box!
+                        x0 = max(0, r[0] - pad)
+                        y0 = max(0, r[1] - pad)
+                        x1 = min(img_w, r[0] + r[2] + pad)
+                        y1 = min(img_h, r[1] + r[3] + pad)
                         
                         if x1 > x0 and y1 > y0:
                             draw.rectangle([x0, y0, x1, y1], fill="black")
                     
+                    # CRITICAL: Also mask the Debug Console area if it's always in the bottom left
+                    # This prevents the recursive loop "Documents/lump/Project..."
+                    # draw.rectangle([0, img_h - 150, 400, img_h], fill="black")
+                    
                     if self.stop_event.is_set(): break
 
-                    # Check for screen changes
                     if last_img:
                         diff = self.get_image_diff(last_img, img)
-                        if diff < 5.0: # Threshold for "no significant change"
-                            # Screen is static, sleep and skip OCR
+                        # Only skip if screen is static AND we have already processed enough frames to be stable
+                        if diff < 5.0 and frame_count > self.stabilizer.history_size:
                             time.sleep(0.2)
                             continue
                     
                     last_img = img.copy()
+                    frame_count += 1
 
                     # OCR
-                    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
                     data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
                     
                     if self.stop_event.is_set(): break
 
                     # Group into lines
-                    lines = self.group_lines(data)
+                    current_lines = self.group_lines(data)
                     
+                    # STABILIZER FEEDBACK: 
+                    # If we have current active_blocks, include them as "existing" candidates
+                    # to prevent the stabilizer from dropping masked blocks.
+                    all_candidates = list(current_lines)
+                    for block in self.active_blocks:
+                        if block['misses'] < 2: # Only feed back truly active ones
+                            candidate = {
+                                'text': block['text'],
+                                'x': block['rect'][0],
+                                'y': block['rect'][1],
+                                'w': block['rect'][2],
+                                'h': block['rect'][3]
+                            }
+                            # Avoid duplicates if OCR actually found it too
+                            if not any(self.stabilizer.is_similar(candidate, c) for c in current_lines):
+                                all_candidates.append(candidate)
+
                     # Stabilize
-                    self.stabilizer.add_frame(lines)
+                    self.stabilizer.add_frame(all_candidates)
                     stable_lines = self.stabilizer.get_stable_blocks()
                     
                     translations = []
