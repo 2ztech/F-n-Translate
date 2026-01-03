@@ -1,4 +1,4 @@
-2026-01-03 13:31:46,625 - LiveService - INFO - Process started for monitor 0
-2026-01-03 13:31:46,665 - LiveService - INFO - Capturing Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
-2026-01-03 13:31:47,265 - LiveService - INFO - Translation Service & DB Initialized
-2026-01-03 13:32:14,413 - LiveService - INFO - Stop event detected. Shutting down...
+2026-01-04 04:03:04,093 - LiveService - INFO - Process started for monitor 0
+2026-01-04 04:03:04,130 - LiveService - INFO - Capturing Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2026-01-04 04:03:04,545 - LiveService - INFO - Translation Service Initialized
+2026-01-04 04:04:51,779 - LiveService - INFO - Stop event detected. Shutting down...
