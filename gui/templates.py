@@ -1,4 +1,4 @@
-# templates.py
+# gui/templates.py
 from .style import CSS
 from gui.ui_js import get_file_translation_js
 
@@ -54,7 +54,6 @@ def get_html_template():
         </div>
         
         <div class="module-content">
-            <!-- Text Module (default) -->
             <div id="text-module" class="module active">
                 <div class="text-module">
                     <div class="translation-box">
@@ -69,7 +68,6 @@ def get_html_template():
                 </div>
             </div>
             
-            <!-- File Module -->
             <div id="file-module" class="module">
                 <div class="file-container">
                     <div class="file-input">
@@ -91,7 +89,6 @@ def get_html_template():
                 </div>
             </div>
             
-            <!-- Screen Capture Module -->
             <div id="capture-module" class="module">
                 <div class="capture-module">
                     <div class="capture-header">
@@ -147,7 +144,6 @@ def get_html_template():
         </div>
     </div>
 
-    <!-- API Key Modal -->
     <div id="api-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -170,16 +166,33 @@ def get_html_template():
     <script>
         {js_code}
         
-        // Initialize all functionality
+        // Initialize all functionality with error handling
         document.addEventListener('DOMContentLoaded', function() {{
-            setupModuleSwitching();
-            setupApiModal();
+            console.log("DOM loaded, initializing modules...");
             
-            // Initialize the module that is active by default
-            const activeBtn = document.querySelector('.nav-btn.active');
-            if (activeBtn) {{
-                const targetModule = activeBtn.getAttribute('data-target');
-                initializeModule(targetModule);
+            // 1. Setup Module Switching (Try-Catch protected)
+            try {{
+                setupModuleSwitching();
+            }} catch (e) {{
+                console.error("Failed to setup module switching:", e);
+            }}
+            
+            // 2. Setup API Modal (Try-Catch protected)
+            try {{
+                setupApiModal();
+            }} catch (e) {{
+                console.error("Failed to setup API modal:", e);
+            }}
+            
+            // 3. Initialize Active Module
+            try {{
+                const activeBtn = document.querySelector('.nav-btn.active');
+                if (activeBtn) {{
+                    const targetModule = activeBtn.getAttribute('data-target');
+                    initializeModule(targetModule);
+                }}
+            }} catch (e) {{
+                console.error("Failed to initialize active module:", e);
             }}
         }});
     </script>
