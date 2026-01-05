@@ -127,7 +127,7 @@ def select_capture_area(monitor_index):
         
     if selector.is_finished:
         current_roi = selector.selected_roi
-        logger.info(f"ROI selected: {current_roi}")
+        logger.info(f"ROI selected and saved to global: {current_roi}")
         return {
             'x': current_roi[0],
             'y': current_roi[1],
@@ -158,6 +158,7 @@ def start_screen_capture(monitor_index):
         target_lang = "msa"
         
         global current_roi
+        logger.info(f"start_screen_capture: Using ROI: {current_roi}")
         
         capture_process = LiveTranslationProcess(
             monitor_index, 

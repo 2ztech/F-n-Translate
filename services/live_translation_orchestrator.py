@@ -33,6 +33,29 @@ def setup_logging():
     logger.addHandler(fh)
     logger.addHandler(ch)
     return logger
+    
+def set_window_invisible_to_capture(hwnd):
+    """
+    Applies WDA_EXCLUDEFROMCAPTURE to a specific Window Handle (HWND).
+    This makes the window invisible to MSS/OBS/Discord captures.
+    """
+    try:
+        user32 = ctypes.WinDLL("user32", use_last_error=True)
+        # Define argtypes for safety
+        user32.SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
+        user32.SetWindowDisplayAffinity.restype = wintypes.BOOL
+        
+        WDA_EXCLUDEFROMCAPTURE = 0x00000011
+        result = user32.SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE)
+        
+        if result:
+            print(f"Success: Window {hwnd} excluded from capture.")
+        else:
+            err = ctypes.get_last_error()
+            print(f"Failed to hide window {hwnd}. Error code: {err}")
+            
+    except Exception as e:
+        print(f"Exclusion Error: {e}")
 
 class ROISelector(QWidget):
     def __init__(self, monitor):
@@ -126,22 +149,15 @@ class OverlayWindow(QWidget):
             
         self.translations = []
         self.last_update_time = 0
+        set_window_invisible_to_capture(int(self.winId()))
 
     def _apply_affinity(self):
-        # Optional: Attempt to hide from capture, but don't rely on it
+        # Attempt to hide from capture using robust helper
         try:
             hwnd = int(self.winId())
-            ctypes.windll.user32.SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
-            ctypes.windll.user32.SetWindowDisplayAffinity.restype = wintypes.BOOL
-            
-            result = ctypes.windll.user32.SetWindowDisplayAffinity(hwnd, 0x11)
-            if result:
-                self.affinity_active = True
-                print(f"Overlay affinity activated successfully for HWND {hwnd}")
-            else:
-                print(f"SetWindowDisplayAffinity returned 0 (Expected on some systems). Using Digital Masking as primary protection.")
+            set_window_invisible_to_capture(hwnd)
         except Exception as e:
-            print(f"Optional affinity skip: {e}")
+             print(f"Optional affinity skip: {e}")
             
         self.translations = []
         self.last_update_time = 0

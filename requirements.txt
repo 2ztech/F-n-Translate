@@ -29,3 +29,6 @@ cryptography>=41.0.0
 
 # Database
 # sqlite3 is included in Python standard library
+
+# Input Monitoring
+pynput>=1.7.6
