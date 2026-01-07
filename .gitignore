@@ -21,5 +21,6 @@ app.log
 /docs/
 FnTranslate.spec
 FnTranslate_database.db
-translation_service.log
-translation_service.log
+config.json
+secret.key
+

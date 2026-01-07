@@ -12,25 +12,19 @@ logger = logging.getLogger("API")
 
 class TranslationAPI:
     def __init__(self):
-        # --- FIX START: Load Keyring Key BEFORE initializing Translator ---
         self.config_manager = ConfigManager()
         
-        # Check if we have a key saved in the OS Keyring
+        # Load saved key (if exists) and inject into Environment
         saved_key = self.config_manager.get_api_key()
         if saved_key:
-            logger.info("Loaded API key from Keyring (Overriding .env)")
-            # This ensures the TranslationService uses the Keyring key, not the .env key
+            logger.info("Loaded API key from Config File")
             os.environ["DEEPSEEK_API_KEY"] = saved_key
-        # --- FIX END ---
-
+            
         self.translator = TextTranslator()
-        
-        # Pass the actual service object, not the wrapper method
         self.file_handler = FileTranslationHandler(self.translator.translation_service)
         self.temp_files = {}
         logger.info("Translation API initialized")
         
-        # Add cleanup on exit
         import atexit
         atexit.register(self.cleanup_temp_files)
 
@@ -191,15 +185,19 @@ class TranslationAPI:
         try:
             from core.translate_core import TranslationService
             
+            # 1. Validate Format (sk- or ds-)
             if not self.config_manager.validate_api_key(api_key):
+                logger.warning("API Key format validation failed")
                 return False
 
             old_key = os.environ.get("DEEPSEEK_API_KEY")
-            os.environ["DEEPSEEK_API_KEY"] = api_key
             
+            # 2. Test the NEW key temporarily
+            os.environ["DEEPSEEK_API_KEY"] = api_key
             service = TranslationService()
             result = service.translate("test", "eng", "msa")
             
+            # 3. Revert environment (Wait for explicit save to make it permanent)
             if old_key:
                 os.environ["DEEPSEEK_API_KEY"] = old_key
             else:
@@ -211,10 +209,17 @@ class TranslationAPI:
             return False
 
     def save_api_key(self, api_key: str) -> bool:
-        """Save the API key to persistent storage (Keyring)"""
+        """Save the API key to encrypted JSON file"""
         try:
+            # 1. Validate Format
+            if not self.config_manager.validate_api_key(api_key):
+                return False
+
+            # 2. Save to File (Overwrite guaranteed)
             if self.config_manager.save_api_key(api_key):
+                # 3. Update Session Immediately
                 os.environ["DEEPSEEK_API_KEY"] = api_key
+                logger.info("API Key saved and session updated")
                 return True
             return False
         except Exception as e:
