@@ -6,6 +6,7 @@ from pathlib import Path
 
 # Import our own modules cleanly
 from services.parser import FileParser
+from core.dbmanager import get_db_manager
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +21,7 @@ class FileTranslationHandler:
         """
         self.parser = parser or FileParser()
         self.translator = translation_service
+        self.db = get_db_manager()
         self.supported_formats = ['.docx', '.txt']
         self.CHUNK_SIZE = 3000  # Conservative char limit per chunk (adjust based on API limits)
         logger.info("File translation handler initialized")
@@ -41,6 +43,23 @@ class FileTranslationHandler:
             # Determine output format if not specified
             if output_format is None:
                 output_format = ext.lstrip('.')
+
+            # Step 0: Check Cache
+            cached_file = self.db.get_cached_file(str(file_path), target_lang)
+            if cached_file:
+                logger.info(f"Returning cached translation for {file_path}")
+                return {
+                    'status': 'success',
+                    'original_file': str(file_path),
+                    'translated_file': cached_file,
+                    'metadata': {
+                        'original_format': ext,
+                        'output_format': Path(cached_file).suffix,
+                        'source_lang': source_lang,
+                        'target_lang': target_lang,
+                        'cached': True
+                    }
+                }
 
             # Step 1: Parse/Extract text
             parsed_data = self.parser.extract_text(str(file_path))
@@ -64,6 +83,9 @@ class FileTranslationHandler:
                 translated_text=translated_text,
                 target_format=output_format
             )
+
+            # Step 4: Cache Result
+            self.db.cache_file_translation(str(file_path), output_file, source_lang, target_lang)
 
             return {
                 'status': 'success',

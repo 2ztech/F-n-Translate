@@ -26,6 +26,7 @@ python-docx>=0.8.11
 # Configuration & Environment
 python-dotenv>=1.0.0
 cryptography>=41.0.0
+keyring>=25.7.0
 
 # Database
 # sqlite3 is included in Python standard library

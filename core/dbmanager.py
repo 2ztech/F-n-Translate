@@ -1,307 +1,239 @@
-# src/core/database/dbmanager.py
-"""
-Centralized database management module.
-Handles all CRUD operations and database connections for the application.
-"""
-
+# src/core/dbmanager.py
 import sqlite3
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+import hashlib
+import os
 import logging
-from contextlib import contextmanager
-import json
+from pathlib import Path
+from typing import Optional, List, Dict, Union
 from datetime import datetime
+from contextlib import contextmanager
 
 logger = logging.getLogger(__name__)
 
 class DBManager:
-    """Centralized database manager for handling all database operations."""
+    """
+    Centralized database manager for caching translations and settings.
+    Implements Hash-based caching for Files and Text-based caching for Live OCR.
+    """
     
-    def __init__(self, db_path: Union[str, Path] = "app_database.db"):
-        """
-        Initialize the database manager.
-        
-        Args:
-            db_path: Path to the SQLite database file
-        """
-        self.db_path = Path(db_path)
-        self._ensure_db_directory()
-        self._init_tables()
-    
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(DBManager, cls).__new__(cls)
+        return cls._instance
+
+    def __init__(self, db_path: str = "FnTranslate_database.db"):
+        if not hasattr(self, 'initialized'):
+            self.db_path = Path(db_path)
+            self._ensure_db_directory()
+            self._init_tables()
+            self.initialized = True
+
     def _ensure_db_directory(self) -> None:
-        """Ensure the database directory exists."""
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
+    @contextmanager
+    def _get_connection(self):
+        """Yields a database connection with thread safety."""
+        conn = sqlite3.connect(self.db_path, check_same_thread=False)
+        conn.row_factory = sqlite3.Row
+        try:
+            yield conn
+        finally:
+            conn.close()
+
     def _init_tables(self) -> None:
-        """Initialize database tables if they don't exist."""
-        tables = [
+        """Initialize the optimized schema."""
+        queries = [
+            # 1. TEXT CACHE (For Live Screen Translation)
+            # Uses a hash of the text for faster indexing than raw text blocks
             """
-            CREATE TABLE IF NOT EXISTS translation_cache (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                source_text TEXT NOT NULL,
-                source_lang TEXT NOT NULL,
-                target_lang TEXT NOT NULL,
-                translated_text TEXT NOT NULL,
+            CREATE TABLE IF NOT EXISTS text_cache (
+                text_hash TEXT PRIMARY KEY,
+                source_text TEXT,
+                source_lang TEXT,
+                target_lang TEXT,
+                translated_text TEXT,
+                last_used TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+            """,
+            # 2. FILE CACHE (For Document Translation)
+            # Stores file hash so re-uploading the same file skips processing
+            """
+            CREATE TABLE IF NOT EXISTS file_cache (
+                file_hash TEXT,
+                source_lang TEXT,
+                target_lang TEXT,
+                original_filename TEXT,
+                translated_file_path TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                UNIQUE(source_text, source_lang, target_lang)
+                PRIMARY KEY (file_hash, target_lang)
             )
             """,
+            # 3. SETTINGS (For API Keys, etc)
             """
-            CREATE TABLE IF NOT EXISTS document_embeddings (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                document_hash TEXT NOT NULL UNIQUE,
-                document_path TEXT NOT NULL,
-                embeddings_json TEXT NOT NULL,
-                chunk_count INTEGER NOT NULL,
-                processed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS app_settings (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                setting_key TEXT NOT NULL UNIQUE,
-                setting_value TEXT NOT NULL,
-                description TEXT,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS translation_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                source_text TEXT NOT NULL,
-                translated_text TEXT NOT NULL,
-                source_lang TEXT NOT NULL,
-                target_lang TEXT NOT NULL,
-                character_count INTEGER NOT NULL,
-                translated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            CREATE TABLE IF NOT EXISTS settings (
+                key TEXT PRIMARY KEY,
+                value TEXT,
+                description TEXT
             )
             """
         ]
         
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            for table_sql in tables:
-                cursor.execute(table_sql)
+            for query in queries:
+                cursor.execute(query)
             conn.commit()
-    
-    @contextmanager
-    def _get_connection(self):
-        """Get a database connection with automatic cleanup."""
-        conn = sqlite3.connect(
-            str(self.db_path),
-            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
-        )
-        conn.row_factory = sqlite3.Row  # Return rows as dictionaries
+
+    # =========================================================
+    #  FILE TRANSLATION LOGIC (Hash Based)
+    # =========================================================
+
+    def compute_file_hash(self, file_path: str) -> str:
+        """Helper: Generates SHA256 hash of a file."""
+        sha256_hash = hashlib.sha256()
         try:
-            yield conn
-        except sqlite3.Error as e:
-            logger.error(f"Database error: {e}")
-            conn.rollback()
-            raise
-        finally:
-            conn.close()
-    
-    # CRUD Operations for Translation Cache
-    def get_cached_translation(self, source_text: str, source_lang: str, 
-                              target_lang: str) -> Optional[str]:
+            with open(file_path, "rb") as f:
+                # Read in chunks to handle large files
+                for byte_block in iter(lambda: f.read(4096), b""):
+                    sha256_hash.update(byte_block)
+            return sha256_hash.hexdigest()
+        except Exception as e:
+            logger.error(f"Failed to hash file {file_path}: {e}")
+            return ""
+
+    def get_cached_file(self, file_path: str, target_lang: str) -> Optional[str]:
         """
-        Retrieve a cached translation.
-        
-        Returns:
-            The cached translation text or None if not found
+        Check if this file has already been translated.
+        Returns the path to the PREVIOUSLY translated file if it exists.
         """
-        query = """
-            SELECT translated_text FROM translation_cache 
-            WHERE source_text = ? AND source_lang = ? AND target_lang = ?
-        """
-        
-        with self._get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, (source_text, source_lang, target_lang))
-            result = cursor.fetchone()
-            return result['translated_text'] if result else None
-    
-    def cache_translation(self, source_text: str, source_lang: str, 
-                         target_lang: str, translated_text: str) -> bool:
-        """
-        Cache a translation result.
-        
-        Returns:
-            True if successful, False otherwise
-        """
-        query = """
-            INSERT OR REPLACE INTO translation_cache 
-            (source_text, source_lang, target_lang, translated_text)
-            VALUES (?, ?, ?, ?)
-        """
-        
-        try:
-            with self._get_connection() as conn:
-                cursor = conn.cursor()
-                cursor.execute(query, (source_text, source_lang, target_lang, translated_text))
-                conn.commit()
-                return True
-        except sqlite3.Error as e:
-            logger.error(f"Failed to cache translation: {e}")
-            return False
-    
-    def clear_translation_cache(self, older_than_days: Optional[int] = None) -> int:
-        """
-        Clear translation cache.
-        
-        Args:
-            older_than_days: If provided, only clear entries older than X days
-            
-        Returns:
-            Number of rows deleted
-        """
-        if older_than_days:
-            query = "DELETE FROM translation_cache WHERE created_at < datetime('now', ?)"
-            params = (f'-{older_than_days} days',)
-        else:
-            query = "DELETE FROM translation_cache"
-            params = ()
-        
-        with self._get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, params)
-            conn.commit()
-            return cursor.rowcount
-    
-    # CRUD Operations for Document Embeddings
-    def save_document_embeddings(self, document_hash: str, document_path: str,
-                               embeddings: List[List[float]], chunk_count: int) -> bool:
-        """
-        Save document embeddings to the database.
-        
-        Returns:
-            True if successful, False otherwise
-        """
-        query = """
-            INSERT OR REPLACE INTO document_embeddings 
-            (document_hash, document_path, embeddings_json, chunk_count)
-            VALUES (?, ?, ?, ?)
-        """
-        
-        try:
-            embeddings_json = json.dumps(embeddings)
-            with self._get_connection() as conn:
-                cursor = conn.cursor()
-                cursor.execute(query, (document_hash, document_path, embeddings_json, chunk_count))
-                conn.commit()
-                return True
-        except (sqlite3.Error, TypeError) as e:
-            logger.error(f"Failed to save document embeddings: {e}")
-            return False
-    
-    def get_document_embeddings(self, document_hash: str) -> Optional[Tuple[str, List[List[float]]]]:
-        """
-        Retrieve document embeddings from the database.
-        
-        Returns:
-            Tuple of (document_path, embeddings_list) or None if not found
-        """
-        query = "SELECT document_path, embeddings_json FROM document_embeddings WHERE document_hash = ?"
-        
-        with self._get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, (document_hash,))
-            result = cursor.fetchone()
-            
-            if result:
-                try:
-                    embeddings = json.loads(result['embeddings_json'])
-                    return result['document_path'], embeddings
-                except json.JSONDecodeError as e:
-                    logger.error(f"Failed to parse embeddings JSON: {e}")
-                    return None
+        if not os.path.exists(file_path):
             return None
-    
-    # CRUD Operations for App Settings
-    def get_setting(self, key: str, default: Any = None) -> Any:
-        """Retrieve an application setting."""
-        query = "SELECT setting_value FROM app_settings WHERE setting_key = ?"
+
+        file_hash = self.compute_file_hash(file_path)
+        
+        query = """
+            SELECT translated_file_path FROM file_cache 
+            WHERE file_hash = ? AND target_lang = ?
+        """
         
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(query, (key,))
-            result = cursor.fetchone()
-            return result['setting_value'] if result else default
-    
-    def set_setting(self, key: str, value: Any, description: str = None) -> bool:
-        """Set an application setting."""
-        query = """
-            INSERT OR REPLACE INTO app_settings 
-            (setting_key, setting_value, description)
-            VALUES (?, ?, ?)
-        """
+            cursor.execute(query, (file_hash, target_lang))
+            row = cursor.fetchone()
+            
+            if row:
+                cached_path = row['translated_file_path']
+                # CRITICAL: Check if the cached file actually still exists on disk
+                if os.path.exists(cached_path):
+                    logger.info(f"Cache HIT for file: {os.path.basename(file_path)}")
+                    return cached_path
+                else:
+                    # If file is missing from disk, remove db record
+                    logger.warning("Cached file missing from disk. Removing record.")
+                    self.remove_file_cache(file_hash, target_lang)
+            
+            return None
+
+    def cache_file_translation(self, original_path: str, translated_path: str, src_lang: str, target_lang: str):
+        """Save a completed file translation to the cache."""
+        file_hash = self.compute_file_hash(original_path)
+        filename = os.path.basename(original_path)
         
-        try:
-            with self._get_connection() as conn:
-                cursor = conn.cursor()
-                cursor.execute(query, (key, str(value), description))
-                conn.commit()
-                return True
-        except sqlite3.Error as e:
-            logger.error(f"Failed to set setting {key}: {e}")
-            return False
-    
-    # History Operations
-    def add_translation_history(self, source_text: str, translated_text: str,
-                              source_lang: str, target_lang: str) -> bool:
-        """Add an entry to the translation history."""
         query = """
-            INSERT INTO translation_history 
-            (source_text, translated_text, source_lang, target_lang, character_count)
+            INSERT OR REPLACE INTO file_cache 
+            (file_hash, source_lang, target_lang, original_filename, translated_file_path)
             VALUES (?, ?, ?, ?, ?)
         """
         
         try:
-            char_count = len(source_text) + len(translated_text)
             with self._get_connection() as conn:
-                cursor = conn.cursor()
-                cursor.execute(query, (source_text, translated_text, source_lang, target_lang, char_count))
+                conn.execute(query, (file_hash, src_lang, target_lang, filename, translated_path))
                 conn.commit()
-                return True
-        except sqlite3.Error as e:
-            logger.error(f"Failed to add translation history: {e}")
-            return False
-    
-    def get_recent_translations(self, limit: int = 50) -> List[Dict]:
-        """Get recent translation history."""
-        query = """
-            SELECT * FROM translation_history 
-            ORDER BY translated_at DESC 
-            LIMIT ?
-        """
+            logger.info(f"File cached successfully: {filename}")
+        except Exception as e:
+            logger.error(f"Failed to cache file: {e}")
+
+    def remove_file_cache(self, file_hash: str, target_lang: str):
+        """Remove a stale cache record."""
+        with self._get_connection() as conn:
+            conn.execute("DELETE FROM file_cache WHERE file_hash = ? AND target_lang = ?", (file_hash, target_lang))
+            conn.commit()
+
+    # =========================================================
+    #  SCREEN/TEXT TRANSLATION LOGIC (Text Hash Based)
+    # =========================================================
+
+    def _normalize_text(self, text: str) -> str:
+        """Strip whitespace and lowercase to increase cache hit rate."""
+        return text.strip().lower()
+
+    def get_cached_text(self, text: str, src_lang: str, tgt_lang: str) -> Optional[str]:
+        """Retrieve translated text if it exists."""
+        if not text: return None
+        
+        # We hash the normalized text + languages to create a unique ID
+        norm_text = self._normalize_text(text)
+        unique_string = f"{norm_text}|{src_lang}|{tgt_lang}"
+        text_hash = hashlib.md5(unique_string.encode()).hexdigest()
+
+        query = "SELECT translated_text FROM text_cache WHERE text_hash = ?"
         
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(query, (limit,))
-            return [dict(row) for row in cursor.fetchall()]
-    
-    # Generic Query Methods
-    def execute_query(self, query: str, params: Tuple = ()) -> List[Dict]:
-        """Execute a custom query and return results as dictionaries."""
+            cursor.execute(query, (text_hash,))
+            row = cursor.fetchone()
+            
+            if row:
+                # Update timestamp to keep this cache "fresh"
+                conn.execute("UPDATE text_cache SET last_used = CURRENT_TIMESTAMP WHERE text_hash = ?", (text_hash,))
+                conn.commit()
+                return row['translated_text']
+        
+        return None
+
+    def cache_text_translation(self, text: str, src_lang: str, tgt_lang: str, translated_text: str):
+        """Store a text translation."""
+        if not text or not translated_text: return
+
+        norm_text = self._normalize_text(text)
+        unique_string = f"{norm_text}|{src_lang}|{tgt_lang}"
+        text_hash = hashlib.md5(unique_string.encode()).hexdigest()
+
+        query = """
+            INSERT OR REPLACE INTO text_cache 
+            (text_hash, source_text, source_lang, target_lang, translated_text)
+            VALUES (?, ?, ?, ?, ?)
+        """
+        
+        try:
+            with self._get_connection() as conn:
+                conn.execute(query, (text_hash, text.strip(), src_lang, tgt_lang, translated_text))
+                conn.commit()
+        except Exception as e:
+            logger.error(f"Failed to cache text: {e}")
+
+    # =========================================================
+    #  SETTINGS (API Keys)
+    # =========================================================
+
+    def get_setting(self, key: str) -> Optional[str]:
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(query, params)
-            return [dict(row) for row in cursor.fetchall()]
-    
-    def execute_update(self, query: str, params: Tuple = ()) -> int:
-        """Execute an update/insert/delete query and return affected rows."""
+            cursor.execute("SELECT value FROM settings WHERE key = ?", (key,))
+            row = cursor.fetchone()
+            return row['value'] if row else None
+
+    def set_setting(self, key: str, value: str, description: str = ""):
         with self._get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, params)
+            conn.execute(
+                "INSERT OR REPLACE INTO settings (key, value, description) VALUES (?, ?, ?)",
+                (key, value, description)
+            )
             conn.commit()
-            return cursor.rowcount
 
-# Singleton instance for easy access across the application
-_db_instance = None
-
-def get_db_manager(db_path: str = "app_database.db") -> DBManager:
-    """Get the singleton database manager instance."""
-    global _db_instance
-    if _db_instance is None:
-        _db_instance = DBManager(db_path)
-    return _db_instance
+# Helper function to get singleton
+def get_db_manager(db_path: str = "FnTranslate_database.db") -> DBManager:
+    return DBManager(db_path)

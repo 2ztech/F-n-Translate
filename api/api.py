@@ -4,6 +4,7 @@ import os
 import tempfile
 import base64
 import shutil  # Added missing import
+from config import ConfigManager
 from core.text_translator import TextTranslator
 from services.file_handler import FileTranslationHandler
 
@@ -12,6 +13,7 @@ logger = logging.getLogger("API")
 class TranslationAPI:
     def __init__(self):
         self.translator = TextTranslator()
+        self.config_manager = ConfigManager()
         # FIX 1: Pass the actual service object, not the wrapper method
         # self.translator.translation_service has the .translate() method needed
         self.file_handler = FileTranslationHandler(self.translator.translation_service)
@@ -182,6 +184,10 @@ class TranslationAPI:
         """Check if the provided API key is valid"""
         try:
             from core.translate_core import TranslationService
+            # Validate format first
+            if not self.config_manager.validate_api_key(api_key):
+                return False
+
             old_key = os.environ.get("DEEPSEEK_API_KEY")
             os.environ["DEEPSEEK_API_KEY"] = api_key
             
@@ -199,18 +205,14 @@ class TranslationAPI:
             return False
 
     def save_api_key(self, api_key: str) -> bool:
-        """Save the API key to persistent storage (DB)"""
+        """Save the API key to persistent storage (Keyring)"""
         try:
-            from core.dbmanager import get_db_manager
-            db = get_db_manager()
-            db.set_setting("DEEPSEEK_API_KEY", api_key, "DeepSeek API Key")
-            os.environ["DEEPSEEK_API_KEY"] = api_key
-            
-            from dotenv import set_key
-            env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
-            set_key(env_path, "DEEPSEEK_API_KEY", api_key)
-            
-            return True
+            # Save to Keyring via ConfigManager
+            if self.config_manager.save_api_key(api_key):
+                # Also update current session env var so it works immediately
+                os.environ["DEEPSEEK_API_KEY"] = api_key
+                return True
+            return False
         except Exception as e:
             logger.error(f"Failed to save API key: {e}")
             return False

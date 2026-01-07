@@ -293,7 +293,7 @@ class TranslationWorker(QThread):
                         x, y, w, h = line['x'], line['y'], line['w'], line['h']
                         
                         # Cache Check
-                        cached = self.db_manager.get_cached_translation(text, self.source_lang, self.target_lang)
+                        cached = self.db_manager.get_cached_text(text, self.source_lang, self.target_lang)
                         if cached:
                             translations.append((cached, (x, y, w, h)))
                             continue
@@ -306,7 +306,7 @@ class TranslationWorker(QThread):
                                 source_lang=self.source_lang
                             )
                             translations.append((translated, (x, y, w, h)))
-                            self.db_manager.cache_translation(text, self.source_lang, self.target_lang, translated)
+                            self.db_manager.cache_text_translation(text, self.source_lang, self.target_lang, translated)
                         except Exception as e:
                             self.logger.error(f"Translation error: {e}")
                             translations.append((text, (x, y, w, h)))
