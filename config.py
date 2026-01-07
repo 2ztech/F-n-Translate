@@ -1,14 +1,13 @@
+# config.py
 import keyring
 import os
 from typing import Optional
 
-# Unique identifier for your app in the OS vault
 SERVICE_NAME = "FnTranslateApp"
 USER_KEY = "deepseek_api_key"
 
 class ConfigManager:
     def __init__(self, config_file: str = 'config.json'):
-        # We keep this for backward compatibility if you add non-sensitive configs later
         self.config_file = config_file
 
     def save_api_key(self, api_key: str) -> bool:
@@ -31,10 +30,12 @@ class ConfigManager:
         """Basic validation of API key format"""
         if not api_key: 
             return False
-        return api_key.startswith('ds-') and len(api_key) > 20
+        # FIX: Allow 'sk-' (Standard) OR 'ds-' (Custom)
+        # Also lowered length check slightly just in case
+        return (api_key.startswith('ds-') or api_key.startswith('sk-')) and len(api_key) > 20
 
     def delete_api_key(self):
-        """Remove the key from the vault (Useful for Logout/Reset)"""
+        """Remove the key from the vault"""
         try:
             keyring.delete_password(SERVICE_NAME, USER_KEY)
         except keyring.errors.PasswordDeleteError:

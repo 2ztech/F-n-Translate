@@ -3,7 +3,7 @@ import logging
 import os
 import tempfile
 import base64
-import shutil  # Added missing import
+import shutil
 from config import ConfigManager
 from core.text_translator import TextTranslator
 from services.file_handler import FileTranslationHandler
@@ -12,10 +12,20 @@ logger = logging.getLogger("API")
 
 class TranslationAPI:
     def __init__(self):
-        self.translator = TextTranslator()
+        # --- FIX START: Load Keyring Key BEFORE initializing Translator ---
         self.config_manager = ConfigManager()
-        # FIX 1: Pass the actual service object, not the wrapper method
-        # self.translator.translation_service has the .translate() method needed
+        
+        # Check if we have a key saved in the OS Keyring
+        saved_key = self.config_manager.get_api_key()
+        if saved_key:
+            logger.info("Loaded API key from Keyring (Overriding .env)")
+            # This ensures the TranslationService uses the Keyring key, not the .env key
+            os.environ["DEEPSEEK_API_KEY"] = saved_key
+        # --- FIX END ---
+
+        self.translator = TextTranslator()
+        
+        # Pass the actual service object, not the wrapper method
         self.file_handler = FileTranslationHandler(self.translator.translation_service)
         self.temp_files = {}
         logger.info("Translation API initialized")
@@ -86,14 +96,13 @@ class TranslationAPI:
                 if os.path.exists(file_path):
                     os.remove(file_path)
                     dir_path = os.path.normpath(os.path.dirname(file_path))
-                    # Only try to remove if it's a subdirectory of temp_root, not the temp_root itself
+                    # Only try to remove if it's a subdirectory of temp_root
                     if os.path.exists(dir_path) and dir_path.lower() != temp_root:
                         try:
-                            # Use listdir to check if empty just to be safe before trying to rmdir
                             if not os.listdir(dir_path):
                                 os.rmdir(dir_path)
                         except (OSError, PermissionError):
-                            pass # Skip if not empty or no permission
+                            pass 
             except Exception as e:
                 logger.warning(f"Could not delete temp file {file_path}: {str(e)}")
         self.temp_files.clear()
@@ -134,7 +143,7 @@ class TranslationAPI:
             from tkinter import Tk
             from tkinter.filedialog import askopenfilename
             root = Tk()
-            root.withdraw()  # Hide the main window
+            root.withdraw()
             file_path = askopenfilename()
             root.destroy()
             return file_path
@@ -156,10 +165,8 @@ class TranslationAPI:
             if not os.path.exists(file_path):
                 raise FileNotFoundError("Translated file not found")
             
-            # Get the original file name to suggest a save name
             original_name = os.path.basename(file_path)
             
-            # Create save dialog
             import webview
             save_path = webview.windows[0].create_file_dialog(
                 webview.SAVE_DIALOG,
@@ -167,7 +174,6 @@ class TranslationAPI:
                 save_filename=original_name
             )
             
-            # FIX 2: Handle tuple return type from create_file_dialog
             if save_path:
                 if isinstance(save_path, (tuple, list)):
                     save_path = save_path[0]
@@ -184,7 +190,7 @@ class TranslationAPI:
         """Check if the provided API key is valid"""
         try:
             from core.translate_core import TranslationService
-            # Validate format first
+            
             if not self.config_manager.validate_api_key(api_key):
                 return False
 
@@ -207,9 +213,7 @@ class TranslationAPI:
     def save_api_key(self, api_key: str) -> bool:
         """Save the API key to persistent storage (Keyring)"""
         try:
-            # Save to Keyring via ConfigManager
             if self.config_manager.save_api_key(api_key):
-                # Also update current session env var so it works immediately
                 os.environ["DEEPSEEK_API_KEY"] = api_key
                 return True
             return False

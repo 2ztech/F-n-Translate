@@ -3,6 +3,7 @@ import sqlite3
 import hashlib
 import os
 import logging
+import re  # <--- NEW IMPORT REQUIRED
 from pathlib import Path
 from typing import Optional, List, Dict, Union
 from datetime import datetime
@@ -47,7 +48,6 @@ class DBManager:
         """Initialize the optimized schema."""
         queries = [
             # 1. TEXT CACHE (For Live Screen Translation)
-            # Uses a hash of the text for faster indexing than raw text blocks
             """
             CREATE TABLE IF NOT EXISTS text_cache (
                 text_hash TEXT PRIMARY KEY,
@@ -59,7 +59,6 @@ class DBManager:
             )
             """,
             # 2. FILE CACHE (For Document Translation)
-            # Stores file hash so re-uploading the same file skips processing
             """
             CREATE TABLE IF NOT EXISTS file_cache (
                 file_hash TEXT,
@@ -96,7 +95,6 @@ class DBManager:
         sha256_hash = hashlib.sha256()
         try:
             with open(file_path, "rb") as f:
-                # Read in chunks to handle large files
                 for byte_block in iter(lambda: f.read(4096), b""):
                     sha256_hash.update(byte_block)
             return sha256_hash.hexdigest()
@@ -105,10 +103,6 @@ class DBManager:
             return ""
 
     def get_cached_file(self, file_path: str, target_lang: str) -> Optional[str]:
-        """
-        Check if this file has already been translated.
-        Returns the path to the PREVIOUSLY translated file if it exists.
-        """
         if not os.path.exists(file_path):
             return None
 
@@ -126,19 +120,16 @@ class DBManager:
             
             if row:
                 cached_path = row['translated_file_path']
-                # CRITICAL: Check if the cached file actually still exists on disk
                 if os.path.exists(cached_path):
                     logger.info(f"Cache HIT for file: {os.path.basename(file_path)}")
                     return cached_path
                 else:
-                    # If file is missing from disk, remove db record
                     logger.warning("Cached file missing from disk. Removing record.")
                     self.remove_file_cache(file_hash, target_lang)
             
             return None
 
     def cache_file_translation(self, original_path: str, translated_path: str, src_lang: str, target_lang: str):
-        """Save a completed file translation to the cache."""
         file_hash = self.compute_file_hash(original_path)
         filename = os.path.basename(original_path)
         
@@ -157,7 +148,6 @@ class DBManager:
             logger.error(f"Failed to cache file: {e}")
 
     def remove_file_cache(self, file_hash: str, target_lang: str):
-        """Remove a stale cache record."""
         with self._get_connection() as conn:
             conn.execute("DELETE FROM file_cache WHERE file_hash = ? AND target_lang = ?", (file_hash, target_lang))
             conn.commit()
@@ -167,15 +157,22 @@ class DBManager:
     # =========================================================
 
     def _normalize_text(self, text: str) -> str:
-        """Strip whitespace and lowercase to increase cache hit rate."""
-        return text.strip().lower()
+        """
+        Aggressive normalization: Removes ALL whitespace and punctuation.
+        Example: "Hello, World!" -> "helloworld"
+        This prevents OCR jitter (dots, extra spaces) from causing cache misses.
+        """
+        # [UPDATED] Use regex to remove anything that is NOT a letter or number
+        return re.sub(r'[\W_]+', '', text).lower()
 
     def get_cached_text(self, text: str, src_lang: str, tgt_lang: str) -> Optional[str]:
         """Retrieve translated text if it exists."""
         if not text: return None
         
-        # We hash the normalized text + languages to create a unique ID
         norm_text = self._normalize_text(text)
+        # Guard against strings that become empty after normalization (e.g. "...")
+        if not norm_text: return None
+
         unique_string = f"{norm_text}|{src_lang}|{tgt_lang}"
         text_hash = hashlib.md5(unique_string.encode()).hexdigest()
 
@@ -187,9 +184,10 @@ class DBManager:
             row = cursor.fetchone()
             
             if row:
-                # Update timestamp to keep this cache "fresh"
                 conn.execute("UPDATE text_cache SET last_used = CURRENT_TIMESTAMP WHERE text_hash = ?", (text_hash,))
                 conn.commit()
+                # Debug log to verify it's working
+                logger.info(f"Cache HIT for: {norm_text[:15]}...") 
                 return row['translated_text']
         
         return None
@@ -199,6 +197,8 @@ class DBManager:
         if not text or not translated_text: return
 
         norm_text = self._normalize_text(text)
+        if not norm_text: return
+
         unique_string = f"{norm_text}|{src_lang}|{tgt_lang}"
         text_hash = hashlib.md5(unique_string.encode()).hexdigest()
 
