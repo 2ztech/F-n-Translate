@@ -28,6 +28,10 @@ class TranslationAPI:
         import atexit
         atexit.register(self.cleanup_temp_files)
 
+    def is_api_key_set(self) -> bool:
+        """Check if API key is currently set in environment."""
+        return bool(os.environ.get("DEEPSEEK_API_KEY"))
+    
     def translate_text(self, text: str, source_lang: str, target_lang: str):
         """Called from JavaScript to perform translation"""
         logger.info(f"Starting translation: {source_lang} -> {target_lang}")

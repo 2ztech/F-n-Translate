@@ -1,46 +1,215 @@
-2026-01-11 12:22:24,038 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): packages.unstructured.io:443
-2026-01-11 12:22:25,683 - urllib3.connectionpool - DEBUG - https://packages.unstructured.io:443 "GET /python-telemetry?version=0.18.21&platform=Windows&python3.11&arch=AMD64&gpu=False&dev=false HTTP/1.1" 200 600
-2026-01-11 12:22:36,593 - matplotlib - DEBUG - matplotlib data path: C:\Users\Jazzry\Documents\ump\Project PSM\F-n-Translate\venv\Lib\site-packages\matplotlib\mpl-data
-2026-01-11 12:22:36,618 - matplotlib - DEBUG - CONFIGDIR=C:\Users\Jazzry\.matplotlib
-2026-01-11 12:22:36,621 - matplotlib - DEBUG - interactive is False
-2026-01-11 12:22:36,621 - matplotlib - DEBUG - platform is win32
-2026-01-11 12:22:36,667 - matplotlib - DEBUG - CACHEDIR=C:\Users\Jazzry\.matplotlib
-2026-01-11 12:22:36,685 - matplotlib.font_manager - DEBUG - Using fontManager instance from C:\Users\Jazzry\.matplotlib\fontlist-v390.json
-2026-01-11 12:22:45,219 - API - INFO - Loaded API key from Config File
-2026-01-11 12:22:45,768 - TextTranslator - INFO - TextTranslator initialized
-2026-01-11 12:22:45,772 - services.file_handler - INFO - File translation handler initialized
-2026-01-11 12:22:45,772 - API - INFO - Translation API initialized
-2026-01-11 12:22:45,772 - UI - DEBUG - TranslationAPI initialized
-2026-01-11 12:22:45,773 - WebViewCaptureManager - INFO - WebView Capture Manager initialized on Windows
-2026-01-11 12:22:45,773 - UI - DEBUG - WebViewCaptureManager initialized
-2026-01-11 12:22:45,773 - UI - INFO - UI initialized
-2026-01-11 12:22:45,773 - UI - DEBUG - Creating webview window...
-2026-01-11 12:22:45,773 - UI - DEBUG - Starting webview...
-2026-01-11 12:23:00,270 - UI - DEBUG - translate_text called: '1.Pada Oktober 2011, Kementerian Pendidikan telah ...' (msa->eng)
-2026-01-11 12:23:00,271 - API - INFO - Starting translation: msa -> eng
-2026-01-11 12:23:00,271 - TranslationService - DEBUG - Initiating translation request
-2026-01-11 12:23:00,271 - TranslationService - DEBUG - Source: msa, Target: eng
-2026-01-11 12:23:00,271 - TranslationService - DEBUG - Text length: 4453 characters
-2026-01-11 12:23:00,919 - openai._base_client - DEBUG - Request options: {'method': 'post', 'url': '/chat/completions', 'files': None, 'idempotency_key': 'stainless-python-retry-c6e27d51-c961-4507-a6b6-3a77300fb997', 'json_data': {'messages': [{'role': 'user', 'content': 'Translate the following text from msa to eng in a formal tone. Maintain the original meaning and context. Only return the translated text without additional commentary:\n\n1.Pada Oktober 2011, Kementerian Pendidikan telah melancarkan\nkajian semula sistem pendidikan negara secara menyeluruh\ndalam usaha membangunkan Pelan Pembangunan Pendidikan\nMalaysia yang baharu. Keputusan melaksanakan kajian semula\nsistem pendidikan dibuat dalam konteks standard pendidikan\nantarabangsa yang kian meningkat, peningkatan aspirasi negara\ndalam mempersiapkan generasi muda untuk menghadapi keperluan\nabad ke-21, dan peningkatan harapan ibu bapa serta masyarakat\nterhadap dasar pendidikan negara. Dalam tempoh 15 bulan (Oktober\n2011 hingga Disember 2012), Kementerian telah memperoleh\ninput daripada pelbagai sumber seperti laporan penyelidikan yang\ndijalankan oleh pakar pendidikan dari UNESCO, Bank Dunia,\nOECD, dan enam Institusi Pengajian Tinggi Awam. Kajian ini\njuga melibatkan pemimpin sekolah, guru, ibu bapa, murid, dan\norang ramai di seluruh negara. Hasilnya ialah Pelan Pembangunan\nPendidikan Malaysia yang telah menilai prestasi semasa sistem\npendidikan negara dengan mengambil kira pencapaian lampau\ndan membandingkannya dengan tanda aras antarabangsa. Pelan\nini melakarkan visi sistem pendidikan dan aspirasi murid yang\ndapat memenuhi keperluan negara pada masa depan. Pelan ini\njuga mencadangkan 11 anjakan strategik dan operasi yang perlu\ndilaksanakan oleh Kementerian bagi mencapai visi yang dihasratkan.\n\n2.Pendidikan memainkan peranan utama bagi pertumbuhan\nekonomi dan pembangunan sesebuah negara. Proses\npengajaran dan pembelajaran yang berlaku di dalam bilik\ndarjah merupakan petunjuk terbaik bagi kemajuan masa\ndepan sesebuah negara. Dalam ekonomi global masa ini,\nkejayaan sesebuah negara amat bergantung pada ilmu\npengetahuan, kemahiran, dan kompetensi yang dimiliki\nrakyat. Oleh itu, tidak menghairankan sekiranya negara yang\nmempunyai rakyat berpendidikan tinggi akan berpeluang\nmenikmati kemajuan ekonomi yang lebih tinggi. Selain itu,\npendidikan juga menjadi asas pembinaan negara bangsa dan\npengukuhan perpaduan. Pendidikan menyediakan peluang\nkepada individu untuk meningkatkan taraf hidup, menjadi\nahli masyarakat yang berjaya, dan menyumbang secara\naktif kepada pembangunan negara. Melalui interaksi dalam\nmasyarakat membolehkan individu daripada pelbagai latar\nbelakang sosioekonomi, agama, dan etnik belajar memahami,\nmenerima, dan menghargai perbezaan, seterusnya berkongsi\npengalaman dan aspirasi untuk membina masa depan\nMalaysia. Melalui perkongsian pengalaman dan aspirasi\ninilah identiti nasional dan perpaduan negara dapat dipupuk.\n\n3.Sejak kebelakangan ini, sistem pendidikan negara telah\nmenjadi perkara yang semakin menarik perhatian dan\nmenjadi perbahasan orang ramai. Ibu bapa meletakkan\nharapan tinggi dan majikan menyuarakan kebimbangan\nakan keupayaan sistem pendidikan melengkapkan generasi\nmuda dengan persediaan secukupnya bagi menghadapi\ncabaran abad ke-21. Menyedari hakikat bahawa sistem\npendidikan adalah kompleks dan rencam, tempoh yang\npanjang diperlukan untuk melihat impak transformasi\nyang dilaksanakan. Oleh itu, Kementerian perlu mengambil\ntindakan yang berani dan pantas kerana perubahan yang\ndihasratkan adalah penting dan mesti dilaksanakan dengan\nsegera.\n\n4.Kerajaan Malaysia telah mengekalkan tahap pelaburan yang\ntinggi dalam pendidikan sejak negara mencapai kemerdekaan\nlebih 55 tahun yang lalu. Seawal 1980, perbelanjaan\nPersekutuan untuk pendidikan rendah dan menengah sebagai\nperatusan Keluaran Dalam Negara Kasar (KDNK) adalah\nyang tertinggi di Asia Timur. Pada 2011, jumlah perbelanjaan\npendidikan sebanyak 3.8% daripada KDNK, atau 16%\ndaripada jumlah perbelanjaan Kerajaan bukan sahaja lebih\ntinggi daripada purata OECD (sebanyak 3.4% daripada\nKDNK dan 8.7% daripada jumlah perbelanjaan awam), malah\nadalah setara atau lebih tinggi daripada sistem berprestasi\ntinggi seperti Singapura, Jepun dan Korea Selatan (Ekshibit\n1). Pada 2012, Kerajaan terus menyediakan peruntukan\nyang terbesar, iaitu RM36 bilion atau 16% daripada jumlah\nbajet, kepada Kementerian Pendidikan. Peruntukan ini\nmenunjukkan komitmen Kerajaan terhadap pendidikan\nsebagai satu daripada keutamaan negara.\n\n5.Sistem pendidikan negara menyaksikan kemajuan besar sejak\n1957. Ketika negara mencapai kemerdekaan, lebih separuh\ndaripada populasi tidak mendapat pendidikan formal, hanya\n6% kanak-kanak menerima pendidikan peringkat menengah\ndan 1% sahaja mendapat pendidikan lepas menengah. Namun,\nlima setengah dekad kemudian, akses kepada pendidikan telah\nmengalami perubahan yang melangkaui jangkaan.'}], 'model': 'deepseek-chat', 'temperature': 1.3}}
-2026-01-11 12:23:00,945 - openai._base_client - DEBUG - Sending HTTP Request: POST https://api.deepseek.com/chat/completions
-2026-01-11 12:23:00,946 - httpcore.connection - DEBUG - connect_tcp.started host='api.deepseek.com' port=443 local_address=None timeout=5.0 socket_options=None
-2026-01-11 12:23:01,026 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000023EF068FE10>
-2026-01-11 12:23:01,026 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x0000023ED52A6720> server_hostname='api.deepseek.com' timeout=5.0
-2026-01-11 12:23:01,052 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000023EF0698790>
-2026-01-11 12:23:01,052 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
-2026-01-11 12:23:01,052 - httpcore.http11 - DEBUG - send_request_headers.complete
-2026-01-11 12:23:01,052 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
-2026-01-11 12:23:01,052 - httpcore.http11 - DEBUG - send_request_body.complete
-2026-01-11 12:23:01,053 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
-2026-01-11 12:23:01,180 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 11 Jan 2026 04:23:01 GMT'), (b'Server', b'elb'), (b'Content-Encoding', b'gzip'), (b'vary', b'origin, access-control-request-method, access-control-request-headers'), (b'access-control-allow-credentials', b'true'), (b'x-ds-trace-id', b'ac3b9625257555d246689a6163dea0bc'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'X-Content-Type-Options', b'nosniff'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e982c62c18221958ac12cb461a593d84.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'KUL50-P1'), (b'X-Amz-Cf-Id', b'EKltILlo1SQpceY6MV-414xQ7plaEg-qV2wwbmHSHwjj8_r0HvW3Xw==')])
-2026-01-11 12:23:01,182 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
-2026-01-11 12:23:01,182 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
-2026-01-11 12:23:23,113 - httpcore.http11 - DEBUG - receive_response_body.complete
-2026-01-11 12:23:23,113 - httpcore.http11 - DEBUG - response_closed.started
-2026-01-11 12:23:23,113 - httpcore.http11 - DEBUG - response_closed.complete
-2026-01-11 12:23:23,114 - openai._base_client - DEBUG - HTTP Response: POST https://api.deepseek.com/chat/completions "200 OK" Headers({'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'date': 'Sun, 11 Jan 2026 04:23:01 GMT', 'server': 'elb', 'content-encoding': 'gzip', 'vary': 'origin, access-control-request-method, access-control-request-headers', 'access-control-allow-credentials': 'true', 'x-ds-trace-id': 'ac3b9625257555d246689a6163dea0bc', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'x-content-type-options': 'nosniff', 'x-cache': 'Miss from cloudfront', 'via': '1.1 e982c62c18221958ac12cb461a593d84.cloudfront.net (CloudFront)', 'x-amz-cf-pop': 'KUL50-P1', 'x-amz-cf-id': 'EKltILlo1SQpceY6MV-414xQ7plaEg-qV2wwbmHSHwjj8_r0HvW3Xw=='})
-2026-01-11 12:23:23,114 - openai._base_client - DEBUG - request_id: None
-2026-01-11 12:23:23,123 - TranslationService - INFO - Translation completed in 22.853 seconds
-2026-01-11 12:23:23,123 - API - DEBUG - Translation successful: 1. In October 2011, the Ministry of Education launched a comprehensive review of the national educat...
-2026-01-11 12:23:23,123 - UI - DEBUG - Translation completed in 22.85s: '1. In October 2011, the Ministry of Education laun...'
-2026-01-11 12:32:55,282 - UI - INFO - WebView started successfully
+2026-01-18 15:54:34,438 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): packages.unstructured.io:443
+2026-01-18 15:54:36,173 - urllib3.connectionpool - DEBUG - https://packages.unstructured.io:443 "GET /python-telemetry?version=0.18.21&platform=Windows&python3.11&arch=AMD64&gpu=False&dev=false HTTP/1.1" 200 602
+2026-01-18 15:54:41,794 - matplotlib - DEBUG - matplotlib data path: C:\Users\Jazzry\Documents\ump\Project PSM\F-n-Translate\venv\Lib\site-packages\matplotlib\mpl-data
+2026-01-18 15:54:41,802 - matplotlib - DEBUG - CONFIGDIR=C:\Users\Jazzry\.matplotlib
+2026-01-18 15:54:41,805 - matplotlib - DEBUG - interactive is False
+2026-01-18 15:54:41,805 - matplotlib - DEBUG - platform is win32
+2026-01-18 15:54:41,847 - matplotlib - DEBUG - CACHEDIR=C:\Users\Jazzry\.matplotlib
+2026-01-18 15:54:41,850 - matplotlib.font_manager - DEBUG - Using fontManager instance from C:\Users\Jazzry\.matplotlib\fontlist-v390.json
+2026-01-18 15:54:44,704 - API - INFO - Loaded API key from Config File
+2026-01-18 15:54:45,160 - TranslationService - INFO - DeepSeek Client initialized successfully.
+2026-01-18 15:54:45,160 - TextTranslator - INFO - TextTranslator initialized
+2026-01-18 15:54:45,161 - services.file_handler - INFO - File translation handler initialized
+2026-01-18 15:54:45,162 - API - INFO - Translation API initialized
+2026-01-18 15:54:45,162 - UI - DEBUG - TranslationAPI initialized
+2026-01-18 15:54:45,162 - WebViewCaptureManager - INFO - WebView Capture Manager initialized on Windows
+2026-01-18 15:54:45,162 - UI - DEBUG - WebViewCaptureManager initialized
+2026-01-18 15:54:45,162 - UI - INFO - UI initialized
+2026-01-18 15:54:45,162 - UI - DEBUG - Creating webview window...
+2026-01-18 15:54:45,162 - UI - DEBUG - Starting webview...
+2026-01-18 15:57:25,809 - UI - DEBUG - translate_text called: 'hello...' (eng->msa)
+2026-01-18 15:57:25,809 - API - INFO - Starting translation: eng -> msa
+2026-01-18 15:57:26,294 - openai._base_client - DEBUG - Request options: {'method': 'post', 'url': '/chat/completions', 'files': None, 'idempotency_key': 'stainless-python-retry-e218f369-99f9-4fce-b1af-ac7ba9d48bc6', 'json_data': {'messages': [{'role': 'user', 'content': 'Translate the following text from eng to msa in a formal tone. Maintain the original meaning and context. Only return the translated text without additional commentary:\n\nhello'}], 'model': 'deepseek-chat', 'temperature': 1.3}}
+2026-01-18 15:57:26,306 - openai._base_client - DEBUG - Sending HTTP Request: POST https://api.deepseek.com/chat/completions
+2026-01-18 15:57:26,307 - httpcore.connection - DEBUG - connect_tcp.started host='api.deepseek.com' port=443 local_address=None timeout=5.0 socket_options=None
+2026-01-18 15:57:26,388 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000247EFF82910>
+2026-01-18 15:57:26,388 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x00000247D4AC5D00> server_hostname='api.deepseek.com' timeout=5.0
+2026-01-18 15:57:26,403 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000247EFF828D0>
+2026-01-18 15:57:26,403 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2026-01-18 15:57:26,404 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-01-18 15:57:26,404 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2026-01-18 15:57:26,404 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-01-18 15:57:26,404 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2026-01-18 15:57:26,522 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 18 Jan 2026 07:57:26 GMT'), (b'Server', b'elb'), (b'Content-Encoding', b'gzip'), (b'vary', b'origin, access-control-request-method, access-control-request-headers'), (b'access-control-allow-credentials', b'true'), (b'x-ds-trace-id', b'581ce3046d59feffce12a90f0396cd81'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'X-Content-Type-Options', b'nosniff'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 92191325b374666a4831f5e205f2ee00.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'KUL51-P1'), (b'X-Amz-Cf-Id', b'NDTMS8XNF4j1obEsyNB-B20tmMf1Pa6UO1dNQ7FIbCcE1ohY6p6dpw==')])
+2026-01-18 15:57:26,523 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-01-18 15:57:26,523 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2026-01-18 15:57:27,391 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-01-18 15:57:27,391 - httpcore.http11 - DEBUG - response_closed.started
+2026-01-18 15:57:27,391 - httpcore.http11 - DEBUG - response_closed.complete
+2026-01-18 15:57:27,392 - openai._base_client - DEBUG - HTTP Response: POST https://api.deepseek.com/chat/completions "200 OK" Headers({'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'date': 'Sun, 18 Jan 2026 07:57:26 GMT', 'server': 'elb', 'content-encoding': 'gzip', 'vary': 'origin, access-control-request-method, access-control-request-headers', 'access-control-allow-credentials': 'true', 'x-ds-trace-id': '581ce3046d59feffce12a90f0396cd81', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'x-content-type-options': 'nosniff', 'x-cache': 'Miss from cloudfront', 'via': '1.1 92191325b374666a4831f5e205f2ee00.cloudfront.net (CloudFront)', 'x-amz-cf-pop': 'KUL51-P1', 'x-amz-cf-id': 'NDTMS8XNF4j1obEsyNB-B20tmMf1Pa6UO1dNQ7FIbCcE1ohY6p6dpw=='})
+2026-01-18 15:57:27,392 - openai._base_client - DEBUG - request_id: None
+2026-01-18 15:57:27,401 - TranslationService - INFO - Translation completed in 1.591 seconds
+2026-01-18 15:57:27,401 - API - DEBUG - Translation successful: Assalamualaikum....
+2026-01-18 15:57:27,401 - UI - DEBUG - Translation completed in 1.59s: 'Assalamualaikum....'
+2026-01-18 15:57:46,895 - UI - DEBUG - get_available_monitors called
+2026-01-18 15:57:46,896 - WebViewCaptureManager - INFO - Attempting to detect monitors...
+2026-01-18 15:57:46,898 - WebViewCaptureManager - INFO - Total monitors detected by MSS: 2
+2026-01-18 15:57:46,898 - WebViewCaptureManager - INFO - Monitor 0: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2026-01-18 15:57:46,898 - WebViewCaptureManager - INFO - Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2026-01-18 15:57:46,898 - WebViewCaptureManager - INFO - Returning 1 physical monitors to UI
+2026-01-18 15:57:46,898 - UI - DEBUG - Returning 1 monitors
+2026-01-18 15:57:46,902 - UI - DEBUG - get_available_monitors called
+2026-01-18 15:57:46,902 - WebViewCaptureManager - INFO - Attempting to detect monitors...
+2026-01-18 15:57:46,903 - WebViewCaptureManager - INFO - Total monitors detected by MSS: 2
+2026-01-18 15:57:46,904 - WebViewCaptureManager - INFO - Monitor 0: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2026-01-18 15:57:46,904 - WebViewCaptureManager - INFO - Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2026-01-18 15:57:46,904 - WebViewCaptureManager - INFO - Returning 1 physical monitors to UI
+2026-01-18 15:57:46,904 - UI - DEBUG - Returning 1 monitors
+2026-01-18 15:57:47,434 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:47,523 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 320380 bytes
+2026-01-18 15:57:47,601 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:47,676 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 391756 bytes
+2026-01-18 15:57:47,757 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:47,847 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 409448 bytes
+2026-01-18 15:57:47,949 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:48,028 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 413128 bytes
+2026-01-18 15:57:48,111 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:48,193 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 413904 bytes
+2026-01-18 15:57:48,277 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:48,363 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 414080 bytes
+2026-01-18 15:57:48,446 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:48,532 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 414168 bytes
+2026-01-18 15:57:48,615 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:48,698 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 414208 bytes
+2026-01-18 15:57:48,779 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:48,863 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 414156 bytes
+2026-01-18 15:57:48,941 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:49,027 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 414160 bytes
+2026-01-18 15:57:49,106 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:49,197 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 414112 bytes
+2026-01-18 15:57:49,279 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:49,364 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 414192 bytes
+2026-01-18 15:57:49,446 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:49,531 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 310472 bytes
+2026-01-18 15:57:49,606 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:49,695 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313604 bytes
+2026-01-18 15:57:49,770 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:49,862 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313432 bytes
+2026-01-18 15:57:49,937 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:50,014 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313484 bytes
+2026-01-18 15:57:50,085 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:50,162 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313388 bytes
+2026-01-18 15:57:50,233 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:50,312 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313388 bytes
+2026-01-18 15:57:50,382 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:50,464 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313796 bytes
+2026-01-18 15:57:50,536 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:50,612 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313796 bytes
+2026-01-18 15:57:50,677 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:50,761 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313796 bytes
+2026-01-18 15:57:50,840 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:50,926 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313796 bytes
+2026-01-18 15:57:50,989 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:51,075 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313796 bytes
+2026-01-18 15:57:51,140 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:51,228 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313796 bytes
+2026-01-18 15:57:51,304 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:51,394 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313796 bytes
+2026-01-18 15:57:51,459 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:51,548 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313796 bytes
+2026-01-18 15:57:51,611 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:51,695 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313796 bytes
+2026-01-18 15:57:51,770 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:51,860 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 314400 bytes
+2026-01-18 15:57:51,929 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:52,009 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 314512 bytes
+2026-01-18 15:57:52,083 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:52,162 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 314512 bytes
+2026-01-18 15:57:52,239 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:52,329 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 314512 bytes
+2026-01-18 15:57:52,395 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:52,481 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 314512 bytes
+2026-01-18 15:57:52,546 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:52,631 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 314512 bytes
+2026-01-18 15:57:52,698 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:52,784 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313776 bytes
+2026-01-18 15:57:52,855 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:52,938 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313548 bytes
+2026-01-18 15:57:53,010 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:53,096 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313492 bytes
+2026-01-18 15:57:53,168 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:53,245 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313560 bytes
+2026-01-18 15:57:53,320 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:53,414 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313560 bytes
+2026-01-18 15:57:53,481 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:53,563 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313620 bytes
+2026-01-18 15:57:53,636 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:53,711 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313620 bytes
+2026-01-18 15:57:53,782 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:53,859 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313620 bytes
+2026-01-18 15:57:53,925 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:54,013 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313620 bytes
+2026-01-18 15:57:54,079 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:54,164 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313620 bytes
+2026-01-18 15:57:54,233 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:54,314 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313620 bytes
+2026-01-18 15:57:54,378 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:54,464 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313620 bytes
+2026-01-18 15:57:54,531 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:54,616 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313620 bytes
+2026-01-18 15:57:54,685 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:54,767 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313592 bytes
+2026-01-18 15:57:54,836 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:54,912 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313500 bytes
+2026-01-18 15:57:54,985 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:55,064 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:55,141 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:55,234 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:55,301 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:55,386 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:55,454 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:55,553 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:55,621 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:55,717 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:55,787 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:55,875 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:55,943 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:56,031 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313604 bytes
+2026-01-18 15:57:56,104 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:56,199 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:56,267 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:56,350 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:56,415 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:56,500 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:56,566 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:56,644 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:56,713 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:56,801 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:56,866 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:56,949 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:57,015 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:57,100 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:57,169 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:57,251 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313528 bytes
+2026-01-18 15:57:57,324 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:57,419 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313636 bytes
+2026-01-18 15:57:57,500 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:57,589 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313752 bytes
+2026-01-18 15:57:57,668 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:57,745 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 320516 bytes
+2026-01-18 15:57:57,820 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:57,893 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:57,961 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:58,050 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:58,118 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:58,201 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313440 bytes
+2026-01-18 15:57:58,265 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:58,351 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313604 bytes
+2026-01-18 15:57:58,419 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:58,500 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 313508 bytes
+2026-01-18 15:57:58,575 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:58,668 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 314056 bytes
+2026-01-18 15:57:58,740 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:58,855 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 314056 bytes
+2026-01-18 15:57:58,925 - UI - DEBUG - get_monitor_preview_optimized called for monitor 0
+2026-01-18 15:57:59,013 - WebViewCaptureManager - DEBUG - GPU preview generated: Size(width=1920, height=1080) -> JPEG 314056 bytes
+2026-01-18 15:57:59,151 - pywebview - ERROR - Error occurred in script
+Traceback (most recent call last):
+  File "C:\Users\Jazzry\Documents\ump\Project PSM\F-n-Translate\venv\Lib\site-packages\webview\platforms\edgechromium.py", line 146, in evaluate_js
+    self.webview.Invoke(
+System.ObjectDisposedException: Cannot access a disposed object.
+Object name: 'WebView2'.
+   at System.Windows.Forms.Control.MarshaledInvoke(Control caller, Delegate method, Object[] args, Boolean synchronous)
+   at System.Windows.Forms.Control.Invoke(Delegate method, Object[] args)
+2026-01-18 15:57:59,484 - UI - INFO - WebView started successfully
+2026-01-18 15:58:18,737 - UI - DEBUG - stop_screen_capture called
