@@ -1,6 +1,4 @@
-2026-01-19 01:36:48,009 - LiveService - INFO - Process started for monitor 0
-2026-01-19 01:36:48,057 - LiveService - INFO - Capturing Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
-2026-01-19 01:36:48,709 - LiveService - INFO - Translation Service Initialized
-2026-01-19 01:37:30,854 - LiveService - INFO - Active Input: User Scroll. Overlay cleared.
-2026-01-19 01:38:06,646 - LiveService - INFO - Active Input: User Scroll. Overlay cleared.
-2026-01-19 01:38:19,971 - LiveService - INFO - Stop event detected. Shutting down...
+2026-01-19 01:51:08,183 - LiveService - INFO - Process started for monitor 0
+2026-01-19 01:51:08,236 - LiveService - INFO - Capturing Monitor 1: {'left': 0, 'top': 0, 'width': 1920, 'height': 1080}
+2026-01-19 01:51:08,957 - LiveService - INFO - Translation Service Initialized
+2026-01-19 01:51:17,750 - LiveService - INFO - Stop event detected. Shutting down...

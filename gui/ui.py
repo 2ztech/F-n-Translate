@@ -218,6 +218,12 @@ def save_api_key(api_key):
     api, _ = initialize_components()
     return api.save_api_key(api_key)
 
+def is_api_key_set():
+    """Check if API key is set"""
+    logger.debug("is_api_key_set called")
+    api, _ = initialize_components()
+    return api.is_api_key_set()
+
 def save_temp_file(file_data):
     """Wrapper for saving uploaded file"""
     logger.debug("save_temp_file called")
@@ -296,6 +302,7 @@ class FnTranslateUI:
                 get_monitor_preview_optimized,
                 select_capture_area,
                 check_api_key,
+                is_api_key_set,
                 save_api_key,
                 save_temp_file,
                 translate_file,

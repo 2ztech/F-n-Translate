@@ -53,8 +53,21 @@ def file_upload_module_js():
         });
 
         if (translateBtn) {
-            translateBtn.onclick = () => {
-                if (currentFile) performFileTranslation();
+            translateBtn.onclick = async () => {
+                if (currentFile) {
+                    try {
+                        const hasKey = await pywebview.api.is_api_key_set();
+                        if (!hasKey) {
+                            alert("Warning: API Key is missing. Please set it in Settings to translate.");
+                            return;
+                        }
+                        performFileTranslation();
+                    } catch (e) {
+                         console.error("API check failed:", e);
+                         // Fallback - try anyway, the backend might handle it or error out
+                         performFileTranslation();
+                    }
+                }
                 else alert('Please upload a file first');
             };
         }

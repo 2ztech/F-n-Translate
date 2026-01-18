@@ -98,10 +98,10 @@ class WebGLPreviewRenderer {
     setupGeometry() {
         // Vertex data for full-screen quad (positions + texture coordinates)
         const vertices = new Float32Array([
-            -1, -1,  0, 0,  // bottom left
-             1, -1,  1, 0,  // bottom right
-            -1,  1,  0, 1,  // top left
-             1,  1,  1, 1   // top right
+            -1, -1,  0, 1,  // bottom left
+             1, -1,  1, 1,  // bottom right
+            -1,  1,  0, 0,  // top left
+             1,  1,  1, 0   // top right
         ]);
         
         const vertexBuffer = this.gl.createBuffer();

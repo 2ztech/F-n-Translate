@@ -12,6 +12,7 @@ def screen_capture_module_js():
     let isCapturing = false;
     let previewFrameCount = 0;
     let lastPreviewTime = 0;
+    let isAreaSelected = false;  // New flag for tracking area selection
 
     function setupScreenCapture() {{
         console.log('Setting up screen capture...');
@@ -91,6 +92,7 @@ def screen_capture_module_js():
                 const roi = await pywebview.api.select_capture_area(monitorIndex);
                 if (roi) {{
                     statusArea.innerHTML = `<div class="status-success"><i class="fas fa-crop-alt"></i> Area selected: ${{roi.w}}x${{roi.h}} at (${{roi.x}}, ${{roi.y}})</div>`;
+                    isAreaSelected = true; // Mark as selected
                 }} else {{
                     statusArea.innerHTML = '<div class="status-info"><i class="fas fa-info-circle"></i> Selection cancelled</div>';
                 }}
@@ -115,7 +117,20 @@ def screen_capture_module_js():
                 return;
             }}
 
+            // 1. Check if Area is Selected
+            if (!isAreaSelected) {{
+                alert('Warning: Please select a capture area first.');
+                return;
+            }}
+
             try {{
+                // 2. Check API Key
+                const hasKey = await pywebview.api.is_api_key_set();
+                if (!hasKey) {{
+                    alert('Warning: API Key is missing. Please set it in Settings to start capture.');
+                    return;
+                }}
+
                 // Get current languages
                 const sourceLang = document.getElementById('source-lang').value;
                 const targetLang = document.getElementById('target-lang').value;

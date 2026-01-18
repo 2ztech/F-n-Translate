@@ -99,22 +99,34 @@ def get_file_translation_js():
             if (this.value.trim()) {{
                 translationOutput.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Translating...';
                 
-                typingTimer = setTimeout(() => {{
+                typingTimer = setTimeout(async () => {{
                     isTranslating = true;
                     const text = this.value;
                     const sourceLang = sourceLangSelect ? sourceLangSelect.value : 'eng';
                     const targetLang = targetLangSelect ? targetLangSelect.value : 'msa';
                     
                     if (window.pywebview && window.pywebview.api) {{
-                        pywebview.api.translate_text(text, sourceLang, targetLang)
-                            .then(translated => {{
-                                translationOutput.textContent = translated;
+                        try {{
+                            const hasKey = await pywebview.api.is_api_key_set();
+                            if (!hasKey) {{
+                                translationOutput.innerHTML = '<div style="color: #ff9800; padding: 10px; background: #fff3e0; border-radius: 4px;"><i class="fas fa-exclamation-triangle"></i> Warning: API Key is missing. Please set it in Settings to translate.</div>';
                                 isTranslating = false;
-                            }})
-                            .catch(error => {{
-                                translationOutput.textContent = 'Error: ' + error;
-                                isTranslating = false;
-                            }});
+                                return;
+                            }}
+
+                            pywebview.api.translate_text(text, sourceLang, targetLang)
+                                .then(translated => {{
+                                    translationOutput.textContent = translated;
+                                    isTranslating = false;
+                                }})
+                                .catch(error => {{
+                                    translationOutput.textContent = 'Error: ' + error;
+                                    isTranslating = false;
+                                }});
+                        }} catch (e) {{
+                            console.error("API Check failed", e);
+                            isTranslating = false;
+                        }}
                     }}
                 }}, typingDelay);
             }} else {{
