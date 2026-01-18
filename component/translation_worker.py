@@ -2,9 +2,7 @@ import sys
 import time
 import logging
 import numpy as np
-import cv2
 from PyQt5.QtCore import QThread, pyqtSignal
-from mss import mss
 from PIL import Image
 import pytesseract
 
@@ -145,6 +143,7 @@ class TranslationWorker(QThread):
         return np.mean((arr1 - arr2) ** 2)
 
     def get_layout_boxes(self, pil_image):
+        import cv2
         img_np = np.array(pil_image)
         gray = cv2.cvtColor(img_np, cv2.COLOR_RGB2GRAY)
         
@@ -210,9 +209,11 @@ class TranslationWorker(QThread):
         self.last_movement_time = time.time()
         
         # Start Input Listeners
+        # Start Input Listeners
         self.mouse_listener.start()
         self.key_listener.start()
 
+        from mss import mss
         with mss() as sct:
             while not self.stop_event.is_set():
                 try:

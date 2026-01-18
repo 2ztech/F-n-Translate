@@ -3,7 +3,7 @@ import logging
 import time
 import threading
 import platform
-from mss import mss
+# from mss import mss - Lazy loaded
 from PIL import Image
 import pytesseract
 import io
@@ -40,6 +40,7 @@ class WebViewCaptureManager:
         try:
             logger.info("Attempting to detect monitors...")
             
+            from mss import mss
             with mss() as sct:
                 monitors = []
                 logger.info(f"Total monitors detected by MSS: {len(sct.monitors)}")
@@ -140,6 +141,7 @@ class WebViewCaptureManager:
     def _capture_loop(self):
         """Main capture loop"""
         try:
+            from mss import mss
             with mss() as sct:
                 # Validate monitor index
                 if self.current_monitor >= len(sct.monitors):
@@ -223,6 +225,7 @@ class WebViewCaptureManager:
     def test_capture(self):
         """Test method to verify screen capture works"""
         try:
+            from mss import mss
             with mss() as sct:
                 logger.info("Testing screen capture...")
                 monitor = sct.monitors[1]  # Try primary monitor
@@ -237,6 +240,7 @@ class WebViewCaptureManager:
     def get_monitor_screenshot(self, monitor_index):
         """Take a screenshot of the specified monitor and return as base64"""
         try:
+            from mss import mss
             with mss() as sct:
                 # FIX: Convert UI index (0-based) to MSS index (1-based for physical monitors)
                 mss_index = monitor_index + 1
@@ -266,6 +270,7 @@ class WebViewCaptureManager:
     def get_monitor_preview_optimized(self, monitor_index):
         """Get optimized preview for WebGL rendering (faster, smaller)"""
         try:
+            from mss import mss
             with mss() as sct:
                 # Convert UI index (0-based) to MSS index (1-based for physical monitors)
                 mss_index = monitor_index + 1

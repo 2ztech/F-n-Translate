@@ -1,23 +1,21 @@
-from unstructured.partition.auto import partition
-from unstructured.partition.pdf import partition_pdf
-from typing import Optional, List, Dict, Union
-import pytesseract
-from PIL import Image
-import io
-import fitz  # PyMuPDF
+from typing import Dict, Union
 import os
+import logging
+from docx import Document
+
+logger = logging.getLogger("FileParser")
 
 class FileParser:
     def __init__(self):
-        self.supported_formats = [".pdf", ".docx", ".txt"]
+        self.supported_formats = [".docx", ".txt"]
 
     def extract_text(self, file_path: str) -> Dict[str, Union[str, bool]]:
-        """Extract text from a file with layout preservation.
+        """Extract text from a file.
         Returns:
             {
                 "text": "Extracted text",
-                "is_ocr": False,  # Was OCR used?
-                "format_preserved": True  # Did we keep paragraphs/indents?
+                "is_ocr": False,
+                "format_preserved": True 
             }
         """
         if not os.path.exists(file_path):
@@ -28,47 +26,38 @@ class FileParser:
             raise ValueError(f"Unsupported file format: {ext}")
 
         try:
-            # Try Unstructured partition_pdf for better layout/element separation
-            # If we're strictly doing text-to-text translation, partition() is fine.
-            elements = partition(file_path)
-            
-            # Combine elements with doubled newlines to preserve paragraph-like separation
-            text_parts = []
-            for e in elements:
-                t = str(e).strip()
-                if t:
-                    text_parts.append(t)
-            
-            text = "\n\n".join(text_parts)
-            
-            if not text.strip():
-                logger.warning("Extracted text is empty, falling back to OCR")
-                raise ValueError("Empty text")
+            if ext == ".docx":
+                text = self._extract_docx(file_path)
+            elif ext == ".txt":
+                text = self._extract_txt(file_path)
+            else:
+                 raise ValueError("Unsupported format")
 
+            if not text.strip():
+                raise ValueError("Extracted text is empty")
+            
             return {
                 "text": text,
                 "is_ocr": False,
                 "format_preserved": True
             }
-        
-        except Exception as e:
-            logger.info(f"Standard parsing failed or returned empty: {e}. Attempting OCR fallback for {ext}.")
-            # Fallback to OCR for PDFs
-            if ext == ".pdf":
-                text = self._extract_with_ocr(file_path)
-                return {
-                    "text": text,
-                    "is_ocr": True,
-                    "format_preserved": False
-                }
-            raise RuntimeError(f"Parsing failed for {ext}: {e}")
 
-    def _extract_with_ocr(self, pdf_path: str) -> str:
-        """OCR fallback for scanned PDFs using PyMuPDF + Tesseract."""
-        doc = fitz.open(pdf_path)
-        text = ""
-        for page in doc:
-            pix = page.get_pixmap(dpi=300)
-            img = Image.open(io.BytesIO(pix.tobytes()))
-            text += pytesseract.image_to_string(img) + "\n\n"
-        return text.strip()
+        except Exception as e:
+            logger.error(f"Parsing failed for {ext}: {e}")
+            raise RuntimeError(f"Parsing failed: {e}")
+
+    def _extract_docx(self, path: str) -> str:
+        """Extract text from DOCX file using python-docx."""
+        doc = Document(path)
+        # Use paragraphs to preserve basic structure with double newlines
+        return "\n\n".join([p.text for p in doc.paragraphs if p.text.strip()])
+
+    def _extract_txt(self, path: str) -> str:
+        """Extract text from TXT file."""
+        # Try UTF-8 first, fallback to latin-1
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return f.read()
+        except UnicodeDecodeError:
+            with open(path, 'r', encoding='latin-1') as f:
+                return f.read()

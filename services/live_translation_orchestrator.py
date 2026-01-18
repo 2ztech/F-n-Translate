@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt, QTimer, QRect, QRectF
 from PyQt5.QtGui import QPainter, QColor, QFont, QPainterPath
 import ctypes
 from ctypes import wintypes
-from mss import mss
+# from mss import mss - Lazy loaded
 
 # Add parent directory to path to allow imports from core and component
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -265,6 +265,7 @@ class LiveTranslationProcess(multiprocessing.Process):
 
         app = QApplication(sys.argv)
         
+        from mss import mss
         with mss() as sct:
             monitors = sct.monitors
             mss_index = self.monitor_index + 1
