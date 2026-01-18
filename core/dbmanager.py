@@ -235,5 +235,6 @@ class DBManager:
             conn.commit()
 
 # Helper function to get singleton
-def get_db_manager(db_path: str = "FnTranslate_database.db") -> DBManager:
+def get_db_manager():
+    db_path = os.path.join(os.getenv('APPDATA'), 'FnTranslate', 'FnTranslate_database.db')
     return DBManager(db_path)

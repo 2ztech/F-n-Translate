@@ -1,22 +1,16 @@
-# translate_core.py
-# Core translation service using DeepSeek API with environment variables
-
 import os
 import time
-import logging  # Missing import added
+import logging
 from typing import Optional
 from openai import OpenAI
-from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.WARNING,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger("TranslationService")
 
-# Load environment variables from .env file
-load_dotenv()
 
 class TranslationService:
     """

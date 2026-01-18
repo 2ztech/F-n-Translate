@@ -24,3 +24,7 @@ FnTranslate_database.db
 config.json
 secret.key
 
+ocr_accuracy_automation.py
+ocr_image_test.png
+performance_test.py
+security_test.py

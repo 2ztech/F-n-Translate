@@ -190,7 +190,20 @@ class TranslationWorker(QThread):
             self.logger.error(f"Failed to init services: {e}")
             return
 
-        pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+        # 1. Try default system path (if added to PATH)
+        pytesseract.pytesseract.tesseract_cmd = "tesseract"
+
+        # 2. If that fails, check common Windows paths
+        default_paths = [
+            r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+            r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+            os.path.join(os.getenv('LOCALAPPDATA'), r"Tesseract-OCR\tesseract.exe")
+        ]
+        
+        for path in default_paths:
+            if os.path.exists(path):
+                pytesseract.pytesseract.tesseract_cmd = path
+                break
         
         # Init timing to current time so we don't wait immediately on startup
         # Init timing to current time so we don't wait immediately on startup

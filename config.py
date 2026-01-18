@@ -4,10 +4,17 @@ import os
 from cryptography.fernet import Fernet
 from typing import Optional
 
+def get_app_data_path(filename):
+    # Creates: C:\Users\Name\AppData\Roaming\FnTranslate\filename
+    app_dir = os.path.join(os.getenv('APPDATA'), 'FnTranslate')
+    if not os.path.exists(app_dir):
+        os.makedirs(app_dir)
+    return os.path.join(app_dir, filename)
+
 class ConfigManager:
     def __init__(self, config_file: str = 'config.json'):
-        self.config_file = config_file
-        self.key_file = 'secret.key'
+        self.config_file = get_app_data_path('config.json')
+        self.key_file = get_app_data_path('secret.key')
         self._ensure_key_exists()
         try:
             self.cipher = Fernet(self._load_key())
